@@ -32,7 +32,7 @@ const Type: React.FC = () => {
   return (
     <>
       <h2>{pascalcase(typeName)} <Tag name="type">{typeName}</Tag></h2>
-      <p>{type?.description}</p>
+      <p>{type?.description || 'No description'}</p>
       {!!nodes.length && 
         <>
           <h3>{tagType}</h3>

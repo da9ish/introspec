@@ -62,7 +62,7 @@ const Documents: React.FC = () => {
         </Box>
         <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
       </Card>
-      <Card onClick={() => navigate('subscriptiom')}>
+      <Card onClick={() => navigate('subscription')}>
         <Box css={{ flexGrow: 1 }}>
           <h4>Subscription</h4>
           <p>All your subscription</p>

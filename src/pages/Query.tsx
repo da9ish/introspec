@@ -17,7 +17,7 @@ const Query: React.FC = () => {
   return (
     <>
       <h2>{pascalcase(queryName)} <Tag name="node">{queryName}</Tag></h2>
-      <p>{query?.description}</p>
+      <p>{query?.description || 'No description'}</p>
       {query?.args && 
         <>
           <h3>Arguments</h3>

@@ -10,6 +10,8 @@ import Mutations from "../pages/Mutations";
 import Projects from "../pages/Projects";
 import Queries from "../pages/Queries";
 import Query from "../pages/Query";
+import Subscription from "../pages/Subscription";
+import Subscriptions from "../pages/Subscriptions";
 import Type from "../pages/Type";
 import Types from "../pages/Types";
 
@@ -40,6 +42,10 @@ const Private: React.FC = () => {
               <Route path="/mutation">
                 <Route path="" element={<Mutations />} />
                 <Route path="/:mutationName" element={<Mutation />} />
+              </Route>
+              <Route path="/subscription">
+                <Route path="" element={<Subscriptions />} />
+                <Route path="/:subscriptionName" element={<Subscription />} />
               </Route>
               <Route path="/type">
                 <Route path="" element={<Types />} />

@@ -28,7 +28,7 @@ const Mutation: React.FC = () => {
   return (
     <>
       <h2>{pascalcase(mutationName)} <Tag name="node">{mutationName}</Tag></h2>
-      <p>{mutation?.description}</p>
+      <p>{mutation?.description || 'No description'}</p>
       {mutation?.args && 
         <>
           <h3>Arguments</h3>
