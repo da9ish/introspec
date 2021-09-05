@@ -13,14 +13,11 @@ const Query: React.FC = () => {
   const query = (graphQLSchema.getQueryType() as GraphQLObjectType).toConfig().fields[queryName]
   const fields = (graphQLSchema.getType(queryName) as GraphQLObjectType)?.getFields()
 
-  console.log(query);
-  console.log(fields);
-
   return (
     <>
       <h2>{pascalcase(queryName)} <Box as="code" css={{fontWeight: '400'}}>{queryName}</Box></h2>
       <p>{query?.description}</p>
-      {query.args && 
+      {query?.args && 
         <>
           <h3>Arguments</h3>
           {Object.keys(query.args).map(arg => (
@@ -51,7 +48,7 @@ const Query: React.FC = () => {
 
       <h3>Example</h3>
       <Box as="pre" css={{fontSize: '16px', padding: '32px', backgroundColor: '#313131', color: 'white', borderRadius: '20px'}}>
-        {`${queryName} ${query.args && `(${Object.keys(query.args).map(arg => (`${arg}: ${query.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n`}
+        {`${queryName} ${query?.args && `(${Object.keys(query.args).map(arg => (`${arg}: ${query.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n`}
         {fields && `${Object.keys(fields).map(field => (`  ${field}: ${fields[field].type.toJSON()}`)).join("\n")}`}
         {`\n}`}
       </Box>

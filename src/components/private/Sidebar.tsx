@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { Box } from "../Box"
 import { styled } from "../../stiches.config";
 import { ReactComponent as Logo } from '../../assets/logo.svg'
@@ -9,6 +8,7 @@ import { ReactComponent as Document } from '../../assets/icons/document.svg'
 import { ReactComponent as Playground } from '../../assets/icons/playground.svg'
 import { ReactComponent as Profile } from '../../assets/icons/user.svg'
 import { ReactComponent as Settings } from '../../assets/icons/settings.svg'
+import { Link } from "../Link";
 
 const StyledSidebar = styled(Box, {
   transition: "all 0.3s ease",
