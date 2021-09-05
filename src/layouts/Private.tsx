@@ -5,9 +5,13 @@ import { Box } from "../components/Box";
 import Sidebar from '../components/private/Sidebar'
 import Topbar from "../components/private/Topbar";
 import Documents from "../pages/Documents";
+import Mutation from "../pages/Mutation";
+import Mutations from "../pages/Mutations";
 import Projects from "../pages/Projects";
 import Queries from "../pages/Queries";
 import Query from "../pages/Query";
+import Type from "../pages/Type";
+import Types from "../pages/Types";
 
 
 const Container = styled(Box, {
@@ -32,6 +36,14 @@ const Private: React.FC = () => {
               <Route path="/query">
                 <Route path="" element={<Queries />} />
                 <Route path="/:queryName" element={<Query />} />
+              </Route>
+              <Route path="/mutation">
+                <Route path="" element={<Mutations />} />
+                <Route path="/:mutationName" element={<Mutation />} />
+              </Route>
+              <Route path="/type">
+                <Route path="" element={<Types />} />
+                <Route path="/:typeName" element={<Type />} />
               </Route>
             </Route>
           </Routes>

@@ -55,21 +55,21 @@ const Documents: React.FC = () => {
         </Box>
         <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
       </Card>
-      <Card onClick={() => navigate('query')}>
+      <Card onClick={() => navigate('mutation')}>
         <Box css={{ flexGrow: 1 }}>
           <h4>Mutation</h4>
           <p>All your mutations</p>
         </Box>
         <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
       </Card>
-      <Card onClick={() => navigate('query')}>
+      <Card onClick={() => navigate('subscriptiom')}>
         <Box css={{ flexGrow: 1 }}>
           <h4>Subscription</h4>
           <p>All your subscription</p>
         </Box>
         <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
       </Card>
-      <Card onClick={() => navigate('query')}>
+      <Card onClick={() => navigate('type')}>
         <Box css={{ flexGrow: 1 }}>
           <h4>Type</h4>
           <p>All your types</p>

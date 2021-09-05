@@ -2,8 +2,9 @@ import { buildClientSchema, GraphQLObjectType } from "graphql";
 import React from "react";
 import { useParams } from "react-router";
 import { Box } from "../components/Box";
-import Type from "../components/private/Type";
+import Tag from "../components/private/Tag";
 import pascalcase from "pascalcase";
+import Codeblock from "../components/Codeblock";
 
 const Query: React.FC = () => {
   const {queryName} = useParams()
@@ -15,7 +16,7 @@ const Query: React.FC = () => {
 
   return (
     <>
-      <h2>{pascalcase(queryName)} <Box as="code" css={{fontWeight: '400'}}>{queryName}</Box></h2>
+      <h2>{pascalcase(queryName)} <Tag name="node">{queryName}</Tag></h2>
       <p>{query?.description}</p>
       {query?.args && 
         <>
@@ -24,7 +25,7 @@ const Query: React.FC = () => {
             <Box>
               <Box css={{display: 'flex', alignItems: 'center'}}>
                 <Box as="code" css={{marginRight: '8px'}}>{arg}:</Box>
-                {query.args && <Type type={query.args[arg].type} />}
+                {query.args && <Tag name="arg" urlParam={(query.args[arg].type as any).name}>{query.args[arg].type.toJSON()}</Tag>}
               </Box>
               <p>{query.args?.[arg].description}</p>
             </Box>
@@ -38,7 +39,7 @@ const Query: React.FC = () => {
             <Box>
               <Box css={{display: 'flex', alignItems: 'center'}}>
                 <Box as="code" css={{marginRight: '8px'}}>{field}:</Box>
-                <Type type={fields[field].type} />
+                <Tag name="field" urlParam={(fields[field].type as any).name}>{fields[field].type.toJSON()}</Tag>
               </Box>
               <p>{fields[field].description}</p>
             </Box>
@@ -47,11 +48,11 @@ const Query: React.FC = () => {
       }
 
       <h3>Example</h3>
-      <Box as="pre" css={{fontSize: '16px', padding: '32px', backgroundColor: '#313131', color: 'white', borderRadius: '20px'}}>
+      <Codeblock>
         {`${queryName} ${query?.args && `(${Object.keys(query.args).map(arg => (`${arg}: ${query.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n`}
         {fields && `${Object.keys(fields).map(field => (`  ${field}: ${fields[field].type.toJSON()}`)).join("\n")}`}
         {`\n}`}
-      </Box>
+      </Codeblock>
     </>
   )
 }

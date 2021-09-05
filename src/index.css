@@ -12,6 +12,68 @@ code {
     monospace;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
-  margin: 8px 0px;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  line-height: 1.1;
+  color: #2f353f;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin: 8px 0;
+}
+
+h2 {
+  font-size: 1.73286rem;
+  margin-top: 64px;
+}
+
+h3 {
+  font-size: 1.4427rem;
+  margin-top: 64px;
+}
+
+h4 {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 16px;
+}
+
+h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+h6 {
+  margin-bottom: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #959DAA;
+}
+
+p {
+  line-height: 1.7;
+  font-size: 1.125rem;
+  margin: 0 0 24px;
+  color: #5a6270;
+}
+
+code {
+  color: #2f353f;
+  font-size: 15px;
+  text-shadow: none;
+  font-family: Source Code Pro,monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 }
