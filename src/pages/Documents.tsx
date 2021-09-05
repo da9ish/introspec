@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Box } from "../components/Box";
 import { Link } from "../components/Link";
 import GraphQLContext from "../contexts/GraphQLContext";
-
-
+import { ReactComponent as ArrowRight } from '../assets/icons/arrow-right.svg'
+import { Card } from "../components/Card";
+import { useNavigate } from "react-router";
 
 const requestBody = {
   operationName: "IntrospectionQuery",
@@ -12,6 +13,7 @@ const requestBody = {
 };
 
 const Documents: React.FC = () => {
+  const navigate = useNavigate()
   const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '')
   const [graphQLSchema, setGrqphQLSchema] = useState<GraphQLSchema | null>(buildClientSchema(schemaData))
   // const {projectId} = useParams()
@@ -46,12 +48,34 @@ const Documents: React.FC = () => {
     <GraphQLContext.Provider value={{schema: graphQLSchema, reloadSchema: fetchSchema}}>
       <h2>SpaceX</h2>
       <p>Discover all the interesting details about capsules, cores, landpads, launches, missions, payloads, rockets, ships & much more. You could even check if Elon’s 🚗 Roadster has finally arrived to Mars!</p>
-      <Box css={{display: 'flex', flexDirection: 'column'}}>
-        <Link to="query">Query</Link>
-        <Link to="mutation">Mutation</Link>
-        <Link to="subscription">Subscription</Link>
-        <Link to="type">Type</Link>
-      </Box>
+      <Card onClick={() => navigate('query')}>
+        <Box css={{ flexGrow: 1 }}>
+          <h4>Query</h4>
+          <p>All your queries</p>
+        </Box>
+        <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+      </Card>
+      <Card onClick={() => navigate('query')}>
+        <Box css={{ flexGrow: 1 }}>
+          <h4>Mutation</h4>
+          <p>All your mutations</p>
+        </Box>
+        <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+      </Card>
+      <Card onClick={() => navigate('query')}>
+        <Box css={{ flexGrow: 1 }}>
+          <h4>Subscription</h4>
+          <p>All your subscription</p>
+        </Box>
+        <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+      </Card>
+      <Card onClick={() => navigate('query')}>
+        <Box css={{ flexGrow: 1 }}>
+          <h4>Type</h4>
+          <p>All your types</p>
+        </Box>
+        <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+      </Card>
     </GraphQLContext.Provider>
   )
 }

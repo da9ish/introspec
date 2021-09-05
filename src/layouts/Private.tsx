@@ -11,8 +11,8 @@ import Query from "../pages/Query";
 
 
 const Container = styled(Box, {
-  padding: '0 32px',
-  height: '100vh',
+  padding: '0 32px 32px 32px',
+  height: 'calc(100% - 102px)',
   overflow: 'auto'
 })
 
@@ -20,7 +20,7 @@ const Container = styled(Box, {
 const Private: React.FC = () => {
 
   return (
-    <Box as="main" css={{display: 'flex', height: '100vh', overflow: 'hidden'}}>
+    <Box as="main" css={{ display: 'flex', height: '100vh', overflow: 'hidden'}}>
       <Sidebar />
       <Box css={{flexGrow: 1}}>
         <Topbar />

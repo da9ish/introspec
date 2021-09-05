@@ -19,6 +19,8 @@ const StyledSidebar = styled(Box, {
   width: '124px',
   height: '100vh',
   background: "#313131",
+  borderTopRightRadius: '30px',
+  borderBottomRightRadius: '30px',
 
   "&:hover": {
     width: '280px'
