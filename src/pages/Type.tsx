@@ -52,11 +52,7 @@ const Type: React.FC = () => {
       {!!nodes.length &&
         <>
           <h3>Example</h3>
-          <Codeblock>
-            {`${typeName} {\n`}
-            {nodes && `${nodes.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}`}
-            {`\n}`}
-          </Codeblock>
+          <Codeblock code={`${typeName} {\n${nodes && `${nodes.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}`}\n}`} />
         </>
       }
     </>

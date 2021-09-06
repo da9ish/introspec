@@ -12,7 +12,7 @@ const Query: React.FC = () => {
   const graphQLSchema = buildClientSchema(JSON.parse(schemaData))
 
   const query = (graphQLSchema.getQueryType() as GraphQLObjectType).toConfig().fields[queryName]
-  const fields = (graphQLSchema.getType(queryName) as GraphQLObjectType)?.getFields()
+  const fields = Object.values((graphQLSchema.getType(queryName) as GraphQLObjectType)?.getFields())
 
   return (
     <>
@@ -35,24 +35,20 @@ const Query: React.FC = () => {
       {fields && 
         <>
           <h3>Fields</h3>
-          {Object.keys(fields).map(field => (
+          {fields.map(field => (
             <Box>
               <Box css={{display: 'flex', alignItems: 'center'}}>
-                <Box as="code" css={{marginRight: '8px'}}>{field}:</Box>
-                <Tag name="field" urlParam={(fields[field].type as any).name}>{fields[field].type.toJSON()}</Tag>
+                <Box as="code" css={{marginRight: '8px'}}>{field.name}:</Box>
+                <Tag name="field" urlParam={(field.type as any).name}>{field.type.toJSON()}</Tag>
               </Box>
-              <p>{fields[field].description}</p>
+              <p>{field.description}</p>
             </Box>
           ))}
         </>
       }
 
       <h3>Example</h3>
-      <Codeblock>
-        {`${queryName} ${query?.args && `(${Object.keys(query.args).map(arg => (`${arg}: ${query.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n`}
-        {fields && `${Object.keys(fields).map(field => (`  ${field}: ${fields[field].type.toJSON()}`)).join("\n")}`}
-        {`\n}`}
-      </Codeblock>
+      <Codeblock code={`${queryName}${query?.args && `(${Object.keys(query.args).map(arg => (`${arg}: ${query.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n${fields && fields.map(field => (`  ${field.name}: ${field.type.toJSON()}`)).join("\n")}\n}`} />
     </>
   )
 }

@@ -12,7 +12,7 @@ const Subscription: React.FC = () => {
   const graphQLSchema = buildClientSchema(JSON.parse(schemaData))
 
   const subscription = (graphQLSchema.getSubscriptionType() as GraphQLObjectType).toConfig().fields[subscriptionName]
-  const fields = Object.values((graphQLSchema.getType(subscriptionName) as GraphQLObjectType)?.getFields())
+  const fields = Object.values((graphQLSchema.getType(subscriptionName) as GraphQLObjectType)?.getFields() || {})
 
   return (
     <>
@@ -50,11 +50,7 @@ const Subscription: React.FC = () => {
       {!!fields.length && 
         <>
           <h3>Example</h3>
-          <Codeblock>
-            {`${subscriptionName} ${subscription?.args && `(${Object.keys(subscription.args).map(arg => (`${arg}: ${subscription.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n`}
-            {fields && `${fields.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}`}
-            {`\n}`}
-          </Codeblock>
+          <Codeblock code={`${subscriptionName}${subscription?.args && `(${Object.keys(subscription.args).map(arg => (`${arg}: ${subscription.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n${fields && fields.map(field => (`  ${field.name}: ${field.type.toJSON()}`)).join("\n")}\n}`} />
         </>
       }
     </>

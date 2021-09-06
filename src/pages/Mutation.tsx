@@ -61,11 +61,7 @@ const Mutation: React.FC = () => {
       {!!fields.length && 
         <>
           <h3>Example</h3>
-          <Codeblock>
-            {`${mutationName} ${mutation?.args && `(${Object.keys(mutation.args).map(arg => (`${arg}: ${mutation.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n`}
-            {fields && `${fields.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}`}
-            {`\n}`}
-          </Codeblock>
+          <Codeblock code={`${mutationName}${mutation?.args && `(${Object.keys(mutation.args).map(arg => (`${arg}: ${mutation.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n${fields && fields.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}\n}`} />
         </>
       }
     </>
