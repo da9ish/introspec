@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Root: React.FC<Props> = ({}) => {
-  const isLoggedIn = true
+  const isLoggedIn = false
   return (
     <SessionContext.Provider
       value={{

@@ -1,10 +1,10 @@
+import React from 'react'
 import Root from './layouts/Root'
-import { Router } from 'react-router-dom'
-import history from './history';
+import { BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
   return (
-    <Router location={history.location} navigator={history}>
+    <Router>
       <Root />
     </Router>
   );
