@@ -38,14 +38,14 @@ const SignUp: React.FC = () => {
   const handleCreateUser = async () => {
     const { confirmPassword, ...data } = formData
     if (confirmPassword === data.password) {
-      fetch('api/auth/createAccount', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(res => {
-      })
+      fetch('http://localhost:6500/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: "cors",
+      body: JSON.stringify(formData)
+    }).then(res => res.json()).then(res => console.log(res))
     } else setError("Password don't match")
   }
 

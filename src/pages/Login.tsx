@@ -27,6 +27,14 @@ const Login: React.FC = () => {
     password: ''
   })
   const handleLogin = () => {
+    fetch('http://localhost:6500/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      mode: "cors",
+      body: JSON.stringify(formData)
+    }).then(res => res.json()).then(res => console.log(res))
   }
 
   return (
