@@ -12,11 +12,10 @@ const StyledNavbar = styled('nav', {
   justifyContent: 'space-between'
 })
 
-const AppName = styled('h3', {
+export const AppName = styled('h3', {
   transition: "all 0.3s ease",
 
   margin: 0,
-  marginLeft: '16px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
@@ -27,7 +26,7 @@ const AppName = styled('h3', {
 const Navbar: React.FC = () => {
   return (
     <StyledNavbar>
-      <Flex css={{alignItems: 'center'}}>
+      <Flex alignItems="center" gap="md">
         <Logo />
         <AppName>Instrospec</AppName>
       </Flex>
