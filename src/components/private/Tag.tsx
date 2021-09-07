@@ -1,5 +1,6 @@
 import { styled } from "@stitches/react";
 import React from "react";
+import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
 interface Props {
@@ -38,8 +39,10 @@ const StyledTag = styled('code', {
 
 const Tag: React.FC<Props> = ({name, urlParam, children}) => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const projectId = location.pathname.split("/")[2]
   return (
-    <StyledTag tag={name} onClick={() => urlParam && navigate(`/docs/spacex/type/${urlParam}`, {replace: true})}>{children}</StyledTag>
+    <StyledTag tag={name} onClick={() => urlParam && navigate(`/docs/${projectId}/type/${urlParam}`)}>{children}</StyledTag>
   )
 }
 

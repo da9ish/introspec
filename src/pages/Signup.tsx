@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Flex from "../components/Flex";
 import { AppName } from "../components/public/Navbar";
 import { ReactComponent as Logo } from '../assets/logo-light.svg'
@@ -6,6 +6,8 @@ import { Input } from "../components/Input";
 import Button from "../components/Button";
 import { Box } from "../components/Box";
 import { styled } from "../stiches.config";
+import { useNavigate } from "react-router";
+import SessionContext from "../contexts/SessionContext";
 
 type SignupFormValues = {
   firstName: string
@@ -26,6 +28,8 @@ const Container = styled(Box, {
 
 
 const SignUp: React.FC = () => {
+  const navigate = useNavigate()
+  const { isLoggedIn } = useContext(SessionContext)
 
   const [error, setError] = useState('')
   const [formData, setFormData] = useState<SignupFormValues>({
@@ -39,15 +43,21 @@ const SignUp: React.FC = () => {
     const { confirmPassword, ...data } = formData
     if (confirmPassword === data.password) {
       fetch('http://localhost:6500/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      mode: "cors",
-      body: JSON.stringify(formData)
-    }).then(res => res.json()).then(res => console.log(res))
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: "cors",
+        body: JSON.stringify(formData)
+      }).then(res => res.json()).then(res => {
+        window.localStorage.setItem('token', res.token)
+      }).catch(err => setError(err.message))
     } else setError("Password don't match")
   }
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/', { replace: true })
+  }, [])
 
 
   return (

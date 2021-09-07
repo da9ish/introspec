@@ -6,18 +6,18 @@ import { Card } from "../components/Card";
 
 const Queries: React.FC = () => {
   const navigate = useNavigate()
-  const schemaData = window.localStorage.getItem('graphql-schema') || ""
-  const graphQLSchema = buildClientSchema(JSON.parse(schemaData))
+  const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
+  const graphQLSchema = buildClientSchema(schemaData)
 
   const query = (graphQLSchema.getType('Query') as GraphQLObjectType)
-  const queries = (graphQLSchema.getType('Query') as GraphQLObjectType)?.toConfig().fields
+  const queries = (graphQLSchema.getType('Query') as GraphQLObjectType)?.toConfig().fields || {}
 
   return (
     <>
-      <h2>{query.name}</h2>
-      <p>{query.description}</p>
+      <h2>{query?.name}</h2>
+      <p>{query?.description}</p>
       <Box css={{display: 'flex', flexDirection: 'column'}}>
-        {Object.keys(queries).map(query => (
+        {Object.keys(queries || {}).map(query => (
           <Card key={query} onClick={() => navigate(query)} css={{flexDirection: 'column', alignItems: 'flex-start'}}>
             <h4>{query}</h4>
             <p>{queries[query].description}</p>

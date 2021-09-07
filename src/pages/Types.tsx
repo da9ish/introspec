@@ -6,10 +6,10 @@ import { Card } from "../components/Card";
 
 const Types: React.FC = () => {
   const navigate = useNavigate()
-  const schemaData = window.localStorage.getItem('graphql-schema') || ""
-  const graphQLSchema = buildClientSchema(JSON.parse(schemaData))
+  const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
+  const graphQLSchema = buildClientSchema(schemaData)
 
-  const types = graphQLSchema.getTypeMap()
+  const types = graphQLSchema.getTypeMap() || {}
 
   return (
     <>

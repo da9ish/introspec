@@ -3,10 +3,10 @@ import { styled } from "../stiches.config";
 
 export const Input = styled('input', {
   all: 'unset',
-  width: 200,
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
+  borderRadius: 4,
   padding: '0 10px',
   marginY: 4,
   fontSize: 15,

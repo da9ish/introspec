@@ -1,13 +1,15 @@
 import { styled } from "@stitches/react";
 import React from "react";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import { Box } from "../components/Box";
 import Sidebar from '../components/private/Sidebar'
 import Topbar from "../components/private/Topbar";
+import CreateProject from "../pages/CreateProject";
 import Documents from "../pages/Documents";
 import Mutation from "../pages/Mutation";
 import Mutations from "../pages/Mutations";
 import Projects from "../pages/Projects";
+import ProjectShow from "../pages/ProjectShow";
 import Queries from "../pages/Queries";
 import Query from "../pages/Query";
 import Subscription from "../pages/Subscription";
@@ -32,7 +34,10 @@ const Private: React.FC = () => {
         <Topbar />
         <Container>
           <Routes>
+            <Navigate to="/projects" />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/project/:id" element={<ProjectShow />} />
+            <Route path="/project/new" element={<CreateProject />} />
             <Route path="/docs/:projectId">
               <Route path="" element={<Documents />} />
               <Route path="/query">

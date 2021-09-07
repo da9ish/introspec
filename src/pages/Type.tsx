@@ -1,4 +1,4 @@
-import { buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputObjectType, GraphQLObjectType, GraphQLUnionType } from "graphql";
+import {  buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from "graphql";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Box } from "../components/Box";
@@ -7,27 +7,53 @@ import pascalcase from "pascalcase";
 import Codeblock from "../components/Codeblock";
 
 const Type: React.FC = () => {
-  const schemaData = window.localStorage.getItem('graphql-schema') || ""
-  const graphQLSchema = buildClientSchema(JSON.parse(schemaData))
+  const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
+  const graphQLSchema = buildClientSchema(schemaData)
 
   const {typeName} = useParams()
   const [tagType, setTagType] = useState<string>('Field')
-  const [nodes, setNodes] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any>>>([])
+  const [nodes, setNodes] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
 
   const type = graphQLSchema.getType(typeName)
 
   useEffect(() => {
-    if (type instanceof GraphQLObjectType || type instanceof GraphQLInputObjectType) {
-      setTagType('Fields')
-      setNodes(Object.values(type.getFields()))
-    } else if (type instanceof GraphQLEnumType){
-      setTagType('Values')
-      setNodes(type.getValues())
-    } else if (type instanceof GraphQLUnionType) {
-      setTagType('Types')
-      setNodes(type.getTypes())
+    if (type instanceof GraphQLNonNull) {
+      if (type.ofType instanceof GraphQLObjectType){
+        setNodes(Object.values(type.ofType.getFields()))
+        setTagType('Field')
+      }
+      if (type.ofType instanceof GraphQLEnumType){
+        setNodes(type.ofType.getValues())
+        setTagType('Values')
+      }
+      if (type.ofType instanceof GraphQLUnionType) {
+        setNodes(type.ofType.getTypes())
+        setTagType('Types')
+      }
+      if (type.ofType instanceof GraphQLInputObjectType) {
+        setNodes(Object.values(type.ofType.getFields()))
+        setTagType('Field')
+      }
+    } else {
+      if (type instanceof GraphQLObjectType){
+        setNodes(Object.values(type.getFields()))
+        setTagType('Field')
+      }
+      if (type instanceof GraphQLEnumType){
+        setNodes(type.getValues())
+        setTagType('Values')
+      }
+      if (type instanceof GraphQLUnionType) {
+        setNodes(type.getTypes())
+        setTagType('Types')
+      }
+      if (type instanceof GraphQLInputObjectType) {
+        setNodes(Object.values(type.getFields()))
+        setTagType('Field')
+      }
     }
   }, [])
+
 
   return (
     <>
@@ -37,11 +63,27 @@ const Type: React.FC = () => {
         <>
           <h3>{tagType}</h3>
           {nodes.map(node => {
+            const nodeType: any = ('type' in node) ? node.type : null
+            let nodeTypeName = ''
+            if (nodeType instanceof GraphQLNonNull) {
+              if (nodeType.ofType instanceof GraphQLList) {
+                if (nodeType.ofType.ofType instanceof GraphQLNonNull) {
+                  nodeTypeName = (nodeType.ofType.ofType.ofType as any)?.name
+                } else {
+                  nodeTypeName = (nodeType.ofType.ofType as any)?.name
+                }
+              } else {
+                nodeTypeName = (nodeType.ofType as any)?.name
+              }
+            } else {
+              nodeTypeName = (nodeType as any)?.name
+            }
+
             return (
               <Box>
                 <Box css={{display: 'flex', alignItems: 'center'}}>
                   <Box as="code" css={{marginRight: '8px'}}>{node.name}</Box>
-                  {('type' in node) && <Tag name="arg" urlParam={(node.type as any).name}>{node.type.toJSON()}</Tag>}
+                  {('type' in node) && <Tag name="arg" urlParam={nodeTypeName}>{node.type.toJSON()}</Tag>}
                 </Box>
                 <p>{node.description}</p>
               </Box>

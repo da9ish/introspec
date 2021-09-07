@@ -6,16 +6,16 @@ import { Card } from "../components/Card";
 
 const Subscriptions: React.FC = () => {
   const navigate = useNavigate()
-  const schemaData = window.localStorage.getItem('graphql-schema') || ""
-  const graphQLSchema = buildClientSchema(JSON.parse(schemaData))
+  const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
+  const graphQLSchema = buildClientSchema(schemaData)
 
   const subscription = (graphQLSchema.getType('Subscription') as GraphQLObjectType)
-  const subscriptions = (graphQLSchema.getType('Subscription') as GraphQLObjectType)?.toConfig().fields
+  const subscriptions = (graphQLSchema.getType('Subscription') as GraphQLObjectType)?.toConfig().fields || {}
 
   return (
     <>
-      <h2>{subscription.name}</h2>
-      <p>{subscription.description}</p>
+      <h2>{subscription?.name}</h2>
+      <p>{subscription?.description}</p>
       <Box css={{display: 'flex', flexDirection: 'column'}}>
         {Object.keys(subscriptions).map(subscription => (
           <Card key={subscription} onClick={() => navigate(subscription)} css={{flexDirection: 'column', alignItems: 'flex-start'}}>

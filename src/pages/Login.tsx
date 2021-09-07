@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box } from "../components/Box";
 import Button from "../components/Button";
 import { Flex } from "../components/Flex";
@@ -6,6 +6,8 @@ import { Input } from "../components/Input";
 import { styled } from "../stiches.config";
 import { ReactComponent as Logo } from '../assets/logo-light.svg'
 import { AppName } from "../components/public/Navbar";
+import { useNavigate } from "react-router";
+import SessionContext from "../contexts/SessionContext";
 
 type LoginFormValues = {
   email: string
@@ -22,6 +24,10 @@ const Container = styled(Box, {
 })
 
 const Login: React.FC = () => {
+  const navigate = useNavigate()
+  const { isLoggedIn } = useContext(SessionContext)
+
+  const [error, setError] = useState()
   const [formData, setFormData] = useState<LoginFormValues>({
     email: '',
     password: ''
@@ -34,8 +40,14 @@ const Login: React.FC = () => {
       },
       mode: "cors",
       body: JSON.stringify(formData)
-    }).then(res => res.json()).then(res => console.log(res))
+    }).then(res => res.json()).then(res => {
+      window.localStorage.setItem('token', res.token)
+    }).catch(err => setError(err.message))
   }
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/', { replace: true })
+  }, [])
 
   return (
     <Container>
