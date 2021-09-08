@@ -10,6 +10,7 @@ CREATE TABLE "Project" (
     "themeConfig" JSONB NOT NULL,
     "visibility" BOOLEAN NOT NULL,
     "domainConfig" JSONB NOT NULL,
+    "status" TEXT NOT NULL,
     "ownerId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
@@ -22,7 +23,6 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );

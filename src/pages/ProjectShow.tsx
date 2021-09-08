@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useNavigate } from "react-router";
-import Button from "../components/Button";
+import { Box } from "../components/Box";
 import Flex from "../components/Flex";
 import { Label } from "../components/Label";
 import { Project } from "../types/Project";
 
 
 const ProjectShow: React.FC = () => {
-  const navigate = useNavigate()
   const { id } = useParams()
   const [project, setProject] = useState<Project>()
 
@@ -27,21 +25,23 @@ const ProjectShow: React.FC = () => {
   }, [])
 
   return (
-    <Flex direction="column" gap="lg">
-      <h3>{project?.name}</h3>
-      <Flex direction="column" gap="md">
-        <Label htmlFor="name">Name</Label>
-        <h5>{project?.name}</h5>
+    <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
+      <Flex direction="column" gap="lg">
+        <h3>{project?.name}</h3>
+        <Flex direction="column" gap="md">
+          <Label htmlFor="name">Name</Label>
+          <h5>{project?.name}</h5>
+        </Flex>
+        <Flex direction="column" gap="md">
+          <Label htmlFor="description">Description</Label>
+          <h5>{project?.description}</h5>
+        </Flex>
+        <Flex direction="column" gap="md">
+          <Label htmlFor="apiEndpoint">GraphQL Endpoint</Label>
+          <h5>{project?.apiEndpoint}</h5>
+        </Flex>
       </Flex>
-      <Flex direction="column" gap="md">
-        <Label htmlFor="description">Description</Label>
-        <h5>{project?.description}</h5>
-      </Flex>
-      <Flex direction="column" gap="md">
-        <Label htmlFor="apiEndpoint">GraphQL Endpoint</Label>
-        <h5>{project?.apiEndpoint}</h5>
-      </Flex>
-    </Flex>
+    </Box>
   )
 }
 

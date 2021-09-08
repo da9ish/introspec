@@ -5,10 +5,11 @@ import { ReactComponent as Notification } from '../../assets/icons/notification.
 
 const StyledTopbar = styled(Box, {
   height: '72px',
+  flexShrink: 0,
   padding: '16px 32px',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
 })
 
 const Topbar: React.FC = () => {

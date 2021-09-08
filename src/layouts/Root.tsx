@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import SessionContext, { User } from '../contexts/SessionContext'
 import Private from './Private'
 import Public from './Public'
 
-interface Props {
-  
-}
-
-const Root: React.FC<Props> = () => {
+const Root: React.FC = () => {
+  const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
@@ -19,21 +17,20 @@ const Root: React.FC<Props> = () => {
       },
       mode: "cors",
     }).then(res => res.json()).then(res => {
-      setUser(res.user)
-    })
+      if (res.success) setUser(res.data)
+      else navigate('/')
+    }).catch(res => console.log(res))
   }, [])
-
-  console.log(!user);
 
   return (
     <SessionContext.Provider
       value={{
         user: user,
-        isLoggedIn: !user,
+        isLoggedIn: !!user,
         reloadSession: () => {}
       }}
     >
-      {!user ? <Private /> : <Public />}
+      {!user ? <Public /> : <Private />}
     </SessionContext.Provider>
   )
 }

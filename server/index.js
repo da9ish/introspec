@@ -25,16 +25,10 @@ app.post("/login", async (req, res) => {
           expiresIn: "24h",
         }
       );
-
-      await prisma.user.update({
-        where: { email },
-        data: {
-          token,
-        }
-      });
+      user.token = token
 
       res.status(200).json({
-        success: "true",
+        success: true,
         message: "Login Success",
         error: null,
         data: user
@@ -42,7 +36,7 @@ app.post("/login", async (req, res) => {
     }
 
     res.status(400).send({
-      success: "false",
+      success: false,
       message: "Invalid Credentials",
       error: {
         statusCode: 400,
@@ -53,7 +47,7 @@ app.post("/login", async (req, res) => {
   } catch (e) {
     console.log(e)
     res.status(500).send({
-      success: "false",
+      success: false,
       message: "Server Error",
       error: {
         statusCode: 500,
@@ -71,7 +65,7 @@ app.post("/signup", async (req, res) => {
 
     if (oldUser) {
       return res.status(409).json({
-        success: "true",
+        success: true,
         message: "Signup failed",
         error: {
           statusCode: 409,
@@ -95,14 +89,15 @@ app.post("/signup", async (req, res) => {
       data: {
         firstName,
         lastName,
-        token,
         email: email.toLowerCase(),
         password: encryptedPassword,
       }
     });
 
+    user.token = token
+
     res.status(201).json({
-      success: "true",
+      success: true,
       message: "Account Created",
       error: null,
       data: user
@@ -110,7 +105,7 @@ app.post("/signup", async (req, res) => {
   } catch (e) {
     console.log(e)
     res.status(500).send({
-      success: "false",
+      success: false,
       message: "Server Error",
       error: {
         statusCode: 500,
@@ -142,7 +137,7 @@ app.get('/session', async (req, res) => {
     const user = await prisma.user.findUnique({ where: { email } })
     res.status(200).json({
       success: "true",
-      message: "Account Created",
+      message: "Session Created",
       error: null,
       data: user
     });
@@ -164,7 +159,7 @@ app.get('/projects', auth, async (req, res) => {
   const projects = await prisma.project.findMany({ where: { ownerId: id } })
 
   res.status(200).json({
-    success: "true",
+    success: true,
     message: "",
     error: null,
     data: projects
@@ -177,7 +172,7 @@ app.get('/project/:id', auth, async (req, res) => {
   })
 
   res.status(200).json({
-    success: "true",
+    success: true,
     message: "",
     error: null,
     data: project
@@ -212,7 +207,7 @@ app.post('/project/new', auth, async (req, res) => {
   })
 
   res.status(201).json({
-    success: "true",
+    success: true,
     message: "Project created",
     error: null,
     data: project
@@ -242,12 +237,10 @@ app.get('/docs/:id', auth, async (req, res) => {
       operationName: "IntrospectionQuery",
       query: getIntrospectionQuery()
     })
-  }).then(res => res.json())
-
-  console.log(schema)
+  }).then(res => res.json()).catch(e => console.log(e))
 
   res.status(200).json({
-    success: "true",
+    success: true,
     message: "",
     error: null,
     data: {
@@ -259,7 +252,7 @@ app.get('/docs/:id', auth, async (req, res) => {
 
 app.use("*", (req, res) => {
   res.status(404).json({
-    success: "false",
+    success: false,
     message: "Page not found",
     error: {
       statusCode: 404,

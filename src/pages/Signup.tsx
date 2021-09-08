@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Flex from "../components/Flex";
 import { AppName } from "../components/public/Navbar";
 import { ReactComponent as Logo } from '../assets/logo-light.svg'
@@ -7,7 +7,6 @@ import Button from "../components/Button";
 import { Box } from "../components/Box";
 import { styled } from "../stiches.config";
 import { useNavigate } from "react-router";
-import SessionContext from "../contexts/SessionContext";
 
 type SignupFormValues = {
   firstName: string
@@ -29,7 +28,6 @@ const Container = styled(Box, {
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
-  const { isLoggedIn } = useContext(SessionContext)
 
   const [error, setError] = useState('')
   const [formData, setFormData] = useState<SignupFormValues>({
@@ -50,15 +48,13 @@ const SignUp: React.FC = () => {
         mode: "cors",
         body: JSON.stringify(formData)
       }).then(res => res.json()).then(res => {
-        window.localStorage.setItem('token', res.token)
+        if (res.status) {
+          window.localStorage.setItem('token', res.data.token)
+          navigate('/')
+        }
       }).catch(err => setError(err.message))
     } else setError("Password don't match")
   }
-
-  useEffect(() => {
-    if (isLoggedIn) navigate('/', { replace: true })
-  }, [])
-
 
   return (
     <Container>
@@ -68,6 +64,7 @@ const SignUp: React.FC = () => {
           <AppName>Instrospec</AppName>
         </Flex>
         <h4>Create a new account</h4>
+        <Box>{error}</Box>
         <Input size="small" name="firstName" placeholder="First Name" type="text" value={formData.firstName} onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))} />
         <Input size="small" name="lastName" placeholder="Last Name" type="text" value={formData.lastName} onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))} />
         <Input size="small" name="email" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))} />

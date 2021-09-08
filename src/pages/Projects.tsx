@@ -26,7 +26,7 @@ const Projects: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
       <Flex alignItems="center" justifyContent="space-between">
         <h3>Projects</h3>
         <Button onClick={() => navigate('/project/new')}>Create Project</Button>
@@ -38,17 +38,17 @@ const Projects: React.FC = () => {
               <Box as="td" css={{ flexGrow: 1, textAlign: 'left' }}>Name</Box>
               <Box as="td" css={{ width: '150px', textAlign: 'left' }}>Status</Box>
               <Box as="td" css={{ width: '150px', textAlign: 'right' }}>Created At</Box>
-              <Box as="td" css={{ width: '150px', textAlign: 'right' }}>Actions</Box>
+              <Box as="td" css={{ width: '150px', textAlign: 'right' }}></Box>
             </Flex>
           </Box>
-          <Flex as="tbody" css={{ width: '100%' }}>
+          <Flex as="tbody" direction="column" css={{ width: '100%' }}>
             {projects.map(project => (
-              <Flex as="tr" key={project.id} alignItems="center" css={{ flexGrow: 1, height: '56px', borderBottom: '1px solid #F0EEE0'}} onClick={() => navigate(`/docs/${project.id}`)}>
+              <Flex as="tr" key={project.id} alignItems="center" css={{ flexGrow: 1, height: '64px', borderBottom: '1px solid #F0EEE0'}} onClick={() => navigate(`/docs/${project.id}`)}>
                 <Box as="td" css={{ flexGrow: 1, textAlign: 'left' }}>{project.name}</Box>
                 <Box as="td" css={{ width: '150px', textAlign: 'left' }}>{project.status}</Box>
                 <Box as="td" css={{ width: '150px', textAlign: 'right' }}>{new Date(project.createdAt).toDateString()}</Box>
                 <Box as="td" css={{ width: '150px', textAlign: 'left' }}>
-                  <Flex justifyContent="end">
+                  <Flex justifyContent="space-evenly">
                     <Edit />
                     <Delete />
                   </Flex>
@@ -58,7 +58,7 @@ const Projects: React.FC = () => {
           </Flex>
         </table>
       </Flex>
-    </>
+    </Box>
   )
 }
 

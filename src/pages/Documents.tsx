@@ -33,7 +33,7 @@ const Documents: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
     {loading ? <h3>Loading...</h3> : 
       <>
         <h2>{project?.name}</h2>
@@ -68,7 +68,7 @@ const Documents: React.FC = () => {
         </Card>
       </>
     }
-    </>
+    </Box>
   )
 }
 

@@ -5,6 +5,7 @@ import { Box } from "../components/Box";
 import Tag from "../components/private/Tag";
 import pascalcase from "pascalcase";
 import Codeblock from "../components/Codeblock";
+import Flex from "../components/Flex";
 
 const Type: React.FC = () => {
   const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
@@ -56,39 +57,45 @@ const Type: React.FC = () => {
 
 
   return (
-    <>
-      <h2>{pascalcase(typeName)} <Tag name="type">{typeName}</Tag></h2>
-      <p>{type?.description || 'No description'}</p>
+    <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
+      <Flex gap="lg" css={{ marginTop: '64px', marginBottom: '16px' }}>
+        <Box as="h2" css={{margin: 0}}>{pascalcase(typeName)}</Box>
+        <Tag name="node">{typeName}</Tag>
+      </Flex>
       {!!nodes.length && 
         <>
           <h3>{tagType}</h3>
-          {nodes.map(node => {
-            const nodeType: any = ('type' in node) ? node.type : null
-            let nodeTypeName = ''
-            if (nodeType instanceof GraphQLNonNull) {
-              if (nodeType.ofType instanceof GraphQLList) {
-                if (nodeType.ofType.ofType instanceof GraphQLNonNull) {
-                  nodeTypeName = (nodeType.ofType.ofType.ofType as any)?.name
+          <Box as="table" css={{ borderCollapse: 'separate', borderSpacing: '0 16px' }}>
+            <tbody>
+              {nodes.map(node => {
+                const nodeType: any = ('type' in node) ? node.type : null
+                let nodeTypeName = ''
+                if (nodeType instanceof GraphQLNonNull) {
+                  if (nodeType.ofType instanceof GraphQLList) {
+                    if (nodeType.ofType.ofType instanceof GraphQLNonNull) {
+                      nodeTypeName = (nodeType.ofType.ofType.ofType as any)?.name
+                    } else {
+                      nodeTypeName = (nodeType.ofType.ofType as any)?.name
+                    }
+                  } else {
+                    nodeTypeName = (nodeType.ofType as any)?.name
+                  }
                 } else {
-                  nodeTypeName = (nodeType.ofType.ofType as any)?.name
+                  nodeTypeName = (nodeType as any)?.name
                 }
-              } else {
-                nodeTypeName = (nodeType.ofType as any)?.name
-              }
-            } else {
-              nodeTypeName = (nodeType as any)?.name
-            }
 
-            return (
-              <Box>
-                <Box css={{display: 'flex', alignItems: 'center'}}>
-                  <Box as="code" css={{marginRight: '8px'}}>{node.name}</Box>
-                  {('type' in node) && <Tag name="arg" urlParam={nodeTypeName}>{node.type.toJSON()}</Tag>}
-                </Box>
-                <p>{node.description}</p>
-              </Box>
-            )
-          })}
+                return (
+                  <Box key={node.name} as="tr" css={{margin: '12px 0'}}>
+                    <Box as="td" css={{ width: '500px' }}>
+                      <Box as="code" css={{ fontSize: '1.125rem', marginRight: '8px' }}>{node.name}</Box>
+                      <Box as="p" css={{margin: 0}}>{node.description}</Box>
+                    </Box>
+                    <td>{'type' in node && <Tag name="field" urlParam={nodeTypeName}>{node.type.toJSON()}</Tag>}</td>
+                  </Box>
+                )
+              })}
+            </tbody>
+          </Box>
         </>
       }
       {!!nodes.length &&
@@ -97,7 +104,7 @@ const Type: React.FC = () => {
           <Codeblock code={`${typeName} {\n${nodes && `${nodes.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}`}\n}`} />
         </>
       }
-    </>
+    </Box>
   )
 }
 

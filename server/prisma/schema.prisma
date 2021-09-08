@@ -21,6 +21,7 @@ model Project {
   themeConfig  Json
   visibility   Boolean
   domainConfig Json
+  status       String
   owner        User     @relation(fields: [ownerId], references: [id])
   ownerId      Int
 }
@@ -32,5 +33,4 @@ model User {
   firstName String
   lastName  String
   projects  Project[]
-  token     String
 }

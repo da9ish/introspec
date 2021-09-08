@@ -26,24 +26,27 @@ h2 {
 h3 {
   font-size: 1.4427rem;
   margin-top: 64px;
+  font-weight: 400;
 }
 
 h4 {
   font-weight: 600;
   font-size: 1.125rem;
+  font-weight: 400;
   margin-bottom: 16px;
 }
 
 h5 {
   font-size: 1rem;
   font-weight: bold;
+  font-weight: 400;
   margin-bottom: 16px;
 }
 
 h6 {
   margin-bottom: 0;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   color: #959DAA;
 }
 
@@ -71,4 +74,8 @@ code {
   -webkit-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+}
+
+input {
+  font-family: Poppins ,monospace;
 }

@@ -10,8 +10,8 @@ interface Props {
 
 const StyledTag = styled('code', {
   cursor: 'pointer',
-  padding: '.1em .15em',
-  borderRadius: '.3em',
+  padding: '4px 14px',
+  borderRadius: '12px',
   fontSize: '.9em',
   background: '#F4F6F8',
 
@@ -22,16 +22,20 @@ const StyledTag = styled('code', {
   variants: {
     tag: {
       node: {
-        color: '#832363',
+        color: 'rgba(131, 35, 99, 1)',
+        backgroundColor: 'rgba(131, 35, 99, 0.1)',
       },
       type: {
-        color: '#3f20ba'
+        color: 'rgba(98, 113, 255, 1)',
+        backgroundColor: 'rgba(98, 113, 255, 0.1)'
       },
       field: {
-        color: '#1d7b78'
+        color: 'rgba(29,123,120, 1)',
+        backgroundColor: 'rgba(29,123,120, 0.1)'
       },
       arg: {
-        color: '#84671d'
+        color: 'rgba(255, 50, 173, 1)',
+        backgroundColor: 'rgba(255, 50, 173, 0.1)'
       }
     }
   }

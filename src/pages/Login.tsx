@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box } from "../components/Box";
 import Button from "../components/Button";
 import { Flex } from "../components/Flex";
@@ -7,7 +7,6 @@ import { styled } from "../stiches.config";
 import { ReactComponent as Logo } from '../assets/logo-light.svg'
 import { AppName } from "../components/public/Navbar";
 import { useNavigate } from "react-router";
-import SessionContext from "../contexts/SessionContext";
 
 type LoginFormValues = {
   email: string
@@ -25,7 +24,6 @@ const Container = styled(Box, {
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
-  const { isLoggedIn } = useContext(SessionContext)
 
   const [error, setError] = useState()
   const [formData, setFormData] = useState<LoginFormValues>({
@@ -41,13 +39,12 @@ const Login: React.FC = () => {
       mode: "cors",
       body: JSON.stringify(formData)
     }).then(res => res.json()).then(res => {
-      window.localStorage.setItem('token', res.token)
+      if (res.status) {
+        window.localStorage.setItem('token', res.data.token)
+        navigate('/')
+      }
     }).catch(err => setError(err.message))
   }
-
-  useEffect(() => {
-    if (isLoggedIn) navigate('/', { replace: true })
-  }, [])
 
   return (
     <Container>
@@ -58,6 +55,7 @@ const Login: React.FC = () => {
             <AppName>Instrospec</AppName>
           </Flex>
           <h4>Login</h4>
+          <Box>{error}</Box>
           <Input size="small" name="email" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))} />
           <Input size="small" name="password" placeholder="Password" type="password" value={formData.password} onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))} />
           <Button css={{ marginTop: 8 }} size="small" color="primary" onClick={handleLogin}>Login</Button>
