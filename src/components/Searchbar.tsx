@@ -10,7 +10,7 @@ interface Props {
 }
 
 const StyledContainer = styled(Flex, {
-  color: '#999999',
+  color: '#757575',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '4px',
@@ -40,7 +40,7 @@ const Searchbar: React.FC<Props> = ({value, onChange}) => {
   return (
     <StyledContainer>
       <Search />
-      <StyledSearchbar placeholder="Search..." value={value} onChange={(e) => onChange(e.target.value)} />
+      <StyledSearchbar placeholder="Search" value={value} onChange={(e) => onChange(e.target.value)} />
     </StyledContainer>
   )
 }

@@ -2,13 +2,14 @@ import { blackA } from "@radix-ui/colors";
 import { styled } from "../stiches.config";
 
 export const Input = styled('input', {
+  width: '100%',
   all: 'unset',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 4,
   padding: '0 10px',
-  marginY: 4,
+  margin: '4px 0',
   fontSize: 15,
   lineHeight: 1,
   backgroundColor: blackA.blackA5,

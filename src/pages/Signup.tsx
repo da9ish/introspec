@@ -58,7 +58,7 @@ const SignUp: React.FC = () => {
 
   return (
     <Container>
-      <Flex direction="column" alignItems="center" gap="lg">
+      <Flex direction="column" alignItems="center" gap="sm">
         <Flex alignItems="center" gap="md">
           <Logo />
           <AppName>Instrospec</AppName>
@@ -71,7 +71,7 @@ const SignUp: React.FC = () => {
         <Input size="small" name="password" placeholder="Password" type="password" value={formData.password} onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))} />
         <Input size="small" name="confirmPassword" placeholder="Confirm Password" type="password" value={formData.confirmPassword} onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))} />
         <Button css={{ marginTop: 8 }} size="small" onClick={handleCreateUser}>Sign up</Button>
-        <Box as="p" css={{ color: "$gray12", fontSize: 14 }}>Already have an account?
+        <Box as="p" css={{ color: "$gray4", fontSize: 14 }}>Already have an account?
           <Box
             as="a"
             css={{

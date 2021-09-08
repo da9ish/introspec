@@ -28,7 +28,7 @@ const RightSidebar = styled(Flex, {
   width: '300px',
   height: '100vh',
   flexShrink: 0,
-  background: "#F6F6F6",
+  background: "#FAFAFA",
   borderTopLeftRadius: '30px',
   borderBottomLeftRadius: '30px',
   padding: '32px',

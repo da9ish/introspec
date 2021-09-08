@@ -48,8 +48,8 @@ const StyledButton = styled('button', {
         }
       },
       accent: {
-        backgroundColor: '$gray12',
-        color: '$gray12',
+        backgroundColor: '$gray1',
+        color: '$gray1',
 
         '&:hover': {
           opacity: 0.8
@@ -80,7 +80,7 @@ const StyledButton = styled('button', {
       kind: "filled",
       css: {
         border: "unset",
-        color: "$gray12"
+        color: "$gray1"
       }
     },
     {

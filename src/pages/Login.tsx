@@ -49,7 +49,7 @@ const Login: React.FC = () => {
   return (
     <Container>
       <Box css={{ padding: '32px 24px', alignItems: 'center', flexDirection: 'column' }}>
-        <Flex direction="column" alignItems="center" gap="lg">
+        <Flex direction="column" alignItems="center" gap="sm">
           <Flex alignItems="center" gap="md">
             <Logo />
             <AppName>Instrospec</AppName>
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
           <Input size="small" name="email" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))} />
           <Input size="small" name="password" placeholder="Password" type="password" value={formData.password} onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))} />
           <Button css={{ marginTop: 8 }} size="small" color="primary" onClick={handleLogin}>Login</Button>
-          <Box as="p" css={{ color: "$gray12", fontSize: 14 }}>Don&apos;t have an account?
+          <Box as="p" css={{ color: "$gray10", fontSize: 14 }}>Don&apos;t have an account?
             <Box
               as="a"
               css={{
