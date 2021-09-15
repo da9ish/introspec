@@ -25,9 +25,10 @@ app.post("/login", async (req, res) => {
           expiresIn: "24h",
         }
       );
+
       user.token = token
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Login Success",
         error: null,
@@ -35,7 +36,7 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    res.status(400).send({
+    return res.status(400).send({
       success: false,
       message: "Invalid Credentials",
       error: {
@@ -44,9 +45,10 @@ app.post("/login", async (req, res) => {
       },
       data: null
     });
+
   } catch (e) {
     console.log(e)
-    res.status(500).send({
+    return res.status(500).send({
       success: false,
       message: "Server Error",
       error: {

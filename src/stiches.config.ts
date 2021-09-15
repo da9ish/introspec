@@ -15,7 +15,7 @@ import { createStitches } from "@stitches/react";
 const { styled, css, keyframes, theme } = createStitches({
   theme: {
     colors: {
-      primary: "#3D5AFE",
+      primary: "#1271FF",
       secondary: "#64FFDA",
       background: "#FCFBF4",
       border: "#eee",

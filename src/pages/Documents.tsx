@@ -5,6 +5,8 @@ import { Card } from "../components/Card";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
 import { Project } from "../types/Project";
+import Flex from "../components/Flex";
+import Icon from "../components/Icon";
 
 const Documents: React.FC = () => {
   const navigate = useNavigate()
@@ -39,31 +41,43 @@ const Documents: React.FC = () => {
         <h2>{project?.name}</h2>
         <p>{project?.description}</p>
         <Card onClick={() => navigate('query')}>
-          <Box css={{ flexGrow: 1 }}>
-            <h4>Query</h4>
-            <p>All your queries</p>
-          </Box>
+          <Flex alignItems="center" gap="lg" grow={1}>
+            <Icon name="query" />
+            <Box>
+              <h4>Query</h4>
+              <p>All your queries</p>
+            </Box>
+          </Flex>
           <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
         </Card>
         <Card onClick={() => navigate('mutation')}>
-          <Box css={{ flexGrow: 1 }}>
-            <h4>Mutation</h4>
-            <p>All your mutations</p>
-          </Box>
+          <Flex alignItems="center" gap="lg" grow={1}>
+            <Icon name="mutation" />
+            <Box>
+              <h4>Mutation</h4>
+              <p>All your mutations</p>
+            </Box>
+          </Flex>
           <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
         </Card>
         <Card onClick={() => navigate('subscription')}>
-          <Box css={{ flexGrow: 1 }}>
-            <h4>Subscription</h4>
-            <p>All your subscription</p>
-          </Box>
+          <Flex alignItems="center" gap="lg" grow={1}>
+            <Icon name="subscription" />
+            <Box>
+              <h4>Subscription</h4>
+              <p>All your subscription</p>
+            </Box>
+          </Flex>
           <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
         </Card>
         <Card onClick={() => navigate('type')}>
-          <Box css={{ flexGrow: 1 }}>
-            <h4>Type</h4>
-            <p>All your types</p>
-          </Box>
+          <Flex alignItems="center" gap="lg" grow={1}>
+            <Icon name="type" />
+            <Box>
+              <h4>Type</h4>
+              <p>All your types</p>
+            </Box>
+          </Flex>
           <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
         </Card>
       </>

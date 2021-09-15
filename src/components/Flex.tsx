@@ -79,6 +79,14 @@ export const Flex = styled('div', {
         gap: '16px',
       },
     },
+    grow: {
+      1: {
+        flexGrow: 1
+      },
+      0: {
+        flexGrow: 0
+      }
+    },
     display: {
       flex: {
         display: 'flex',

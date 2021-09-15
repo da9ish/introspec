@@ -3,7 +3,6 @@ import { styled } from "../../stiches.config";
 import { ReactComponent as Logo } from '../../assets/logo-light.svg'
 import Button from "../Button";
 import { Flex } from "../Flex";
-import { Link } from "../Link";
 import { useNavigate } from "react-router";
 
 const StyledNavbar = styled('nav', {
@@ -34,9 +33,9 @@ const Navbar: React.FC = () => {
         <AppName>Instrospec</AppName>
       </Flex>
       <Flex alignItems="center" gap="lg">
-        <Link to="/login">
+        <Button as="a" href="/login" kind="ghost">
           Login
-        </Link>
+        </Button>
         <Button kind="filled" color="primary" onClick={() => navigate('/signup')}>Get Started</Button>
       </Flex>
     </StyledNavbar>

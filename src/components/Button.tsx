@@ -1,42 +1,29 @@
-import React from "react";
+import { blackA } from "@radix-ui/colors";
 import { styled } from "../stiches.config";
 
-interface ButtonOwnProps {
-  // 
-}
-
-type ButtonProps = React.ComponentProps<typeof StyledButton>
-
-const StyledButton = styled('button', {
+const Button = styled('button', {
   transition: "all 0.3s ease",
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  textDecoration: 'none',
   cursor: "pointer",
-  fontSize: '14px',
+  fontSize: '16px',
   outline: 'unset',
-  padding: '0 20px',
+  padding: '12px 16px',
   marginX: '8px',
-  borderRadius: '16px',
+  borderRadius: '8px',
   fontFamily: '$body',
   fontWeight: 500,
 
   variants: {
-    size: {
-      small: {
-        height: 36
-      },
-      normal: {
-        height: 45
-      }
-    },
     color: {
       primary: {
         backgroundColor: '$primary',
         color: '$primary',
 
         '&:hover': {
-          opacity: 0.8
+          backgroundColor: '#0057DA',
         }
       },
       secondary: {
@@ -62,7 +49,19 @@ const StyledButton = styled('button', {
       },
       outlined: {
         borderWidth: "1px",
-        borderStyle: "solid"
+        borderStyle: "solid",
+
+        '&:hover': {
+          backgroundColor: blackA.blackA2,
+        }
+      },
+      ghost: {
+        border: "unset",
+        backgroundColor: "unset",
+
+        '&:hover': {
+          backgroundColor: blackA.blackA2,
+        }
       }
     },
   },
@@ -122,14 +121,7 @@ const StyledButton = styled('button', {
   defaultVariants: {
     kind: 'filled',
     color: 'accent',
-    size: 'normal'
   }
 })
-
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
-  return (
-    <StyledButton {...rest}>{children}</StyledButton>
-  )
-}
 
 export default Button

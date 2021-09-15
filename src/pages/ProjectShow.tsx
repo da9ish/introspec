@@ -5,7 +5,6 @@ import Flex from "../components/Flex";
 import { Label } from "../components/Label";
 import { Project } from "../types/Project";
 
-
 const ProjectShow: React.FC = () => {
   const { id } = useParams()
   const [project, setProject] = useState<Project>()
