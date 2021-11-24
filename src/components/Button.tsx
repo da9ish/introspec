@@ -2,7 +2,7 @@ import { blackA } from "@radix-ui/colors";
 import { styled } from "../stiches.config";
 
 const Button = styled('button', {
-  transition: "all 0.3s ease",
+  transition: "all 0.1s ease",
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

@@ -1,228 +1,372 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
 import { Box } from "../Box"
-import { styled } from "../../stiches.config";
-import { ReactComponent as Logo } from '../../assets/logo.svg'
-import { ReactComponent as Project } from '../../assets/icons/project.svg'
-import { ReactComponent as Document } from '../../assets/icons/document.svg'
-import { ReactComponent as Playground } from '../../assets/icons/playground.svg'
-import { ReactComponent as Profile } from '../../assets/icons/user.svg'
-import { ReactComponent as Settings } from '../../assets/icons/settings.svg'
+import { css, styled } from "../../stiches.config";
 import { Link } from "../Link";
+import Icon from "../Icon";
 
 const StyledSidebar = styled(Box, {
-  transition: "all 0.3s ease",
+  transition: "all 0.1s ease",
   
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  width: '124px',
-  height: '100vh',
-  background: "#313131",
-  borderTopRightRadius: '30px',
-  borderBottomRightRadius: '30px',
+  width: '220px',
+  fontSize: '$body',
+  borderRight: '1px solid #F8F9FB'
+})
 
-  "&:hover": {
-    width: '280px'
-  }
+const Header = styled(Box, {
+  boxSizing: 'border-box',
+  width: '100%',
+  height: '60px',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 16px',
 })
 
 const LogoContainer = styled(Box, {
+  boxSizing: 'border-box',
+  flexGrow: 1,
+  height: '28px',
+  backgroundColor: '#F5F5F5',
+  borderRadius: '4px',
+  padding: '4px 8px',
+  marginRight: '8px',
   display: 'flex',
   alignItems: 'center',
-  margin: '50px 0',
-  padding: '8px 24px',
 })
 
-const AppName = styled('h3', {
-  transition: "all 0.3s ease",
-
-  margin: 0,
-  marginLeft: '16px',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  color: '#FCFBF4',
-
-  variants: {
-    hovered: {
-      true: {
-        display: 'block'
-      },
-      false: {
-        display: 'none'
-      }
-    }
-  }
+const Profile = styled(Box, {
+  width: '28px',
+  height: '28px',
+  backgroundColor: '#F5F5F5',
+  borderRadius: '50%',
 })
 
-const LinksContainer = styled(Box, {
-  transition: "all 0.3s ease",
+const Body = styled(Box, {
+  transition: "all 0.1s ease",
 
+  boxSizing: 'border-box',
+  flexGrow: 1,
   width: '100%',
   height: '100%',
   overflow: 'auto',
-  padding: '32px 0',
-
-  variants: {
-    hovered: {
-      true: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start'
-      },
-      false: {}
-    }
-  }
+  padding: '8px 16px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start'
 })
 
 const FooterContainer = styled(Box, {
+  boxSizing: 'border-box',
   width: '100%',
+  padding: '16px',
 })
 
-const NavItem = styled(Link, {
-  transition: "all 0.3s ease",
+const SubMenuItemContainer = styled(Box, {
+  transition: "all 0.1s ease",
 
+  width: '100%',
+  overflowY: 'hidden',
+  flexShrink: 0,
+
+  variants: {
+    open: {
+      true: {
+        pointerEvents: 'all',
+      },
+      false: {
+        pointerEvents: 'none',
+      }
+    }
+  }
+})
+
+const NavItem = styled(Box, {
+  transition: "all 0.1s ease",
+
+  boxSizing: 'border-box',
   cursor: 'pointer',
-  height: '66px',
+  width: '100%',
+  height: '32px',
+  padding: '8px',
+  margin: 0,
   display: 'flex',
   alignItems: 'center',
-  padding: '8px 24px',
+  justifyContent: 'flex-start',
+  color: '#282A30',
+  borderRadius: '4px',
 
-  '&:hover > p': {
-    color: '#FCFBF4'
+  '&:hover': {
+    backgroundColor: '#F5F5F5'
   },
 
   variants: {
-    hovered: {
+    indent: {
       true: {
-        width: '100%',
-        justifyContent: 'flex-start',
+        marginTop: '2px',
+        paddingLeft: '48px'
       },
       false: {
-        justifyContent: 'center',
+        marginTop: '8px',
+        paddingLeft: '8px'
       }
     }
-  }
+  },
 })
 
-const NavTitle = styled('a', {
-  transition: "all 0.3s ease",
+const LinkItem = styled(Link, {
+  transition: "all 0.1s ease",
 
+  boxSizing: 'border-box',
+  cursor: 'pointer',
+  width: '100%',
+  height: '32px',
+  padding: '8px',
   margin: 0,
-  marginLeft: '16px',
-  color: '#7C7B70',
-
-  variants: {
-    hovered: {
-      true: {
-        display: 'block',
-      },
-      false: {
-        display: 'none',
-      }
-    }
-  }
-})
-
-const NavIcon = styled(Box, {
-  transition: "all 0.3s ease",
-
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  padding: '8px',
-  borderRadius: '18px',
-  
+  justifyContent: 'flex-start',
+  borderRadius: '4px',
+
+  '&:hover': {
+    backgroundColor: '#F5F5F5'
+  },
+
   variants: {
     active: {
       true: {
-        backgroundColor: '#FCFBF4',
-        color: '#313131'
+        color: '#282A30',
       },
       false: {
-        backgroundColor: 'unset',
-        color: '#FCFBF4'
+        color: '#6b6f76',
+      }
+    },
+    indent: {
+      true: {
+        marginTop: '2px',
+        paddingLeft: '48px'
+      },
+      false: {
+        marginTop: '8px',
+        paddingLeft: '8px'
+      }
+    }
+  },
+
+  compoundVariants: [
+    {
+      active: true,
+      indent: true,
+      css: {
+        backgroundColor: '#F5F5F5'
+      }
+    }
+  ]
+})
+
+const NavTitle = styled('a', {
+  transition: "all 0.1s ease",
+
+  flexGrow: 1,
+  margin: '0 8px',
+  color: 'inherit'
+})
+
+const NavIcon = styled(Icon, {
+  transition: "all 0.1s ease",
+
+  color: 'inherit',
+
+  variants: {
+    open: {
+      true: {
+        transform: 'rotate(180deg)'
+      },
+      false: {
+        transform: 'rotate(0deg)'
       }
     }
   }
 })
 
-const ROOT_LINKS = [
+const ROOT_LINKS: LinkType[] = [
   {
-    id: 'projects',
-    name: 'Projects',
-    path: '/projects',
-    icon: 'projects'
+    id: 'overview',
+    name: 'Overview',
+    path: '/overview',
+    submenus: [],
+    icon: 'airplay'
   },
   {
-    id: 'documentation',
-    name: 'Documentation',
-    path: '/docs',
-    icon: 'document'
+    id: 'authentication',
+    name: 'Authentication',
+    submenus: [
+      {
+        id: 'authentication-users',
+        name: 'Users',
+        path: '/authentication/users',
+      },
+      {
+        id: 'authentication-providers',
+        name: 'Providers',
+        path: '/authentication/providers',
+      },
+      {
+        id: 'authentication-settings',
+        name: 'Settings',
+        path: '/authentication/settings',
+      },
+    ],
+    icon: 'key'
   },
   {
-    id: 'playground',
-    name: 'Playground',
-    path: '/playground',
-    icon: 'playground'
+    id: 'database',
+    name: 'Database',
+    submenus: [
+      {
+        id: 'database-schema',
+        name: 'Schema',
+        path: '/database/schema',
+      },
+      {
+        id: 'database-data',
+        name: 'Data',
+        path: '/database/data',
+      },
+      {
+        id: 'database-migrations',
+        name: 'Migrations',
+        path: '/database/migrations',
+      },
+      {
+        id: 'database-settings',
+        name: 'Settings',
+        path: '/database/settings',
+      },
+    ],
+    icon: 'database'
   },
   {
-    id: 'profile',
-    name: 'Profile',
-    path: '/profile',
-    icon: 'profile'
+    id: 'storage',
+    name: 'Storage',
+    submenus: [
+      {
+        id: 'storage-files',
+        name: 'Files',
+        path: '/storage/files',
+      },
+      {
+        id: 'storage-settings',
+        name: 'Settings',
+        path: '/storage/settings',
+      },
+    ],
+    icon: 'archive'
+  },
+  {
+    id: 'resolvers',
+    name: 'Resolvers',
+    path: '/resolvers',
+    submenus: [],
+    icon: 'command'
+  },
+  {
+    id: 'integrations',
+    name: 'Integrations',
+    path: '/integrations',
+    submenus: [],
+    icon: 'codepen'
+  },
+  {
+    id: 'schedulars',
+    name: 'Schedulars',
+    path: '/schedulars',
+    submenus: [],
+    icon: 'clock'
   },
   {
     id: 'settings',
     name: 'Settings',
     path: '/settings',
     icon: 'settings',
+    submenus: [],
     isFooter: true
   }
 ]
 
-const ICON_MAP: Record<
-  string, 
-  React.FunctionComponent<React.SVGProps<SVGSVGElement> & {
-    title?: string | undefined;
-  }>
-> = {
-  projects: Project,
-  document: Document,
-  playground: Playground,
-  profile: Profile,
-  settings: Settings
+interface LinkType {
+  id: string
+  name: string,
+  path?: string,
+  icon?: string,
+  submenus?: LinkType[],
+  isFooter?: boolean,
+}
+
+const useStyles = (count: number) => ({
+  submenu: css({
+    height: `${count * 34}px`
+  })(),
+})
+
+const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({id, name, path, icon, submenus, indent = false}) => {
+  const location = useLocation()
+  const [open, setOpen] = useState(false)
+  const className = useStyles(open ? submenus?.length || 0 : 0)
+
+  if (!path) return (
+    <>
+      <NavItem indent={indent} onClick={() => setOpen(!open)}>
+        {icon && <NavIcon name={icon} />}
+        <NavTitle>{name}</NavTitle>
+        {!!submenus?.length && <NavIcon open={open} name={open ? "chevron-up" : "chevron-down"} />}
+      </NavItem>
+      <SubMenuItemContainer open={open} className={className.submenu}>
+        {submenus?.map(menu => (
+          <MenuItem key={menu.id} {...menu} indent />
+        ))}
+      </SubMenuItemContainer>
+    </>
+  )
+
+  const active = location.pathname.includes(path)
+
+  return (
+    <>
+      <LinkItem active={active} indent={indent} to={path} onClick={() => setOpen(!open)}>
+        {icon && <NavIcon name={icon} />}
+        <NavTitle>{name}</NavTitle>
+        {!!submenus?.length && <NavIcon open={open} name={open ? "chevron-up" : "chevron-down"} />}
+      </LinkItem>
+      <SubMenuItemContainer open={open} className={className.submenu}>
+        {submenus?.map(menu => (
+          <MenuItem key={menu.id} {...menu} indent />
+        ))}
+      </SubMenuItemContainer>
+    </>
+  )
 }
 
 const Sidebar: React.FC = () => {
-  const location = useLocation()
-  const [isSidebarHovered, setIsSidebarHovered] = useState(false)
   return (
-    <StyledSidebar onMouseEnter={() => setIsSidebarHovered(true)} onMouseLeave={() => setIsSidebarHovered(false)}>
-      <LogoContainer>
-        <Logo />
-        <AppName hovered={isSidebarHovered}>Instrospec</AppName>
-      </LogoContainer>
-      <LinksContainer hovered={isSidebarHovered}>
+    <StyledSidebar>
+      <Header>
+        <LogoContainer>Keepworks</LogoContainer>
+        <Profile />
+      </Header>
+      <Body>
         {ROOT_LINKS.filter(link => !link.isFooter).map(link => {
-          const Icon = ICON_MAP[link.icon]
           return (
-          <NavItem key={link.id} hovered={isSidebarHovered} to={link.path}>
-            <NavIcon active={location.pathname.includes(link.path)}><Icon /></NavIcon>
-            <NavTitle hovered={isSidebarHovered}>{link.name}</NavTitle>
-          </NavItem>
+          <MenuItem key={link.id} {...link} />
         )})}
-      </LinksContainer>
+      </Body>
       <FooterContainer>
         {ROOT_LINKS.filter(link => link.isFooter).map(link => {
-          const Icon = ICON_MAP[link.icon]
           return (
-          <NavItem key={link.id} hovered={isSidebarHovered} to={link.path}>
-            <NavIcon active={location.pathname.includes(link.path)}><Icon /></NavIcon>
-            <NavTitle hovered={isSidebarHovered}>{link.name}</NavTitle>
-          </NavItem>
+            <MenuItem key={link.id} {...link} />
         )})}
       </FooterContainer>
     </StyledSidebar>

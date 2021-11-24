@@ -31,7 +31,13 @@ const { styled, css, keyframes, theme } = createStitches({
     },
     fonts: {
       body: "Poppins, sans-serif",
+      code: "'Fira Code', monospace;",
     },
+    fontSizes: {
+      body: '13px',
+      heading: '18px',
+      button: '12px'
+    }
   },
   media: {
     mobile: "(min-width: 480px)",

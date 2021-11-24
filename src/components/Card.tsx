@@ -1,18 +1,13 @@
 import { styled } from "../stiches.config";
-import { Box } from "./Box";
+import Flex from "./Flex";
 
-export const Card = styled(Box, {
-  transition: "all 0.3s ease",
+export const Card = styled(Flex, {
+  transition: "all 0.1s ease",
 
   cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '16px 32px',
-  border: '1px solid #F0EEE0',
-  borderRadius: '20px',
+  padding: '32px',
+  flexDirection: 'column',
+  borderRadius: '4px',
   margin: '8px 0',
-
-  "&:hover": {
-    borderColor: '#BFBEB4'
-  }
+  boxShadow: 'rgb(0 0 0 / 7%) 0px 4px 44px'
 })

@@ -6,7 +6,10 @@ import Public from './Public'
 
 const Root: React.FC = () => {
   const navigate = useNavigate()
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>({
+    name: 'John Doe',
+    email: 'john.doe@gmail.com',
+  })
 
   useEffect(() => {
     fetch('http://localhost:6500/session', {

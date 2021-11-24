@@ -110,7 +110,7 @@ const SignUp: React.FC = () => {
             <Box
               as="a"
               css={{
-                transition: "all 0.3s ease",
+                transition: "all 0.1s ease",
                 cursor: 'pointer',
                 padding: '0 8px',
                 '&:hover': { textDecoration: 'underline', textDecorationColor: '$primary', textDecorationWidth: 2 }

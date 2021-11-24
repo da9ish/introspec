@@ -10,6 +10,7 @@ import CreateProject from "../pages/CreateProject";
 import Documents from "../pages/Documents";
 import Mutation from "../pages/Mutation";
 import Mutations from "../pages/Mutations";
+import Overview from "../pages/Overview";
 import Projects from "../pages/Projects";
 import ProjectShow from "../pages/ProjectShow";
 import Queries from "../pages/Queries";
@@ -55,8 +56,8 @@ const Private: React.FC = () => {
         <Flex direction="column" css={{flexGrow: 1}}>
           <Topbar />
           <Routes>
-            <Navigate to="/projects" />
-            <Route path="/projects" element={<Projects />} />
+            <Navigate to="/overview" />
+            <Route path="/overview" element={<Overview />} />
             <Route path="/project/:id" element={<ProjectShow />} />
             <Route path="/project/new" element={<CreateProject />} />
             <Route path="/docs/:projectId">

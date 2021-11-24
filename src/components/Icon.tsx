@@ -5,21 +5,19 @@ import Flex from "./Flex";
 
 const reqIcons = require.context('../assets/icons', true, /\.svg$/)
 
-interface Props {
-  name: string  
+export interface IconProps {
+  name: string,
+  feather?: boolean
 }
 
 const StyledIcon = styled(Flex, {
-  width: '42px',
-  height: '42px',
+  width: '16px',
+  height: '16px',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: '18px',
-  color: 'rgba(98, 113, 255, 1)',
-  backgroundColor: 'rgba(98, 113, 255, 0.1)'
 })
 
-const Icon: React.FC<Props & Partial<typeof Flex>> = ({ name }) => {
+const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true }) => {
 
   const renderSVG = () => {
     try {
@@ -36,6 +34,11 @@ const Icon: React.FC<Props & Partial<typeof Flex>> = ({ name }) => {
     } catch (e) {
       return null
     }
+  }
+
+  if (feather) {
+    const FeatherIcon = require(`react-feather/dist/icons/${name}`).default
+    return <StyledIcon><FeatherIcon /></StyledIcon>
   }
 
   return (

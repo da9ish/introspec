@@ -14,7 +14,7 @@ const StyledNavbar = styled('nav', {
 })
 
 export const AppName = styled('h3', {
-  transition: "all 0.3s ease",
+  transition: "all 0.1s ease",
 
   margin: 0,
   overflow: 'hidden',
