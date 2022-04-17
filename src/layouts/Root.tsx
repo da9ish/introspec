@@ -16,7 +16,7 @@ const Root: React.FC = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': window.localStorage.getItem('token') || ''
+        'access-token': window.localStorage.getItem('token') || ''
       },
       mode: "cors",
     }).then(res => res.json()).then(res => {
