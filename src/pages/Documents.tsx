@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Box } from "../components/Box";
+import React, { useEffect, useState } from 'react'
+
+import { useNavigate, useParams } from 'react-router'
+
+import Box from '../components/Box'
 import { ReactComponent as ArrowRight } from '../assets/icons/arrow-right.svg'
-import { Card } from "../components/Card";
-import { useNavigate } from "react-router";
-import { useParams } from "react-router";
-import { Project } from "../types/Project";
-import Flex from "../components/Flex";
-import Icon from "../components/Icon";
+import Card from '../components/Card'
+
+import { Project } from '../types/Project'
+import Flex from '../components/Flex'
+import Icon from '../components/Icon'
 
 const Documents: React.FC = () => {
   const navigate = useNavigate()
   const { projectId } = useParams()
-  const [project, setProject] = useState<Project | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [ project, setProject ] = useState<Project | null>(null)
+  const [ loading, setLoading ] = useState(true)
 
   const fetchSchema = () => {
     fetch(`http://localhost:6500/docs/${projectId}`, {
@@ -21,13 +23,13 @@ const Documents: React.FC = () => {
         'Content-Type': 'application/json',
         'x-access-token': window.localStorage.getItem('token') || ''
       },
-      mode: "cors",
-    }).then(res => res.json()).then(res => {
+      mode: 'cors'
+    }).then((res) => res.json()).then((res) => {
       const { schema, ...project } = res.data
       window.localStorage.setItem('graphql-schema', JSON.stringify(schema.data))
       setProject(project)
       setLoading(false)
-    }).catch(e => setLoading(false))
+    }).catch((e) => setLoading(false))
   }
 
   useEffect(() => {
@@ -36,52 +38,53 @@ const Documents: React.FC = () => {
 
   return (
     <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
-    {loading ? <h3>Loading...</h3> : 
-      <>
-        <h2>{project?.name}</h2>
-        <p>{project?.description}</p>
-        <Card onClick={() => navigate('query')}>
-          <Flex alignItems="center" gap="lg" grow={1}>
-            <Icon name="query" />
-            <Box>
-              <h4>Query</h4>
-              <p>All your queries</p>
-            </Box>
-          </Flex>
-          <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
-        </Card>
-        <Card onClick={() => navigate('mutation')}>
-          <Flex alignItems="center" gap="lg" grow={1}>
-            <Icon name="mutation" />
-            <Box>
-              <h4>Mutation</h4>
-              <p>All your mutations</p>
-            </Box>
-          </Flex>
-          <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
-        </Card>
-        <Card onClick={() => navigate('subscription')}>
-          <Flex alignItems="center" gap="lg" grow={1}>
-            <Icon name="subscription" />
-            <Box>
-              <h4>Subscription</h4>
-              <p>All your subscription</p>
-            </Box>
-          </Flex>
-          <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
-        </Card>
-        <Card onClick={() => navigate('type')}>
-          <Flex alignItems="center" gap="lg" grow={1}>
-            <Icon name="type" />
-            <Box>
-              <h4>Type</h4>
-              <p>All your types</p>
-            </Box>
-          </Flex>
-          <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
-        </Card>
-      </>
-    }
+      {loading ? <h3>Loading...</h3>
+        : (
+          <>
+            <h2>{project?.name}</h2>
+            <p>{project?.description}</p>
+            <Card onClick={() => navigate('query')}>
+              <Flex alignItems="center" gap="lg" grow={1}>
+                <Icon name="query" />
+                <Box>
+                  <h4>Query</h4>
+                  <p>All your queries</p>
+                </Box>
+              </Flex>
+              <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+            </Card>
+            <Card onClick={() => navigate('mutation')}>
+              <Flex alignItems="center" gap="lg" grow={1}>
+                <Icon name="mutation" />
+                <Box>
+                  <h4>Mutation</h4>
+                  <p>All your mutations</p>
+                </Box>
+              </Flex>
+              <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+            </Card>
+            <Card onClick={() => navigate('subscription')}>
+              <Flex alignItems="center" gap="lg" grow={1}>
+                <Icon name="subscription" />
+                <Box>
+                  <h4>Subscription</h4>
+                  <p>All your subscription</p>
+                </Box>
+              </Flex>
+              <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+            </Card>
+            <Card onClick={() => navigate('type')}>
+              <Flex alignItems="center" gap="lg" grow={1}>
+                <Icon name="type" />
+                <Box>
+                  <h4>Type</h4>
+                  <p>All your types</p>
+                </Box>
+              </Flex>
+              <Box as={ArrowRight} css={{ color: '#BFBEB4' }} />
+            </Card>
+          </>
+        )}
     </Box>
   )
 }

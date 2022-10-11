@@ -1,8 +1,11 @@
-import { Link as RouterLink } from "react-router-dom";
-import { styled } from "../stiches.config";
+import { Link as RouterLink } from 'react-router-dom'
 
-export const Link = styled(RouterLink, {
+import { styled } from '../stiches.config'
+
+const Link = styled(RouterLink, {
   textDecoration: 'none',
   color: '#313131',
   margin: '4px 0'
 })
+
+export default Link

@@ -1,7 +1,9 @@
-import React from "react";
-import { styled } from "../stiches.config";
+import React from 'react'
+
 import SVG from 'react-inlinesvg'
-import Flex from "./Flex";
+
+import { styled } from '../stiches.config'
+import Flex from './Flex'
 
 const reqIcons = require.context('../assets/icons', true, /\.svg$/)
 
@@ -14,11 +16,10 @@ const StyledIcon = styled(Flex, {
   width: '16px',
   height: '16px',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 })
 
 const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true }) => {
-
   const renderSVG = () => {
     try {
       return (

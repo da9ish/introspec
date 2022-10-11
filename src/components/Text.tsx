@@ -1,6 +1,6 @@
-import { styled } from "../stiches.config";
+import { styled } from '../stiches.config'
 
-export const Text = styled('span', {
+const Text = styled('span', {
   variants: {
     type: {
       body: {
@@ -33,7 +33,7 @@ export const Text = styled('span', {
         fontFamily: '$body',
         fontSize: '16px',
         fontWeight: 500
-      },
+      }
     },
     color: {
       primary: {
@@ -48,4 +48,6 @@ export const Text = styled('span', {
     type: 'body',
     color: 'primary'
   }
-});
+})
+
+export default Text

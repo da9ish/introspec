@@ -1,13 +1,11 @@
-import React from "react";
+import React from 'react'
 
 interface Props {
-  
+
 }
 
-const Dashboard: React.FC<Props> = ({}) => {
-  return (
-    <></>
-  )
-}
+const Dashboard: React.FC<Props> = ({}) => (
+  <></>
+)
 
 export default Dashboard

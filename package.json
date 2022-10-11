@@ -6,7 +6,7 @@
     "@apollo/client": "^3.5.5",
     "@radix-ui/colors": "^0.1.7",
     "@radix-ui/react-switch": "^0.1.0",
-    "@stitches/react": "^1.0.0",
+    "@stitches/react": "^1.2.8",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -14,9 +14,11 @@
     "@types/lodash": "^4.14.172",
     "@types/node": "^12.0.0",
     "@types/pascalcase": "^1.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@types/react-router-dom": "^5.1.8",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.21",
+    "@types/react-inlinesvg": "^1.0.0",
+    "@types/react-router": "^5.1.19",
+    "@types/react-router-dom": "^5.3.3",
     "feather-icons-react": "^0.5.0",
     "fuzzysort": "^1.1.4",
     "graphql": "^15.5.2",
@@ -24,12 +26,12 @@
     "lodash": "^4.17.21",
     "pascalcase": "^1.0.0",
     "prism-react-renderer": "^1.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-feather": "^2.0.9",
-    "react-inlinesvg": "^2.3.0",
-    "react-router": "^6.0.0-beta.3",
-    "react-router-dom": "^6.0.0-beta.3",
+    "react-inlinesvg": "^3.0.1",
+    "react-router": "6",
+    "react-router-dom": "6",
     "react-scripts": "4.0.3",
     "react-top-loading-bar": "^2.0.1",
     "typescript": "^4.1.2",
@@ -39,7 +41,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext js,ts,tsx .",
+    "fix": "yarn lint --fix",
+    "typegen": "graphql-codegen -r dotenv/config",
+    "typegen:watch": "yarn typegen --watch"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +66,17 @@
     ]
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.16.2"
+    "@types/webpack-env": "^1.16.2",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.25.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-import-resolver-typescript": "^3.5.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }

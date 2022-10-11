@@ -1,9 +1,11 @@
-import React from "react";
-import { styled } from "../../stiches.config";
+import React from 'react'
+
+import { useNavigate } from 'react-router'
+
+import { styled } from '../../stiches.config'
 import { ReactComponent as Logo } from '../../assets/logo-light.svg'
-import Button from "../Button";
-import { Flex } from "../Flex";
-import { useNavigate } from "react-router";
+import Button from '../Button'
+import Flex from '../Flex'
 
 const StyledNavbar = styled('nav', {
   margin: '0 10%',
@@ -14,14 +16,14 @@ const StyledNavbar = styled('nav', {
 })
 
 export const AppName = styled('h3', {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
   margin: 0,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   color: '#313131',
-  fontWeight: 600,
+  fontWeight: 600
 })
 
 const Navbar: React.FC = () => {

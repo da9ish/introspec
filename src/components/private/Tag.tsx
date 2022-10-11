@@ -1,11 +1,11 @@
-import { styled } from "@stitches/react";
-import React from "react";
-import { useLocation } from "react-router";
-import { useNavigate } from "react-router";
+import { styled } from '@stitches/react'
+import React from 'react'
+import { useLocation, useNavigate } from 'react-router'
 
 interface Props {
   name: 'node' | 'type' | 'field' | 'arg',
-  urlParam?: string
+  urlParam?: string,
+  children: React.ReactNode
 }
 
 const StyledTag = styled('code', {
@@ -23,7 +23,7 @@ const StyledTag = styled('code', {
     tag: {
       node: {
         color: 'rgba(131, 35, 99, 1)',
-        backgroundColor: 'rgba(131, 35, 99, 0.1)',
+        backgroundColor: 'rgba(131, 35, 99, 0.1)'
       },
       type: {
         color: 'rgba(98, 113, 255, 1)',
@@ -41,10 +41,10 @@ const StyledTag = styled('code', {
   }
 })
 
-const Tag: React.FC<Props> = ({name, urlParam, children}) => {
+const Tag: React.FC<Props> = ({ name, urlParam, children }) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const projectId = location.pathname.split("/")[2]
+  const projectId = location.pathname.split('/')[2]
   return (
     <StyledTag tag={name} onClick={() => urlParam && navigate(`/docs/${projectId}/type/${urlParam}`)}>{children}</StyledTag>
   )

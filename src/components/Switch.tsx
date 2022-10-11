@@ -1,13 +1,14 @@
-import { blackA } from '@radix-ui/colors';
-import * as SwitchPrimitive from '@radix-ui/react-switch';
-import { styled } from '@stitches/react';
-import Flex from './Flex';
-import { Label } from './Label';
+import { blackA } from '@radix-ui/colors'
+import * as SwitchPrimitive from '@radix-ui/react-switch'
+import { styled } from '@stitches/react'
+
+import Flex from './Flex'
+import Label from './Label'
 
 interface SwitchProps {
-  name: string
-  label: string
-  value: boolean
+  name: string,
+  label: string,
+  value: boolean,
   onChange: (checked: boolean) => void
 }
 
@@ -20,9 +21,9 @@ const StyledSwitch = styled(SwitchPrimitive.Root, {
   position: 'relative',
   boxShadow: `0 2px 10px ${blackA.blackA7}`,
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-  '&:focus': { boxShadow: `0 0 0 2px black` },
-  '&[data-state="checked"]': { backgroundColor: 'black' },
-});
+  '&:focus': { boxShadow: '0 0 0 2px black' },
+  '&[data-state="checked"]': { backgroundColor: 'black' }
+})
 
 const StyledThumb = styled(SwitchPrimitive.Thumb, {
   display: 'block',
@@ -34,10 +35,10 @@ const StyledThumb = styled(SwitchPrimitive.Thumb, {
   transition: 'transform 100ms',
   transform: 'translateX(2px)',
   willChange: 'transform',
-  '&[data-state="checked"]': { transform: 'translateX(19px)' },
-});
+  '&[data-state="checked"]': { transform: 'translateX(19px)' }
+})
 
-const SwitchThumb = StyledThumb;
+const SwitchThumb = StyledThumb
 
 const Switch: React.FC<SwitchProps> = ({ name, label, value, onChange }) => (
   <Flex alignItems="center" justifyContent="space-between">
@@ -48,6 +49,6 @@ const Switch: React.FC<SwitchProps> = ({ name, label, value, onChange }) => (
       <SwitchThumb />
     </StyledSwitch>
   </Flex>
-);
+)
 
-export default Switch;
+export default Switch

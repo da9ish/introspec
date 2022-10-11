@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Box } from "../components/Box";
-import Flex from "../components/Flex";
-import { Label } from "../components/Label";
-import { Project } from "../types/Project";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+
+import Box from '../components/Box'
+import Flex from '../components/Flex'
+import Label from '../components/Label'
+import { Project } from '../types/Project'
 
 const ProjectShow: React.FC = () => {
   const { id } = useParams()
-  const [project, setProject] = useState<Project>()
+  const [ project, setProject ] = useState<Project>()
 
   useEffect(() => {
     fetch(`http://localhost:6500/project/${id}`, {
@@ -16,8 +17,8 @@ const ProjectShow: React.FC = () => {
         'Content-Type': 'application/json',
         'x-access-token': window.localStorage.getItem('token') || ''
       },
-      mode: "cors",
-    }).then(res => res.json()).then(res => {
+      mode: 'cors'
+    }).then((res) => res.json()).then((res) => {
       console.log(res)
       setProject(res.data)
     })

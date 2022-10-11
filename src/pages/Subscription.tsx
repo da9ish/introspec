@@ -1,20 +1,22 @@
-import { buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from "graphql";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Box } from "../components/Box";
-import Tag from "../components/private/Tag";
-import pascalcase from "pascalcase";
-import Codeblock from "../components/Codeblock";
+import { buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from 'graphql'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+
+import pascalcase from 'pascalcase'
+
+import Box from '../components/Box'
+import Tag from '../components/private/Tag'
+import CodeBlock from '../components/CodeBlock'
 
 const Subscription: React.FC = () => {
-  const {subscriptionName} = useParams()
+  const { subscriptionName } = useParams()
   const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
   const graphQLSchema = buildClientSchema(schemaData)
 
-  const [fields, setFields] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
+  const [ fields, setFields ] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
 
-  const subscription = (graphQLSchema.getSubscriptionType() as GraphQLObjectType).toConfig().fields[subscriptionName]
-  
+  const subscription = (graphQLSchema.getSubscriptionType() as GraphQLObjectType).toConfig().fields[subscriptionName!]
+
   useEffect(() => {
     if (subscription.type instanceof GraphQLNonNull) {
       if (subscription.type.ofType instanceof GraphQLList) {
@@ -22,7 +24,7 @@ const Subscription: React.FC = () => {
           if (subscription.type.ofType.ofType.ofType instanceof GraphQLObjectType) {
             setFields(Object.values(subscription.type.ofType.ofType.ofType.getFields()))
           }
-          if (subscription.type.ofType.ofType.ofType instanceof GraphQLEnumType){
+          if (subscription.type.ofType.ofType.ofType instanceof GraphQLEnumType) {
             setFields(subscription.type.ofType.ofType.ofType.getValues())
           }
           if (subscription.type.ofType.ofType.ofType instanceof GraphQLUnionType) {
@@ -35,7 +37,7 @@ const Subscription: React.FC = () => {
         if (subscription.type.ofType.ofType instanceof GraphQLObjectType) {
           setFields(Object.values(subscription.type.ofType.ofType.getFields()))
         }
-        if (subscription.type.ofType.ofType instanceof GraphQLEnumType){
+        if (subscription.type.ofType.ofType instanceof GraphQLEnumType) {
           setFields(subscription.type.ofType.ofType.getValues())
         }
         if (subscription.type.ofType.ofType instanceof GraphQLUnionType) {
@@ -45,10 +47,10 @@ const Subscription: React.FC = () => {
           setFields(Object.values(subscription.type.ofType.ofType.getFields()))
         }
       }
-      if (subscription.type.ofType instanceof GraphQLObjectType){
+      if (subscription.type.ofType instanceof GraphQLObjectType) {
         setFields(Object.values(subscription.type.ofType.getFields()))
       }
-      if (subscription.type.ofType instanceof GraphQLEnumType){
+      if (subscription.type.ofType instanceof GraphQLEnumType) {
         setFields(subscription.type.ofType.getValues())
       }
       if (subscription.type.ofType instanceof GraphQLUnionType) {
@@ -58,10 +60,10 @@ const Subscription: React.FC = () => {
         setFields(Object.values(subscription.type.ofType.getFields()))
       }
     } else {
-      if (subscription.type instanceof GraphQLObjectType){
+      if (subscription.type instanceof GraphQLObjectType) {
         setFields(Object.values(subscription.type.getFields()))
       }
-      if (subscription.type instanceof GraphQLEnumType){
+      if (subscription.type instanceof GraphQLEnumType) {
         setFields(subscription.type.getValues())
       }
       if (subscription.type instanceof GraphQLUnionType) {
@@ -73,17 +75,17 @@ const Subscription: React.FC = () => {
     }
   }, [])
 
-
   return (
     <>
-      <h2>{pascalcase(subscriptionName)} <Tag name="node">{subscriptionName}</Tag></h2>
+      <h2>{pascalcase(subscriptionName!)} <Tag name="node">{subscriptionName}</Tag></h2>
       <p>{subscription?.description || 'No description'}</p>
-      {subscription?.args && 
+      {subscription?.args
+        && (
         <>
           <h3>Arguments</h3>
           <Box as="table" css={{ borderCollapse: 'separate', borderSpacing: '0 16px' }}>
             <tbody>
-              {Object.entries(subscription.args).map(([name, arg]) => {
+              {Object.entries(subscription.args).map(([ name, arg ]) => {
                 const argType: any = ('type' in arg) ? arg.type : null
                 let argTypeName = ''
                 if (argType instanceof GraphQLNonNull) {
@@ -103,7 +105,7 @@ const Subscription: React.FC = () => {
                   <Box key={name} as="tr">
                     <Box as="td" css={{ width: '500px' }}>
                       <Box as="code" css={{ fontSize: '1.125rem', marginRight: '8px' }}>{name}</Box>
-                      <Box as="p" css={{margin: 0}}>{arg.description}</Box>
+                      <Box as="p" css={{ margin: 0 }}>{arg.description}</Box>
                     </Box>
                     <td>{subscription.args && <Tag name="arg" urlParam={argTypeName}>{arg.type.toJSON()}</Tag>}</td>
                   </Box>
@@ -112,13 +114,14 @@ const Subscription: React.FC = () => {
             </tbody>
           </Box>
         </>
-      }
-      {!!fields.length && 
+        )}
+      {!!fields.length
+        && (
         <>
           <h3>Fields</h3>
           <Box as="table" css={{ borderCollapse: 'separate', borderSpacing: '0 16px' }}>
             <tbody>
-              {fields.map(field => {
+              {fields.map((field) => {
                 const fieldType: any = ('type' in field) ? field.type : null
                 let fieldTypeName = ''
                 if (fieldType instanceof GraphQLNonNull) {
@@ -136,10 +139,10 @@ const Subscription: React.FC = () => {
                 }
 
                 return (
-                  <Box key={field.name} as="tr" css={{margin: '12px 0'}}>
+                  <Box key={field.name} as="tr" css={{ margin: '12px 0' }}>
                     <Box as="td" css={{ width: '500px' }}>
                       <Box as="code" css={{ fontSize: '1.125rem', marginRight: '8px' }}>{field.name}</Box>
-                      <Box as="p" css={{margin: 0}}>{field.description}</Box>
+                      <Box as="p" css={{ margin: 0 }}>{field.description}</Box>
                     </Box>
                     <td>{'type' in field && <Tag name="field" urlParam={fieldTypeName}>{field.type.toJSON()}</Tag>}</td>
                   </Box>
@@ -148,14 +151,15 @@ const Subscription: React.FC = () => {
             </tbody>
           </Box>
         </>
-      }
+        )}
 
-      {!!fields.length && 
+      {!!fields.length
+        && (
         <>
           <h3>Example</h3>
-          <Codeblock code={`${subscriptionName}${subscription?.args && `(${Object.keys(subscription.args).map(arg => (`${arg}: ${subscription.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n${fields && fields.map(field => (`  ${field.name}${'type' in field ? ':' : ''} ${'type' in field ? field.type.toJSON() : ''}`)).join("\n")}\n}`} />
+          <CodeBlock code={`${subscriptionName}${subscription?.args && `(${Object.keys(subscription.args).map((arg) => (`${arg}: ${subscription.args?.[arg].type.toJSON()}`)).join(', ')})`} {\n${fields && fields.map((field) => (`  ${field.name}${'type' in field ? ':' : ''} ${'type' in field ? field.type.toJSON() : ''}`)).join('\n')}\n}`} />
         </>
-      }
+        )}
     </>
   )
 }

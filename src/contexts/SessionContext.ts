@@ -1,14 +1,14 @@
 import { createContext } from 'react'
 
 export interface User {
-  name: string
-  email: string
+  name: string,
+  email: string,
   profileUrl?: string
 }
 
 export interface SessionType {
-  user: User | null
-  isLoggedIn: boolean
+  user: User | null,
+  isLoggedIn: boolean,
   reloadSession: () => void
 }
 

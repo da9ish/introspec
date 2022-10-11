@@ -1,29 +1,31 @@
-import {  buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from "graphql";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Box } from "../components/Box";
-import Tag from "../components/private/Tag";
-import pascalcase from "pascalcase";
-import Codeblock from "../components/Codeblock";
-import Flex from "../components/Flex";
+import { buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from 'graphql'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+
+import pascalcase from 'pascalcase'
+
+import Box from '../components/Box'
+import Tag from '../components/private/Tag'
+import CodeBlock from '../components/CodeBlock'
+import Flex from '../components/Flex'
 
 const Type: React.FC = () => {
   const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
   const graphQLSchema = buildClientSchema(schemaData)
 
-  const {typeName} = useParams()
-  const [tagType, setTagType] = useState<string>('Field')
-  const [nodes, setNodes] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
+  const { typeName } = useParams()
+  const [ tagType, setTagType ] = useState<string>('Field')
+  const [ nodes, setNodes ] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
 
-  const type = graphQLSchema.getType(typeName)
+  const type = graphQLSchema.getType(typeName!)
 
   useEffect(() => {
     if (type instanceof GraphQLNonNull) {
-      if (type.ofType instanceof GraphQLObjectType){
+      if (type.ofType instanceof GraphQLObjectType) {
         setNodes(Object.values(type.ofType.getFields()))
         setTagType('Field')
       }
-      if (type.ofType instanceof GraphQLEnumType){
+      if (type.ofType instanceof GraphQLEnumType) {
         setNodes(type.ofType.getValues())
         setTagType('Values')
       }
@@ -36,11 +38,11 @@ const Type: React.FC = () => {
         setTagType('Field')
       }
     } else {
-      if (type instanceof GraphQLObjectType){
+      if (type instanceof GraphQLObjectType) {
         setNodes(Object.values(type.getFields()))
         setTagType('Field')
       }
-      if (type instanceof GraphQLEnumType){
+      if (type instanceof GraphQLEnumType) {
         setNodes(type.getValues())
         setTagType('Values')
       }
@@ -55,19 +57,19 @@ const Type: React.FC = () => {
     }
   }, [])
 
-
   return (
     <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
       <Flex gap="lg" css={{ marginTop: '64px', marginBottom: '16px' }}>
-        <Box as="h2" css={{margin: 0}}>{pascalcase(typeName)}</Box>
+        <Box as="h2" css={{ margin: 0 }}>{pascalcase(typeName!)}</Box>
         <Tag name="node">{typeName}</Tag>
       </Flex>
-      {!!nodes.length && 
+      {!!nodes.length
+        && (
         <>
           <h3>{tagType}</h3>
           <Box as="table" css={{ borderCollapse: 'separate', borderSpacing: '0 16px' }}>
             <tbody>
-              {nodes.map(node => {
+              {nodes.map((node) => {
                 const nodeType: any = ('type' in node) ? node.type : null
                 let nodeTypeName = ''
                 if (nodeType instanceof GraphQLNonNull) {
@@ -85,10 +87,10 @@ const Type: React.FC = () => {
                 }
 
                 return (
-                  <Box key={node.name} as="tr" css={{margin: '12px 0'}}>
+                  <Box key={node.name} as="tr" css={{ margin: '12px 0' }}>
                     <Box as="td" css={{ width: '500px' }}>
                       <Box as="code" css={{ fontSize: '1.125rem', marginRight: '8px' }}>{node.name}</Box>
-                      <Box as="p" css={{margin: 0}}>{node.description}</Box>
+                      <Box as="p" css={{ margin: 0 }}>{node.description}</Box>
                     </Box>
                     <td>{'type' in node && <Tag name="field" urlParam={nodeTypeName}>{node.type.toJSON()}</Tag>}</td>
                   </Box>
@@ -97,13 +99,14 @@ const Type: React.FC = () => {
             </tbody>
           </Box>
         </>
-      }
-      {!!nodes.length &&
+        )}
+      {!!nodes.length
+        && (
         <>
           <h3>Example</h3>
-          <Codeblock code={`${typeName} {\n${nodes && `${nodes.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}`}\n}`} />
+          <CodeBlock code={`${typeName} {\n${nodes && `${nodes.map((node) => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join('\n')}`}\n}`} />
         </>
-      }
+        )}
     </Box>
   )
 }

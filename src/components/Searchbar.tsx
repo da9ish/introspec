@@ -1,11 +1,13 @@
-import React from "react";
-import { styled } from "../stiches.config";
-import Flex from "./Flex";
+import React from 'react'
+
+import { blackA } from '@radix-ui/colors'
+
+import { styled } from '../stiches.config'
+import Flex from './Flex'
 import { ReactComponent as Search } from '../assets/icons/search.svg'
-import { blackA } from "@radix-ui/colors";
 
 interface Props {
-  value: string
+  value: string,
   onChange: (value: string) => void
 }
 
@@ -23,7 +25,7 @@ const StyledContainer = styled(Flex, {
   '&:focus-within': {
     color: '#313131',
     boxShadow: `0 0 0 1px ${blackA.blackA5}`
-  },
+  }
 })
 
 const StyledSearchbar = styled('input', {
@@ -36,13 +38,11 @@ const StyledSearchbar = styled('input', {
   fontSize: '16px'
 })
 
-const Searchbar: React.FC<Props> = ({value, onChange}) => {
-  return (
-    <StyledContainer>
-      <Search />
-      <StyledSearchbar placeholder="Search" value={value} onChange={(e) => onChange(e.target.value)} />
-    </StyledContainer>
-  )
-}
+const Searchbar: React.FC<Props> = ({ value, onChange }) => (
+  <StyledContainer>
+    <Search />
+    <StyledSearchbar placeholder="Search" value={value} onChange={(e) => onChange(e.target.value)} />
+  </StyledContainer>
+)
 
 export default Searchbar

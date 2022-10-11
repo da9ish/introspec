@@ -1,20 +1,22 @@
-import {  buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from "graphql";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Box } from "../components/Box";
-import Tag from "../components/private/Tag";
-import pascalcase from "pascalcase";
-import Codeblock from "../components/Codeblock";
-import Flex from "../components/Flex";
+import { buildClientSchema, GraphQLEnumType, GraphQLEnumValue, GraphQLField, GraphQLInputField, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLUnionType } from 'graphql'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+
+import pascalcase from 'pascalcase'
+
+import Box from '../components/Box'
+import Tag from '../components/private/Tag'
+import Flex from '../components/Flex'
+import CodeBlock from '../components/CodeBlock'
 
 const Mutation: React.FC = () => {
-  const {mutationName} = useParams()
+  const { mutationName } = useParams()
   const schemaData = JSON.parse(window.localStorage.getItem('graphql-schema') || '{}')
   const graphQLSchema = buildClientSchema(schemaData)
 
-  const [fields, setFields] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
+  const [ fields, setFields ] = useState<Array<GraphQLObjectType | GraphQLEnumValue | GraphQLField<any, any> | GraphQLInputField>>([])
 
-  const mutation = (graphQLSchema.getMutationType() as GraphQLObjectType).toConfig().fields[mutationName]
+  const mutation = (graphQLSchema.getMutationType() as GraphQLObjectType).toConfig().fields[mutationName!]
 
   useEffect(() => {
     if (mutation.type instanceof GraphQLNonNull) {
@@ -23,7 +25,7 @@ const Mutation: React.FC = () => {
           if (mutation.type.ofType.ofType.ofType instanceof GraphQLObjectType) {
             setFields(Object.values(mutation.type.ofType.ofType.ofType.getFields()))
           }
-          if (mutation.type.ofType.ofType.ofType instanceof GraphQLEnumType){
+          if (mutation.type.ofType.ofType.ofType instanceof GraphQLEnumType) {
             setFields(mutation.type.ofType.ofType.ofType.getValues())
           }
           if (mutation.type.ofType.ofType.ofType instanceof GraphQLUnionType) {
@@ -36,7 +38,7 @@ const Mutation: React.FC = () => {
         if (mutation.type.ofType.ofType instanceof GraphQLObjectType) {
           setFields(Object.values(mutation.type.ofType.ofType.getFields()))
         }
-        if (mutation.type.ofType.ofType instanceof GraphQLEnumType){
+        if (mutation.type.ofType.ofType instanceof GraphQLEnumType) {
           setFields(mutation.type.ofType.ofType.getValues())
         }
         if (mutation.type.ofType.ofType instanceof GraphQLUnionType) {
@@ -46,10 +48,10 @@ const Mutation: React.FC = () => {
           setFields(Object.values(mutation.type.ofType.ofType.getFields()))
         }
       }
-      if (mutation.type.ofType instanceof GraphQLObjectType){
+      if (mutation.type.ofType instanceof GraphQLObjectType) {
         setFields(Object.values(mutation.type.ofType.getFields()))
       }
-      if (mutation.type.ofType instanceof GraphQLEnumType){
+      if (mutation.type.ofType instanceof GraphQLEnumType) {
         setFields(mutation.type.ofType.getValues())
       }
       if (mutation.type.ofType instanceof GraphQLUnionType) {
@@ -59,10 +61,10 @@ const Mutation: React.FC = () => {
         setFields(Object.values(mutation.type.ofType.getFields()))
       }
     } else {
-      if (mutation.type instanceof GraphQLObjectType){
+      if (mutation.type instanceof GraphQLObjectType) {
         setFields(Object.values(mutation.type.getFields()))
       }
-      if (mutation.type instanceof GraphQLEnumType){
+      if (mutation.type instanceof GraphQLEnumType) {
         setFields(mutation.type.getValues())
       }
       if (mutation.type instanceof GraphQLUnionType) {
@@ -77,15 +79,16 @@ const Mutation: React.FC = () => {
   return (
     <Box css={{ flexGrow: 1, padding: '0 32px', overflow: 'auto' }}>
       <Flex gap="lg" css={{ marginTop: '64px', marginBottom: '16px' }}>
-        <Box as="h2" css={{margin: 0}}>{pascalcase(mutationName)}</Box>
+        <Box as="h2" css={{ margin: 0 }}>{pascalcase(mutationName!)}</Box>
         <Tag name="node">{mutationName}</Tag>
       </Flex>
-      {mutation?.args && 
+      {mutation?.args
+        && (
         <>
           <h3>Arguments</h3>
           <Box as="table" css={{ borderCollapse: 'separate', borderSpacing: '0 16px' }}>
             <tbody>
-              {Object.entries(mutation.args).map(([name, arg]) => {
+              {Object.entries(mutation.args).map(([ name, arg ]) => {
                 const argType: any = ('type' in arg) ? arg.type : null
                 let argTypeName = ''
                 if (argType instanceof GraphQLNonNull) {
@@ -101,12 +104,12 @@ const Mutation: React.FC = () => {
                 } else {
                   argTypeName = (argType as any)?.name
                 }
-                
+
                 return (
                   <Box key={name} as="tr">
                     <Box as="td" css={{ width: '500px' }}>
                       <Box as="code" css={{ fontSize: '1.125rem', marginRight: '8px' }}>{name}</Box>
-                      <Box as="p" css={{margin: 0}}>{arg.description}</Box>
+                      <Box as="p" css={{ margin: 0 }}>{arg.description}</Box>
                     </Box>
                     <td>{mutation.args && <Tag name="arg" urlParam={argTypeName}>{arg.type.toJSON()}</Tag>}</td>
                   </Box>
@@ -115,13 +118,14 @@ const Mutation: React.FC = () => {
             </tbody>
           </Box>
         </>
-      }
-      {!!fields.length && 
+        )}
+      {!!fields.length
+        && (
         <>
           <h3>Fields</h3>
           <Box as="table" css={{ borderCollapse: 'separate', borderSpacing: '0 16px' }}>
             <tbody>
-              {fields.map(field => {
+              {fields.map((field) => {
                 const fieldType: any = ('type' in field) ? field.type : null
                 let fieldTypeName = ''
                 if (fieldType instanceof GraphQLNonNull) {
@@ -139,10 +143,10 @@ const Mutation: React.FC = () => {
                 }
 
                 return (
-                  <Box key={field.name} as="tr" css={{margin: '12px 0'}}>
+                  <Box key={field.name} as="tr" css={{ margin: '12px 0' }}>
                     <Box as="td" css={{ width: '500px' }}>
                       <Box as="code" css={{ fontSize: '1.125rem', marginRight: '8px' }}>{field.name}</Box>
-                      <Box as="p" css={{margin: 0}}>{field.description}</Box>
+                      <Box as="p" css={{ margin: 0 }}>{field.description}</Box>
                     </Box>
                     <td>{'type' in field && <Tag name="field" urlParam={fieldTypeName}>{field.type.toJSON()}</Tag>}</td>
                   </Box>
@@ -151,14 +155,15 @@ const Mutation: React.FC = () => {
             </tbody>
           </Box>
         </>
-      }
+        )}
 
-      {!!fields.length && 
+      {!!fields.length
+        && (
         <>
           <h3>Example</h3>
-          <Codeblock code={`${mutationName}${mutation?.args && `(${Object.keys(mutation.args).map(arg => (`${arg}: ${mutation.args?.[arg].type.toJSON()}`)).join(", ")})`} {\n${fields && fields.map(node => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join("\n")}\n}`} />
+          <CodeBlock code={`${mutationName}${mutation?.args && `(${Object.keys(mutation.args).map((arg) => (`${arg}: ${mutation.args?.[arg].type.toJSON()}`)).join(', ')})`} {\n${fields && fields.map((node) => (`  ${node.name}${'type' in node ? ':' : ''} ${'type' in node ? node.type.toJSON() : ''}`)).join('\n')}\n}`} />
         </>
-      }
+        )}
     </Box>
   )
 }

@@ -11,8 +11,7 @@ const client = new ApolloClient({
   uri: apiUrl,
   name: 'Introspec',
   version: '1.0',
-  link: from([
-  ]),
+  link: from([]),
   resolvers: {},
   defaultOptions: {
     watchQuery: {
