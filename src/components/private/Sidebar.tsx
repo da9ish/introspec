@@ -88,6 +88,7 @@ const SubMenuItemContainer = styled(Box, {
 const NavItem = styled(Box, {
   transition: 'all 0.1s ease',
 
+  outline: 'none',
   boxSizing: 'border-box',
   cursor: 'pointer',
   width: '100%',
@@ -100,11 +101,23 @@ const NavItem = styled(Box, {
   color: '#282A30',
   borderRadius: '4px',
 
+  '&:focus': {
+    backgroundColor: '#FAFAFA'
+  },
+
   '&:hover': {
     backgroundColor: '#F5F5F5'
   },
 
   variants: {
+    active: {
+      true: {
+        color: '#282A30'
+      },
+      false: {
+        color: '#6b6f76'
+      }
+    },
     indent: {
       true: {
         marginTop: '2px',
@@ -121,6 +134,7 @@ const NavItem = styled(Box, {
 const LinkItem = styled(Link, {
   transition: 'all 0.1s ease',
 
+  outline: 'none',
   boxSizing: 'border-box',
   cursor: 'pointer',
   width: '100%',
@@ -131,6 +145,10 @@ const LinkItem = styled(Link, {
   alignItems: 'center',
   justifyContent: 'flex-start',
   borderRadius: '4px',
+
+  '&:focus': {
+    backgroundColor: '#FAFAFA'
+  },
 
   '&:hover': {
     backgroundColor: '#F5F5F5'
@@ -313,8 +331,8 @@ const useStyles = (count: number) => ({
   })()
 })
 
-const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({
-  id, name, path, icon, submenus, indent = false
+const MenuItem: React.FC<LinkType & {indent?: boolean, tabIndex: number}> = ({
+  id, name, path, icon, submenus, tabIndex, indent = false
 }) => {
   const location = useLocation()
   const [ open, setOpen ] = useState(false)
@@ -323,14 +341,14 @@ const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({
   if (!path) {
     return (
       <>
-        <NavItem indent={indent} onClick={() => setOpen(!open)}>
+        <NavItem as="button" role="button" tabIndex={tabIndex} indent={indent} active={open} onClick={() => setOpen(!open)}>
           {icon && <NavIcon name={icon} />}
           <NavTitle>{name}</NavTitle>
           {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
         </NavItem>
         <SubMenuItemContainer open={open} className={className.submenu}>
-          {submenus?.map((menu) => (
-            <MenuItem key={menu.id} {...menu} indent />
+          {submenus?.map((menu, idx) => (
+            <MenuItem key={menu.id} tabIndex={tabIndex + idx + 1} {...menu} indent />
           ))}
         </SubMenuItemContainer>
       </>
@@ -341,14 +359,20 @@ const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({
 
   return (
     <>
-      <LinkItem active={active} indent={indent} to={path} onClick={() => setOpen(!open)}>
+      <LinkItem
+        tabIndex={tabIndex}
+        active={active}
+        indent={indent}
+        to={path}
+        onClick={() => setOpen(!open)}
+      >
         {icon && <NavIcon name={icon} />}
         <NavTitle>{name}</NavTitle>
         {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
       </LinkItem>
       <SubMenuItemContainer open={open} className={className.submenu}>
-        {submenus?.map((menu) => (
-          <MenuItem key={menu.id} {...menu} indent />
+        {submenus?.map((menu, idx) => (
+          <MenuItem key={menu.id} {...menu} tabIndex={tabIndex + idx + 1} indent />
         ))}
       </SubMenuItemContainer>
     </>
@@ -358,17 +382,17 @@ const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({
 const Sidebar: React.FC = () => (
   <StyledSidebar>
     <Header>
-      <LogoContainer>Keepworks</LogoContainer>
+      <LogoContainer>Introspec</LogoContainer>
       <Profile />
     </Header>
     <Body>
-      {ROOT_LINKS.filter((link) => !link.isFooter).map((link) => (
-        <MenuItem key={link.id} {...link} />
+      {ROOT_LINKS.filter((link) => !link.isFooter).map((link, idx) => (
+        <MenuItem key={link.id} tabIndex={idx} {...link} />
       ))}
     </Body>
     <FooterContainer>
-      {ROOT_LINKS.filter((link) => link.isFooter).map((link) => (
-        <MenuItem key={link.id} {...link} />
+      {ROOT_LINKS.filter((link) => link.isFooter).map((link, idx) => (
+        <MenuItem key={link.id} tabIndex={idx} {...link} />
       ))}
     </FooterContainer>
   </StyledSidebar>

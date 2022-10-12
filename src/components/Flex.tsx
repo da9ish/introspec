@@ -65,6 +65,20 @@ const Flex = styled('div', {
         alignItems: 'stretch'
       }
     },
+    alignSelf: {
+      start: {
+        alignSelf: 'flex-start'
+      },
+      center: {
+        alignSelf: 'center'
+      },
+      end: {
+        alignSelf: 'flex-end'
+      },
+      stretch: {
+        alignSelf: 'stretch'
+      }
+    },
     gap: {
       none: {
         gap: 0

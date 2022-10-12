@@ -35,7 +35,7 @@ const Topbar: React.FC = () => (
   <StyledTopbar>
     <Flex>
       <Clickable>
-        <ApiBar>keepworks.introspec.app/graphql</ApiBar>
+        <ApiBar>workspace.introspec.app/graphql</ApiBar>
         <Icon name="copy" />
       </Clickable>
       <IconButton name="book" onClick={() => {}} />
