@@ -1,11 +1,10 @@
-import React from 'react'
+import Titlebar from 'components/Titlebar'
 
 import Flex from '../../components/Flex'
-import Text from '../../components/Text'
 
 const Schema: React.FC = () => (
   <Flex direction="column" css={{ width: '100%', height: 'calc(100vh - 60px)' }}>
-    <Text type="title1">Schema</Text>
+    <Titlebar title="Schema" actionIcon="refresh-ccw" onAction={() => {}} />
   </Flex>
 )
 

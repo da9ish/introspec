@@ -18,10 +18,11 @@ const rowVariants = columnOptions
     return acc
   }, {} as Record<number, Record<string, string>>)
 
-const generateVariants = (options: any, property: string) => options.reduce((acc: any, curr: any) => {
-  acc[curr] = { [property]: curr }
-  return acc
-}, {})
+const generateVariants = (options: any, property: string) => options
+  .reduce((acc: any, curr: any) => {
+    acc[curr] = { [property]: curr }
+    return acc
+  }, {})
 
 const Grid = styled(Box, {
   variants: {

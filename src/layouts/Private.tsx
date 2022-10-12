@@ -1,6 +1,6 @@
 import { styled } from '@stitches/react'
-import React from 'react'
-import { Outlet, useLocation, Route, Routes} from 'react-router'
+
+import { Outlet, useLocation, Route, Routes } from 'react-router'
 
 import Box from '../components/Box'
 import Flex from '../components/Flex'

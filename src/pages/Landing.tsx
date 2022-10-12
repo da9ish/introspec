@@ -1,4 +1,3 @@
-import React from 'react'
 import { useNavigate } from 'react-router'
 
 import Box from '../components/Box'
@@ -122,17 +121,18 @@ const Landing: React.FC = () => {
           <Grid columns={3} rows={2} columnGap={32} alignItems="start">
             <Card shadow direction="column" css={{ alignSelf: 'center', gridColumn: '1 / span 1', gridRow: '1 / span 2' }}>
               <h3 style={{ fontWeight: 600 }}>Why introspec?</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim egestas vitae volutpat volutpat felis.
-
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim egestas vitae volutpat volutpat felis.
-
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim egestas vitae volutpat volutpat felis.
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Dignissim egestas vitae volutpat volutpat felis.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Dignissim egestas vitae volutpat volutpat felis.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Dignissim egestas vitae volutpat volutpat felis.
               </p>
             </Card>
             <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '2 / span 1', gridRow: '1 / span 1' }}>
               <FeatureBlock>
                 <Box>
-                  <Icon name="hosting" />
+                  <Icon name="hosting" feather={false} />
                 </Box>
                 <h3>Self Hosted</h3>
                 <p>All your docs are self hosted once you publish</p>
@@ -141,25 +141,32 @@ const Landing: React.FC = () => {
             <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '3 / span 1', gridRow: '1 / span 1' }}>
               <FeatureBlock>
                 <Box>
-                  <Icon name="document" />
+                  <Icon name="document" feather={false} />
                 </Box>
                 <h3>Clean Documentation</h3>
-                <p>No more hassle with traditional GraphQL docs. Introspec is simple, easy and clean</p>
+                <p>
+                  No more hassle with traditional GraphQL docs.
+                  Introspec is simple, easy and clean
+                </p>
               </FeatureBlock>
             </Card>
             <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '2 / span 1', gridRow: '2 / span 1' }}>
               <FeatureBlock>
                 <Box>
-                  <Icon name="search" />
+                  <Icon name="search" feather={false} />
                 </Box>
                 <h3>Global Search</h3>
-                <p>Everything in one place, search for all your types, queries, mutations and subscription with magic of one command</p>
+                <p>
+                  Everything in one place,
+                  search for all your types, queries, mutations and
+                  subscription with magic of one command
+                </p>
               </FeatureBlock>
             </Card>
             <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '3 / span 1', gridRow: '2 / span 1' }}>
               <FeatureBlock>
                 <Box>
-                  <Icon name="theming" />
+                  <Icon name="theming" feather={false} />
                 </Box>
                 <h3>Theming</h3>
                 <p>Choose from a variety of themes. Ensure your docs looks beautiful</p>
@@ -170,7 +177,10 @@ const Landing: React.FC = () => {
         <Box as="section">
           <Card direction="column" alignItems="center" shadow="true">
             <h3>Start creating your GraphQL documentation today</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dignissim egestas vitae volutpat volutpat felis.</p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Dignissim egestas vitae volutpat volutpat felis.
+            </p>
             <Button kind="filled" color="primary" onClick={() => navigate('/signup')}>Get Started</Button>
           </Card>
 

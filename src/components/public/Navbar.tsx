@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { useNavigate } from 'react-router'
 
 import { styled } from '../../stiches.config'
@@ -15,7 +13,7 @@ const StyledNavbar = styled('nav', {
   justifyContent: 'space-between'
 })
 
-export const AppName = styled('h3', {
+const AppName = styled('h3', {
   transition: 'all 0.1s ease',
 
   margin: 0,
@@ -43,5 +41,7 @@ const Navbar: React.FC = () => {
     </StyledNavbar>
   )
 }
+
+export { AppName }
 
 export default Navbar

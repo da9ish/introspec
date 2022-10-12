@@ -1,7 +1,7 @@
 import { createContext } from 'react'
-import { GraphQLSchema } from 'graphql'
+import type { GraphQLSchema } from 'graphql'
 
-export interface GraphQLType {
+interface GraphQLType {
   schema: GraphQLSchema | null,
   reloadSchema: () => void
 }
@@ -12,5 +12,9 @@ const initialValue: GraphQLType = {
 }
 
 const GraphQLContext = createContext<GraphQLType>(initialValue)
+
+export type {
+  GraphQLType
+}
 
 export default GraphQLContext

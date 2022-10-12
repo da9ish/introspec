@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { useNavigate } from 'react-router'
 
@@ -73,7 +73,7 @@ const SignUp: React.FC = () => {
   const handleCreateUser = async () => {
     const { confirmPassword, ...data } = formData
     if (confirmPassword === data.password) {
-      fetch('http://localhost:6500/signup', {
+      fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

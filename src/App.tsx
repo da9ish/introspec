@@ -1,6 +1,6 @@
 import React from 'react'
-
 import { BrowserRouter as Router } from 'react-router-dom'
+
 import { ApolloProvider } from '@apollo/client'
 
 import Root from './layouts/Root'

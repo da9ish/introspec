@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Card from '../components/Card'
 import Clickable from '../components/Clickable'
 import Flex from '../components/Flex'
@@ -10,7 +8,7 @@ const Overview: React.FC = () => (
     <Card gap="md">
       <Text type="title1">Hello Danish!</Text>
       <Text type="title3">Welcome to your workspace</Text>
-      <Text color="muted">You'll see metrics of all the services you'll be using over here</Text>
+      <Text color="muted">You&apos;ll see metrics of all the services you&apos;ll be using over here</Text>
       <Text color="muted">Currently no services are created, start by adding one</Text>
       <Flex gap="md">
         <Clickable>

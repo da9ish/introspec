@@ -1,5 +1,5 @@
 import { styled } from '@stitches/react'
-import React from 'react'
+
 import { useLocation, useNavigate } from 'react-router'
 
 interface Props {

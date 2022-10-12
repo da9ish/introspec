@@ -1,13 +1,13 @@
-import React from 'react'
-
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 import SVG from 'react-inlinesvg'
 
-import { styled } from '../stiches.config'
 import Flex from './Flex'
+import { styled } from '../stiches.config'
 
 const reqIcons = require.context('../assets/icons', true, /\.svg$/)
 
-export interface IconProps {
+interface IconProps {
   name: string,
   feather?: boolean
 }
@@ -19,7 +19,7 @@ const StyledIcon = styled(Flex, {
   justifyContent: 'center'
 })
 
-const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true }) => {
+const Icon = ({ name, feather = true }: IconProps & Partial<typeof Flex>) => {
   const renderSVG = () => {
     try {
       return (
@@ -48,5 +48,7 @@ const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true
     </StyledIcon>
   )
 }
+
+export type { IconProps }
 
 export default Icon

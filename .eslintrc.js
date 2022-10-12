@@ -126,6 +126,7 @@ module.exports = {
     'no-unused-vars': ['error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' }],
     'object-curly-newline': ['error', { consistent: true }],
     'react/forbid-prop-types': ['off'],
+    'react/function-component-definition': ['off'],
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
     'react/jsx-one-expression-per-line': ['off'],
     'react/jsx-props-no-spreading': ['off'],

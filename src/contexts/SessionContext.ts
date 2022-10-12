@@ -1,12 +1,12 @@
 import { createContext } from 'react'
 
-export interface User {
+interface User {
   name: string,
   email: string,
   profileUrl?: string
 }
 
-export interface SessionType {
+interface SessionType {
   user: User | null,
   isLoggedIn: boolean,
   reloadSession: () => void
@@ -21,5 +21,7 @@ const initialSession: SessionType = {
 }
 
 const SessionContext = createContext<SessionType>(initialSession)
+
+export type { User, SessionType }
 
 export default SessionContext

@@ -1,5 +1,4 @@
-import React from 'react'
-
+import Select from 'components/Select'
 import { styled } from '../../stiches.config'
 import Box from '../Box'
 import Clickable from '../Clickable'
@@ -39,8 +38,18 @@ const Topbar: React.FC = () => (
         <ApiBar>keepworks.introspec.app/graphql</ApiBar>
         <Icon name="copy" />
       </Clickable>
-      <IconButton name="book" />
+      <IconButton name="book" onClick={() => {}} />
     </Flex>
+    {/* <Select
+      ariaLabel="environments"
+      placeholder="Environment"
+      label="Environments"
+      options={[
+        { label: 'Develop', value: 'develop' },
+        { label: 'Staging', value: 'staging' },
+        { label: 'Live', value: 'live' }
+      ]}
+    /> */}
     <Clickable>
       <Icon name="layers" />
       <Environment>Staging</Environment>

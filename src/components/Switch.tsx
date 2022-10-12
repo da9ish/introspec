@@ -1,5 +1,5 @@
-import { blackA } from '@radix-ui/colors'
 import * as SwitchPrimitive from '@radix-ui/react-switch'
+import { blackA } from '@radix-ui/colors'
 import { styled } from '@stitches/react'
 
 import Flex from './Flex'

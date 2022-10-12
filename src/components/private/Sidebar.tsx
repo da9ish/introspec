@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation } from 'react-router'
 
 import Box from '../Box'
@@ -313,7 +313,9 @@ const useStyles = (count: number) => ({
   })()
 })
 
-const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({ id, name, path, icon, submenus, indent = false }) => {
+const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({
+  id, name, path, icon, submenus, indent = false
+}) => {
   const location = useLocation()
   const [ open, setOpen ] = useState(false)
   const className = useStyles(open ? submenus?.length || 0 : 0)
