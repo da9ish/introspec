@@ -1,8 +1,8 @@
-import { styled } from "../stiches.config";
-import Flex from "./Flex";
+import { styled } from '../stiches.config'
+import Flex from './Flex'
 
-export const Card = styled(Flex, {
-  transition: "all 0.1s ease",
+const Card = styled(Flex, {
+  transition: 'all 0.1s ease',
 
   cursor: 'pointer',
   padding: '32px',
@@ -11,3 +11,5 @@ export const Card = styled(Flex, {
   margin: '8px 0',
   boxShadow: 'rgb(0 0 0 / 7%) 0px 4px 44px'
 })
+
+export default Card

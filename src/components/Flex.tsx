@@ -1,83 +1,97 @@
-import { styled } from "../stiches.config";
+import { styled } from '../stiches.config'
 
-export const Flex = styled('div', {
+const Flex = styled('div', {
   display: 'flex',
   variants: {
     wrap: {
-      'wrap': {
-        flexWrap: 'wrap',
+      wrap: {
+        flexWrap: 'wrap'
       },
       'no-wrap': {
-        flexWrap: 'nowrap',
+        flexWrap: 'nowrap'
       },
       'wrap-reverse': {
-        flexWrap: 'wrap-reverse',
-      },
+        flexWrap: 'wrap-reverse'
+      }
     },
     direction: {
-      'row': {
-        flexDirection: 'row',
+      row: {
+        flexDirection: 'row'
       },
-      'column': {
-        flexDirection: 'column',
+      column: {
+        flexDirection: 'column'
       },
       'row-reverse': {
-        flexDirection: 'row-reverse',
+        flexDirection: 'row-reverse'
       },
       'column-reverse': {
-        flexDirection: 'column-reverse',
-      },
+        flexDirection: 'column-reverse'
+      }
     },
     justifyContent: {
-      'start': {
-        justifyContent: 'flex-start',
+      start: {
+        justifyContent: 'flex-start'
       },
-      'center': {
-        justifyContent: 'center',
+      center: {
+        justifyContent: 'center'
       },
-      'end': {
-        justifyContent: 'flex-end',
+      end: {
+        justifyContent: 'flex-end'
       },
-      'stretch': {
-        justifyContent: 'stretch',
+      stretch: {
+        justifyContent: 'stretch'
       },
       'space-between': {
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
       },
       'space-around': {
-        justifyContent: 'space-around',
+        justifyContent: 'space-around'
       },
       'space-evenly': {
-        justifyContent: 'space-evenly',
-      },
+        justifyContent: 'space-evenly'
+      }
     },
     alignItems: {
       start: {
-        alignItems: 'flex-start',
+        alignItems: 'flex-start'
       },
       center: {
-        alignItems: 'center',
+        alignItems: 'center'
       },
       end: {
-        alignItems: 'flex-end',
+        alignItems: 'flex-end'
       },
       stretch: {
-        alignItems: 'stretch',
+        alignItems: 'stretch'
+      }
+    },
+    alignSelf: {
+      start: {
+        alignSelf: 'flex-start'
       },
+      center: {
+        alignSelf: 'center'
+      },
+      end: {
+        alignSelf: 'flex-end'
+      },
+      stretch: {
+        alignSelf: 'stretch'
+      }
     },
     gap: {
       none: {
-        gap: 0,
+        gap: 0
       },
       sm: {
-        gap: '4px',
+        gap: '4px'
       },
       md: {
-        gap: '8px',
+        gap: '8px'
       },
       lg: {
-        gap: '16px',
-      },
+        gap: '16px'
+      }
     },
     grow: {
       1: {
@@ -89,13 +103,13 @@ export const Flex = styled('div', {
     },
     display: {
       flex: {
-        display: 'flex',
+        display: 'flex'
       },
       inline: {
-        display: 'inline-flex',
-      },
-    },
-  },
+        display: 'inline-flex'
+      }
+    }
+  }
 })
 
 export default Flex

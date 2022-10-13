@@ -1,11 +1,11 @@
-import React from "react";
-import { styled } from "../stiches.config";
-import Flex from "./Flex";
-import { ReactComponent as Search } from '../assets/icons/search.svg'
-import { blackA } from "@radix-ui/colors";
+import { blackA } from '@radix-ui/colors'
+
+import { styled } from '../stiches.config'
+import Flex from './Flex'
+import Icon from './Icon'
 
 interface Props {
-  value: string
+  value: string,
   onChange: (value: string) => void
 }
 
@@ -14,9 +14,8 @@ const StyledContainer = styled(Flex, {
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '4px',
-  padding: '10px',
-  margin: '4px 0',
-  fontSize: 15,
+  padding: '4px 8px',
+  fontSize: 13,
   lineHeight: 1,
   backgroundColor: 'transparent',
   fontFamily: '$body',
@@ -24,6 +23,10 @@ const StyledContainer = styled(Flex, {
     color: '#313131',
     boxShadow: `0 0 0 1px ${blackA.blackA5}`
   },
+
+  '::placeholder': {
+    fontSize: 13
+  }
 })
 
 const StyledSearchbar = styled('input', {
@@ -33,16 +36,14 @@ const StyledSearchbar = styled('input', {
   height: '100%',
   background: 'transparent',
   marginLeft: '8px',
-  fontSize: '16px'
+  fontSize: 13
 })
 
-const Searchbar: React.FC<Props> = ({value, onChange}) => {
-  return (
-    <StyledContainer>
-      <Search />
-      <StyledSearchbar placeholder="Search" value={value} onChange={(e) => onChange(e.target.value)} />
-    </StyledContainer>
-  )
-}
+const Searchbar: React.FC<Props> = ({ value, onChange }) => (
+  <StyledContainer>
+    <Icon name="search" />
+    <StyledSearchbar placeholder="Search" value={value} onChange={(e) => onChange(e.target.value)} />
+  </StyledContainer>
+)
 
 export default Searchbar

@@ -1,13 +1,14 @@
-import { blackA } from "@radix-ui/colors";
-import { styled } from "../stiches.config";
+import { blackA } from '@radix-ui/colors'
+
+import { styled } from '../stiches.config'
 
 const Button = styled('button', {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   textDecoration: 'none',
-  cursor: "pointer",
+  cursor: 'pointer',
   fontSize: '16px',
   outline: 'unset',
   padding: '12px 16px',
@@ -23,7 +24,7 @@ const Button = styled('button', {
         color: '$primary',
 
         '&:hover': {
-          backgroundColor: '#0057DA',
+          backgroundColor: '#0057DA'
         }
       },
       secondary: {
@@ -45,82 +46,82 @@ const Button = styled('button', {
     },
     kind: {
       filled: {
-        border: "unset"
+        border: 'unset'
       },
       outlined: {
-        borderWidth: "1px",
-        borderStyle: "solid",
+        borderWidth: '1px',
+        borderStyle: 'solid',
 
         '&:hover': {
-          backgroundColor: blackA.blackA2,
+          backgroundColor: blackA.blackA2
         }
       },
       ghost: {
-        border: "unset",
-        backgroundColor: "unset",
+        border: 'unset',
+        backgroundColor: 'unset',
 
         '&:hover': {
-          backgroundColor: blackA.blackA2,
+          backgroundColor: blackA.blackA2
         }
       }
-    },
+    }
   },
   compoundVariants: [
     {
-      color: "primary",
-      kind: "filled",
+      color: 'primary',
+      kind: 'filled',
       css: {
-        border: "unset",
-        color: "white"
+        border: 'unset',
+        color: 'white'
       }
     },
     {
-      color: "secondary",
-      kind: "filled",
+      color: 'secondary',
+      kind: 'filled',
       css: {
-        border: "unset",
-        color: "$gray1"
+        border: 'unset',
+        color: '$gray1'
       }
     },
     {
-      color: "accent",
-      kind: "filled",
+      color: 'accent',
+      kind: 'filled',
       css: {
-        border: "unset",
-        color: "white"
+        border: 'unset',
+        color: 'white'
       }
     },
     {
-      color: "primary",
-      kind: "outlined",
+      color: 'primary',
+      kind: 'outlined',
       css: {
-        backgroundColor: "unset",
-        color: "$primary",
-        borderColor: "$primary"
+        backgroundColor: 'unset',
+        color: '$primary',
+        borderColor: '$primary'
       }
     },
     {
-      color: "secondary",
-      kind: "outlined",
+      color: 'secondary',
+      kind: 'outlined',
       css: {
-        backgroundColor: "unset",
-        color: "$secondary",
-        borderColor: "$secondary"
+        backgroundColor: 'unset',
+        color: '$secondary',
+        borderColor: '$secondary'
       }
     },
     {
-      color: "accent",
-      kind: "outlined",
+      color: 'accent',
+      kind: 'outlined',
       css: {
-        backgroundColor: "unset",
-        color: "$accent",
-        borderColor: "$accent"
+        backgroundColor: 'unset',
+        color: '$accent',
+        borderColor: '$accent'
       }
-    },
+    }
   ],
   defaultVariants: {
     kind: 'filled',
-    color: 'accent',
+    color: 'accent'
   }
 })
 

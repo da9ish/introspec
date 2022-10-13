@@ -1,19 +1,21 @@
-import React, { useState } from "react";
-import Flex from "../components/Flex";
-import { AppName } from "../components/public/Navbar";
+import { useState } from 'react'
+
+import { useNavigate } from 'react-router'
+
+import Flex from '../components/Flex'
+import { AppName } from '../components/public/Navbar'
 import { ReactComponent as Logo } from '../assets/logo-light.svg'
-import { Input } from "../components/Input";
-import Button from "../components/Button";
-import { Box } from "../components/Box";
-import { Alert } from "../components/Alert";
-import { styled } from "../stiches.config";
-import { useNavigate } from "react-router";
+import Input from '../components/Input'
+import Button from '../components/Button'
+import Box from '../components/Box'
+import Alert from '../components/Alert'
+import { styled } from '../stiches.config'
 
 type SignupFormValues = {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
   confirmPassword: string
 }
 
@@ -23,7 +25,7 @@ const Container = styled(Box, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  flexDirection: 'column',
+  flexDirection: 'column'
 })
 
 const Ellipse1 = styled(Box, {
@@ -35,14 +37,14 @@ const Ellipse1 = styled(Box, {
   top: '153px',
 
   background: 'rgba(245, 255, 187, 0.5)',
-  filter: 'blur(205px)',
+  filter: 'blur(205px)'
 })
 
 const Card = styled(Flex, {
   zIndex: 10,
   width: '100%',
   boxSizing: 'border-box',
-  padding: "50px 32px",
+  padding: '50px 32px',
   variants: {
     shadow: {
       true: {
@@ -60,8 +62,8 @@ const Card = styled(Flex, {
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
 
-  const [error, setError] = useState('')
-  const [formData, setFormData] = useState<SignupFormValues>({
+  const [ error, setError ] = useState('')
+  const [ formData, setFormData ] = useState<SignupFormValues>({
     firstName: '',
     lastName: '',
     email: '',
@@ -71,46 +73,46 @@ const SignUp: React.FC = () => {
   const handleCreateUser = async () => {
     const { confirmPassword, ...data } = formData
     if (confirmPassword === data.password) {
-      fetch('http://localhost:6500/signup', {
+      fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        mode: "cors",
+        mode: 'cors',
         body: JSON.stringify(formData)
-      }).then(res => res.json()).then(res => {
+      }).then((res) => res.json()).then((res) => {
         if (res.success) {
           window.localStorage.setItem('token', res.data.token)
           navigate('/')
         } else {
           setError(`${res.message}: ${res.error.message}`)
         }
-      }).catch(err => setError(err.message))
+      }).catch((err) => setError(err.message))
     } else setError("Password don't match")
   }
 
   return (
-    <Container css={{ position: 'relative', overflow: 'auto' , background: 'rgba(255, 255, 255, 0.38)', backdropFilter: 'blur(50px)' }}>
+    <Container css={{ position: 'relative', overflow: 'auto', background: 'rgba(255, 255, 255, 0.38)', backdropFilter: 'blur(50px)' }}>
       <Ellipse1 />
-      <Card shadow={true} direction="column" alignItems="center" css={{ width: '400px' }}>
-        <Flex direction="column" alignItems="center" gap="lg" css={{ width: '100%'}}>
+      <Card shadow direction="column" alignItems="center" css={{ width: '400px' }}>
+        <Flex direction="column" alignItems="center" gap="lg" css={{ width: '100%' }}>
           <Flex alignItems="center" gap="md">
             <Logo />
             <AppName>Instrospec</AppName>
           </Flex>
           <h4>Create a new account</h4>
           {error && <Alert kind="error">{error}</Alert>}
-          <Input css={{ width: '100%' }} name="firstName" placeholder="First Name" type="text" value={formData.firstName} onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))} />
-          <Input css={{ width: '100%' }} name="lastName" placeholder="Last Name" type="text" value={formData.lastName} onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))} />
-          <Input css={{ width: '100%' }} name="email" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))} />
-          <Input css={{ width: '100%' }} name="password" placeholder="Password" type="password" value={formData.password} onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))} />
-          <Input css={{ width: '100%' }} name="confirmPassword" placeholder="Confirm Password" type="password" value={formData.confirmPassword} onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))} />
-          <Button css={{ width: '100%' }} color="primary"  onClick={handleCreateUser}>Sign up</Button>
-          <Box as="p" css={{ color: "$gray4", fontSize: 14 }}>Already have an account?
+          <Input css={{ width: '100%' }} name="firstName" placeholder="First Name" type="text" value={formData.firstName} onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))} />
+          <Input css={{ width: '100%' }} name="lastName" placeholder="Last Name" type="text" value={formData.lastName} onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))} />
+          <Input css={{ width: '100%' }} name="email" placeholder="Email" type="email" value={formData.email} onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))} />
+          <Input css={{ width: '100%' }} name="password" placeholder="Password" type="password" value={formData.password} onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))} />
+          <Input css={{ width: '100%' }} name="confirmPassword" placeholder="Confirm Password" type="password" value={formData.confirmPassword} onChange={(e) => setFormData((prev) => ({ ...prev, confirmPassword: e.target.value }))} />
+          <Button css={{ width: '100%' }} color="primary" onClick={handleCreateUser}>Sign up</Button>
+          <Box as="p" css={{ color: '$gray4', fontSize: 14 }}>Already have an account?
             <Box
               as="a"
               css={{
-                transition: "all 0.1s ease",
+                transition: 'all 0.1s ease',
                 cursor: 'pointer',
                 padding: '0 8px',
                 '&:hover': { textDecoration: 'underline', textDecorationColor: '$primary', textDecorationWidth: 2 }

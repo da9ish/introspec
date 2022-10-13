@@ -1,0 +1,30 @@
+schema: ${REACT_APP_API_BASE_URL}/graphql
+documents:
+  - src/graphql/*.gql
+generates:
+  src/generated/schema.ts:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - add:
+          content: "// @ts-nocheck"
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      apolloReactHooksImportFrom: "@apollo/client"
+      enumsAsTypes: true
+      immutableTypes: true
+      maybeValue: "T"
+      skipTypename: false
+      strict: true
+      useTypeImports: true
+      withComponent: false
+      withHOC: false
+      withHooks: true
+      withMutationFn: false
+      withMutationOptionsType: false
+      withResultType: false
+      scalars:
+        JSON: "Record<any, any>"
+        Json: "Record<any, any>"

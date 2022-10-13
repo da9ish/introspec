@@ -1,41 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import SessionContext, { User } from '../contexts/SessionContext'
-import Private from './Private'
-import Public from './Public'
+import { ApolloProvider } from '@apollo/client'
 
-const Root: React.FC = () => {
-  const navigate = useNavigate()
-  const [user, setUser] = useState<User | null>({
-    name: 'John Doe',
-    email: 'john.doe@gmail.com',
-  })
+import AppContainer from 'components/containers/AppContainer'
+import AppLoader from 'components/AppLoader'
+import ClientProvider from 'providers/ClientProvider'
+import CurrentAccountProvider from 'contexts/CurrentAccountContext'
+import GlobalProvider from 'providers/GlobalProvider'
+import WorkspaceContainer from 'components/containers/WorkspaceContainer'
+import { isAppHostname } from 'libs/hostname'
 
-  useEffect(() => {
-    fetch('http://localhost:6500/session', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': window.localStorage.getItem('token') || ''
-      },
-      mode: "cors",
-    }).then(res => res.json()).then(res => {
-      if (res.success) setUser(res.data)
-      else navigate('/')
-    }).catch(res => console.log(res))
-  }, [])
+const Root: React.FC = () => (
+  <ClientProvider>
+    {({ apolloClient }) => {
+      if (!apolloClient) {
+        return <AppLoader />
+      }
 
-  return (
-    <SessionContext.Provider
-      value={{
-        user: user,
-        isLoggedIn: !!user,
-        reloadSession: () => {}
-      }}
-    >
-      {!user ? <Public /> : <Private />}
-    </SessionContext.Provider>
-  )
-}
+      return (
+        <ApolloProvider client={apolloClient}>
+          <GlobalProvider>
+            <CurrentAccountProvider>
+              {isAppHostname ? <AppContainer /> : <WorkspaceContainer />}
+            </CurrentAccountProvider>
+          </GlobalProvider>
+        </ApolloProvider>
+      )
+    }}
+  </ClientProvider>
+)
 
 export default Root

@@ -7,18 +7,18 @@ import {
   grayDark,
   blueDark,
   redDark,
-  greenDark,
-} from "@radix-ui/colors";
+  greenDark
+} from '@radix-ui/colors'
 
-import { createStitches } from "@stitches/react";
+import { createStitches } from '@stitches/react'
 
 const { styled, css, keyframes, theme } = createStitches({
   theme: {
     colors: {
-      primary: "#1271FF",
-      secondary: "#64FFDA",
-      background: "#FCFBF4",
-      border: "#eee",
+      primary: '#1271FF',
+      secondary: '#64FFDA',
+      background: '#FCFBF4',
+      border: '#eee',
       ...gray,
       ...blue,
       ...red,
@@ -27,11 +27,11 @@ const { styled, css, keyframes, theme } = createStitches({
       ...grayDark,
       ...blueDark,
       ...redDark,
-      ...greenDark,
+      ...greenDark
     },
     fonts: {
-      body: "Poppins, sans-serif",
-      code: "'Fira Code', monospace;",
+      body: 'Poppins, sans-serif',
+      code: "'Fira Code', monospace;"
     },
     fontSizes: {
       body: '13px',
@@ -40,28 +40,28 @@ const { styled, css, keyframes, theme } = createStitches({
     }
   },
   media: {
-    mobile: "(min-width: 480px)",
-    tab: "(min-width: 720px)",
-    desktop: "(min-width: 1024px)",
+    mobile: '(min-width: 480px)',
+    tab: '(min-width: 720px)',
+    desktop: '(min-width: 1024px)'
   },
   utils: {
     marginX: () => (value: number | string) => ({
       marginLeft: value,
-      marginRight: value,
+      marginRight: value
     }),
     marginY: () => (value: number | string) => ({
       marginTop: value,
-      marginBottom: value,
+      marginBottom: value
     }),
     paddingX: () => (value: number | string) => ({
       paddingLeft: value,
-      paddingRight: value,
+      paddingRight: value
     }),
     paddingY: () => (value: number | string) => ({
       paddingTop: value,
-      paddingBottom: value,
-    }),
-  },
-});
+      paddingBottom: value
+    })
+  }
+})
 
-export { styled, css, keyframes, theme };
+export { styled, css, keyframes, theme }

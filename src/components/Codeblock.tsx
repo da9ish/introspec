@@ -1,7 +1,7 @@
-import React from "react";
-import { Box } from "./Box";
-import Highlight, { defaultProps } from "prism-react-renderer";
-import { styled } from "../stiches.config";
+import Highlight, { defaultProps } from 'prism-react-renderer'
+
+import Box from './Box'
+import { styled } from '../stiches.config'
 
 interface Props {
   code: string
@@ -14,22 +14,20 @@ const StyledPre = styled(Box, {
   lineHeight: '24px'
 })
 
-const Codeblock: React.FC<Props> = ({code}) => {
-  return (
-    <Highlight {...defaultProps} language="graphql" code={code}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <StyledPre as="pre" className={className} style={style}>
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </StyledPre>
-      )}
-    </Highlight>
-  )
-}
+const CodeBlock: React.FC<Props> = ({ code }) => (
+  <Highlight {...defaultProps} language="graphql" code={code}>
+    {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      <StyledPre as="pre" className={className} style={style}>
+        {tokens.map((line, i) => (
+          <div {...getLineProps({ line, key: i })}>
+            {line.map((token, key) => (
+              <span {...getTokenProps({ token, key })} />
+            ))}
+          </div>
+        ))}
+      </StyledPre>
+    )}
+  </Highlight>
+)
 
-export default Codeblock
+export default CodeBlock

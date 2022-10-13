@@ -1,0 +1,14 @@
+mutation UserLogin($email: String!, $password: String!) {
+  userLogin(email: $email, password: $password) {
+    authenticatable {
+      email
+    }
+    credentials {
+      accessToken
+      client
+      uid
+      tokenType
+      expiry
+    }
+  }
+}

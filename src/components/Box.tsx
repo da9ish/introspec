@@ -1,3 +1,5 @@
-import { styled } from "../stiches.config";
+import { styled } from '../stiches.config'
 
-export const Box = styled('div', {});
+const Box = styled('div', {})
+
+export default Box

@@ -1,7 +1,8 @@
-import { blackA } from "@radix-ui/colors";
-import { styled } from "../stiches.config";
+import { blackA } from '@radix-ui/colors'
 
-export const Input = styled('input', {
+import { styled } from '../stiches.config'
+
+const Input = styled('input', {
   width: '100%',
   all: 'unset',
   boxSizing: 'border-box',
@@ -16,7 +17,7 @@ export const Input = styled('input', {
   backgroundColor: blackA.blackA5,
   boxShadow: `0 0 0 1px ${blackA.blackA5}`,
   '&:focus': {
-    boxShadow: `0 0 0 2px black`
+    boxShadow: '0 0 0 2px black'
   },
 
   variants: {
@@ -32,4 +33,6 @@ export const Input = styled('input', {
   defaultVariants: {
     size: 'normal'
   }
-});
+})
+
+export default Input

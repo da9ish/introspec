@@ -1,7 +1,9 @@
-import { styled } from "../stiches.config";
+import { styled } from '../stiches.config'
 
-export const Label = styled('label', {
+const Label = styled('label', {
   fontSize: 15,
   lineHeight: 1,
   userSelect: 'none'
-});
+})
+
+export default Label

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router";
-import { Box } from "../Box"
-import { css, styled } from "../../stiches.config";
-import { Link } from "../Link";
-import Icon from "../Icon";
+import { useState } from 'react'
+import { useLocation } from 'react-router'
+
+import Box from '../Box'
+import { css, styled } from '../../stiches.config'
+import Link from '../Link'
+import Icon from '../Icon'
 
 const StyledSidebar = styled(Box, {
-  transition: "all 0.1s ease",
-  
+  transition: 'all 0.1s ease',
+
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -22,7 +23,7 @@ const Header = styled(Box, {
   height: '60px',
   display: 'flex',
   alignItems: 'center',
-  padding: '0 16px',
+  padding: '0 16px'
 })
 
 const LogoContainer = styled(Box, {
@@ -34,18 +35,18 @@ const LogoContainer = styled(Box, {
   padding: '4px 8px',
   marginRight: '8px',
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'center'
 })
 
 const Profile = styled(Box, {
   width: '28px',
   height: '28px',
   backgroundColor: '#F5F5F5',
-  borderRadius: '50%',
+  borderRadius: '50%'
 })
 
 const Body = styled(Box, {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
   boxSizing: 'border-box',
   flexGrow: 1,
@@ -62,11 +63,11 @@ const Body = styled(Box, {
 const FooterContainer = styled(Box, {
   boxSizing: 'border-box',
   width: '100%',
-  padding: '16px',
+  padding: '16px'
 })
 
 const SubMenuItemContainer = styled(Box, {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
   width: '100%',
   overflowY: 'hidden',
@@ -75,18 +76,19 @@ const SubMenuItemContainer = styled(Box, {
   variants: {
     open: {
       true: {
-        pointerEvents: 'all',
+        pointerEvents: 'all'
       },
       false: {
-        pointerEvents: 'none',
+        pointerEvents: 'none'
       }
     }
   }
 })
 
 const NavItem = styled(Box, {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
+  outline: 'none',
   boxSizing: 'border-box',
   cursor: 'pointer',
   width: '100%',
@@ -99,11 +101,23 @@ const NavItem = styled(Box, {
   color: '#282A30',
   borderRadius: '4px',
 
+  '&:focus': {
+    backgroundColor: '#FAFAFA'
+  },
+
   '&:hover': {
     backgroundColor: '#F5F5F5'
   },
 
   variants: {
+    active: {
+      true: {
+        color: '#282A30'
+      },
+      false: {
+        color: '#6b6f76'
+      }
+    },
     indent: {
       true: {
         marginTop: '2px',
@@ -114,12 +128,13 @@ const NavItem = styled(Box, {
         paddingLeft: '8px'
       }
     }
-  },
+  }
 })
 
 const LinkItem = styled(Link, {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
+  outline: 'none',
   boxSizing: 'border-box',
   cursor: 'pointer',
   width: '100%',
@@ -131,6 +146,10 @@ const LinkItem = styled(Link, {
   justifyContent: 'flex-start',
   borderRadius: '4px',
 
+  '&:focus': {
+    backgroundColor: '#FAFAFA'
+  },
+
   '&:hover': {
     backgroundColor: '#F5F5F5'
   },
@@ -138,10 +157,10 @@ const LinkItem = styled(Link, {
   variants: {
     active: {
       true: {
-        color: '#282A30',
+        color: '#282A30'
       },
       false: {
-        color: '#6b6f76',
+        color: '#6b6f76'
       }
     },
     indent: {
@@ -168,7 +187,7 @@ const LinkItem = styled(Link, {
 })
 
 const NavTitle = styled('a', {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
   flexGrow: 1,
   margin: '0 8px',
@@ -176,7 +195,7 @@ const NavTitle = styled('a', {
 })
 
 const NavIcon = styled(Icon, {
-  transition: "all 0.1s ease",
+  transition: 'all 0.1s ease',
 
   color: 'inherit',
 
@@ -207,18 +226,18 @@ const ROOT_LINKS: LinkType[] = [
       {
         id: 'authentication-users',
         name: 'Users',
-        path: '/authentication/users',
+        path: '/authentication/users'
       },
       {
         id: 'authentication-providers',
         name: 'Providers',
-        path: '/authentication/providers',
+        path: '/authentication/providers'
       },
       {
         id: 'authentication-settings',
         name: 'Settings',
-        path: '/authentication/settings',
-      },
+        path: '/authentication/settings'
+      }
     ],
     icon: 'key'
   },
@@ -229,23 +248,23 @@ const ROOT_LINKS: LinkType[] = [
       {
         id: 'database-schema',
         name: 'Schema',
-        path: '/database/schema',
+        path: '/database/schema'
       },
       {
         id: 'database-data',
         name: 'Data',
-        path: '/database/data',
+        path: '/database/data'
       },
       {
         id: 'database-migrations',
         name: 'Migrations',
-        path: '/database/migrations',
+        path: '/database/migrations'
       },
       {
         id: 'database-settings',
         name: 'Settings',
-        path: '/database/settings',
-      },
+        path: '/database/settings'
+      }
     ],
     icon: 'database'
   },
@@ -256,13 +275,13 @@ const ROOT_LINKS: LinkType[] = [
       {
         id: 'storage-files',
         name: 'Files',
-        path: '/storage/files',
+        path: '/storage/files'
       },
       {
         id: 'storage-settings',
         name: 'Settings',
-        path: '/storage/settings',
-      },
+        path: '/storage/settings'
+      }
     ],
     icon: 'archive'
   },
@@ -298,79 +317,85 @@ const ROOT_LINKS: LinkType[] = [
 ]
 
 interface LinkType {
-  id: string
+  id: string,
   name: string,
   path?: string,
   icon?: string,
   submenus?: LinkType[],
-  isFooter?: boolean,
+  isFooter?: boolean
 }
 
 const useStyles = (count: number) => ({
   submenu: css({
     height: `${count * 34}px`
-  })(),
+  })()
 })
 
-const MenuItem: React.FC<LinkType & {indent?: boolean}> = ({id, name, path, icon, submenus, indent = false}) => {
+const MenuItem: React.FC<LinkType & {indent?: boolean, tabIndex: number}> = ({
+  id, name, path, icon, submenus, tabIndex, indent = false
+}) => {
   const location = useLocation()
-  const [open, setOpen] = useState(false)
+  const [ open, setOpen ] = useState(false)
   const className = useStyles(open ? submenus?.length || 0 : 0)
 
-  if (!path) return (
-    <>
-      <NavItem indent={indent} onClick={() => setOpen(!open)}>
-        {icon && <NavIcon name={icon} />}
-        <NavTitle>{name}</NavTitle>
-        {!!submenus?.length && <NavIcon open={open} name={open ? "chevron-up" : "chevron-down"} />}
-      </NavItem>
-      <SubMenuItemContainer open={open} className={className.submenu}>
-        {submenus?.map(menu => (
-          <MenuItem key={menu.id} {...menu} indent />
-        ))}
-      </SubMenuItemContainer>
-    </>
-  )
+  if (!path) {
+    return (
+      <>
+        <NavItem as="button" role="button" tabIndex={tabIndex} indent={indent} active={open} onClick={() => setOpen(!open)}>
+          {icon && <NavIcon name={icon} />}
+          <NavTitle>{name}</NavTitle>
+          {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
+        </NavItem>
+        <SubMenuItemContainer open={open} className={className.submenu}>
+          {submenus?.map((menu, idx) => (
+            <MenuItem key={menu.id} tabIndex={tabIndex + idx + 1} {...menu} indent />
+          ))}
+        </SubMenuItemContainer>
+      </>
+    )
+  }
 
   const active = location.pathname.includes(path)
 
   return (
     <>
-      <LinkItem active={active} indent={indent} to={path} onClick={() => setOpen(!open)}>
+      <LinkItem
+        tabIndex={tabIndex}
+        active={active}
+        indent={indent}
+        to={path}
+        onClick={() => setOpen(!open)}
+      >
         {icon && <NavIcon name={icon} />}
         <NavTitle>{name}</NavTitle>
-        {!!submenus?.length && <NavIcon open={open} name={open ? "chevron-up" : "chevron-down"} />}
+        {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
       </LinkItem>
       <SubMenuItemContainer open={open} className={className.submenu}>
-        {submenus?.map(menu => (
-          <MenuItem key={menu.id} {...menu} indent />
+        {submenus?.map((menu, idx) => (
+          <MenuItem key={menu.id} {...menu} tabIndex={tabIndex + idx + 1} indent />
         ))}
       </SubMenuItemContainer>
     </>
   )
 }
 
-const Sidebar: React.FC = () => {
-  return (
-    <StyledSidebar>
-      <Header>
-        <LogoContainer>Keepworks</LogoContainer>
-        <Profile />
-      </Header>
-      <Body>
-        {ROOT_LINKS.filter(link => !link.isFooter).map(link => {
-          return (
-          <MenuItem key={link.id} {...link} />
-        )})}
-      </Body>
-      <FooterContainer>
-        {ROOT_LINKS.filter(link => link.isFooter).map(link => {
-          return (
-            <MenuItem key={link.id} {...link} />
-        )})}
-      </FooterContainer>
-    </StyledSidebar>
-  )
-}
+const Sidebar: React.FC = () => (
+  <StyledSidebar>
+    <Header>
+      <LogoContainer>Introspec</LogoContainer>
+      <Profile />
+    </Header>
+    <Body>
+      {ROOT_LINKS.filter((link) => !link.isFooter).map((link, idx) => (
+        <MenuItem key={link.id} tabIndex={idx} {...link} />
+      ))}
+    </Body>
+    <FooterContainer>
+      {ROOT_LINKS.filter((link) => link.isFooter).map((link, idx) => (
+        <MenuItem key={link.id} tabIndex={idx} {...link} />
+      ))}
+    </FooterContainer>
+  </StyledSidebar>
+)
 
 export default Sidebar

@@ -1,24 +1,24 @@
-import React from "react";
-import { styled } from "../stiches.config";
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
+import type { IconProps } from 'react-feather'
 import SVG from 'react-inlinesvg'
-import Flex from "./Flex";
+
+import { styled } from '../stiches.config'
+import Flex from './Flex'
 
 const reqIcons = require.context('../assets/icons', true, /\.svg$/)
 
-export interface IconProps {
+interface StyledIconProps {
   name: string,
   feather?: boolean
 }
 
 const StyledIcon = styled(Flex, {
-  width: '16px',
-  height: '16px',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 })
 
-const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true }) => {
-
+const Icon = ({ name, size = '13px', feather = true }: IconProps & StyledIconProps) => {
   const renderSVG = () => {
     try {
       return (
@@ -38,7 +38,9 @@ const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true
 
   if (feather) {
     const FeatherIcon = require(`react-feather/dist/icons/${name}`).default
-    return <StyledIcon><FeatherIcon /></StyledIcon>
+    return (
+      <StyledIcon><FeatherIcon size={size} /></StyledIcon>
+    )
   }
 
   return (
@@ -47,5 +49,7 @@ const Icon: React.FC<IconProps & Partial<typeof Flex>> = ({ name, feather = true
     </StyledIcon>
   )
 }
+
+export type { StyledIconProps as IconProps }
 
 export default Icon

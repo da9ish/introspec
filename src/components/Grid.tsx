@@ -1,5 +1,5 @@
 import { styled } from '../stiches.config'
-import { Box } from './Box'
+import Box from './Box'
 
 const contentOptions = [ 'start', 'end', 'center', 'stretch', 'space-between', 'space-around', 'space-evenly' ] as const
 const itemsOptions = [ 'start', 'end', 'center', 'stretch' ] as const
@@ -18,10 +18,11 @@ const rowVariants = columnOptions
     return acc
   }, {} as Record<number, Record<string, string>>)
 
-const generateVariants = (options: any, property: string) => options.reduce((acc: any, curr: any) => {
-  acc[curr] = { [property]: curr }
-  return acc
-}, {})
+const generateVariants = (options: any, property: string) => options
+  .reduce((acc: any, curr: any) => {
+    acc[curr] = { [property]: curr }
+    return acc
+  }, {})
 
 const Grid = styled(Box, {
   variants: {

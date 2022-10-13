@@ -1,13 +1,14 @@
-import React from "react";
-import Clickable from "./Clickable";
-import Icon, { IconProps } from "./Icon";
+import Clickable from './Clickable'
+import Icon, { IconProps } from './Icon'
 
-const IconButton: React.FC<IconProps> = (props) => {
-  return (
-    <Clickable>
-      <Icon {...props} />
-    </Clickable>
-  )
+interface Props {
+  onClick: () => void
 }
+
+const IconButton: React.FC<Props & IconProps> = ({ onClick, ...props }) => (
+  <Clickable as="button" role="button" onClick={onClick}>
+    <Icon {...props} />
+  </Clickable>
+)
 
 export default IconButton
