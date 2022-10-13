@@ -1,0 +1,8 @@
+mutation UserResendConfirmationWithToken(
+  $email: String!
+  $confirmUrl: String!
+) {
+  userResendConfirmationWithToken(email: $email, confirmUrl: $confirmUrl) {
+    message
+  }
+}

@@ -1,0 +1,14 @@
+mutation UserConfirmRegistrationWithToken($confirmationToken: String!) {
+  userConfirmRegistrationWithToken(confirmationToken: $confirmationToken) {
+    authenticatable {
+      email
+    }
+    credentials {
+      accessToken
+      client
+      uid
+      tokenType
+      expiry
+    }
+  }
+}

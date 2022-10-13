@@ -1,0 +1,10 @@
+query CurrentAccount {
+  currentAccount {
+    email
+    name
+    firstName
+    lastName
+    username
+    profilePic
+  }
+}

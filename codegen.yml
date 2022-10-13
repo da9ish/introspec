@@ -4,16 +4,18 @@ documents:
 generates:
   src/generated/schema.ts:
     plugins:
-      - add: '/* eslint-disable */'
-      - add: '// @ts-nocheck'
+      - add:
+          content: '/* eslint-disable */'
+      - add:
+          content: "// @ts-nocheck"
       - typescript
       - typescript-operations
       - typescript-react-apollo
     config:
-      apolloReactHooksImportFrom: '@apollo/client'
+      apolloReactHooksImportFrom: "@apollo/client"
       enumsAsTypes: true
       immutableTypes: true
-      maybeValue: 'T'
+      maybeValue: "T"
       skipTypename: false
       strict: true
       useTypeImports: true
@@ -24,5 +26,5 @@ generates:
       withMutationOptionsType: false
       withResultType: false
       scalars:
-        JSON: 'Record<any, any>'
-        Json: 'Record<any, any>'
+        JSON: "Record<any, any>"
+        Json: "Record<any, any>"

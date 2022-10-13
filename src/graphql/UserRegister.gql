@@ -1,0 +1,24 @@
+mutation UserRegister(
+  $email: String!
+  $password: String!
+  $passwordConfirmation: String!
+  $confirmUrl: String
+) {
+  userRegister(
+    email: $email
+    password: $password
+    passwordConfirmation: $passwordConfirmation
+    confirmUrl: $confirmUrl
+  ) {
+    authenticatable {
+      email
+    }
+    credentials {
+      accessToken
+      client
+      uid
+      tokenType
+      expiry
+    }
+  }
+}

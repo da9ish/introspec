@@ -1,47 +1,31 @@
-import { useEffect, useState, useMemo } from 'react'
-import { useNavigate } from 'react-router'
+import { ApolloProvider } from '@apollo/client'
 
-import SessionContext, { User } from '../contexts/SessionContext'
-import Private from './Private'
-import Public from './Public'
+import AppContainer from 'components/containers/AppContainer'
+import AppLoader from 'components/AppLoader'
+import ClientProvider from 'providers/ClientProvider'
+import CurrentAccountProvider from 'contexts/CurrentAccountContext'
+import GlobalProvider from 'providers/GlobalProvider'
+import WorkspaceContainer from 'components/containers/WorkspaceContainer'
+import { isAppHostname } from 'libs/hostname'
 
-const Root: React.FC = () => {
-  const navigate = useNavigate()
-  const user = useMemo(() => ({
-    name: '',
-    email: ''
-  }), [])
-  const contextValues = useMemo(() => ({
-    user,
-    isLoggedIn: !!user,
-    reloadSession: () => {}
-  }), [ user ])
-  // const [ user, setUser ] = useState<User | null>({
-  //   name: 'John Doe',
-  //   email: 'john.doe@gmail.com'
-  // })
+const Root: React.FC = () => (
+  <ClientProvider>
+    {({ apolloClient }) => {
+      if (!apolloClient) {
+        return <AppLoader />
+      }
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/session', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'access-token': window.localStorage.getItem('token') || ''
-  //     },
-  //     mode: 'cors'
-  //   }).then((res) => res.json()).then((res) => {
-  //     if (res.success) setUser(res.data)
-  //     else navigate('/')
-  //   }).catch((res) => console.log(res))
-  // }, [])
-
-  return (
-    <SessionContext.Provider
-      value={contextValues}
-    >
-      {!user ? <Public /> : <Private />}
-    </SessionContext.Provider>
-  )
-}
+      return (
+        <ApolloProvider client={apolloClient}>
+          <GlobalProvider>
+            <CurrentAccountProvider>
+              {isAppHostname ? <AppContainer /> : <WorkspaceContainer />}
+            </CurrentAccountProvider>
+          </GlobalProvider>
+        </ApolloProvider>
+      )
+    }}
+  </ClientProvider>
+)
 
 export default Root

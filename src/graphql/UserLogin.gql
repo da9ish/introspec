@@ -1,12 +1,14 @@
 mutation UserLogin($email: String!, $password: String!) {
   userLogin(email: $email, password: $password) {
-    authenticable {
+    authenticatable {
       email
     }
     credentials {
       accessToken
       client
       uid
+      tokenType
+      expiry
     }
   }
 }
