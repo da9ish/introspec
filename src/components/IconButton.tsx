@@ -1,5 +1,5 @@
-import Clickable from './Clickable'
-import Icon, { IconProps } from './Icon'
+import Clickable from 'components/Clickable'
+import Icon, { IconProps } from 'components/Icon'
 
 interface Props {
   onClick: () => void

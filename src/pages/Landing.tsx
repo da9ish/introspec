@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router'
 
-import Box from '../components/Box'
-import Button from '../components/Button'
-import Flex from '../components/Flex'
-import Grid from '../components/Grid'
-import Navbar from '../components/public/Navbar'
-import { styled } from '../stiches.config'
-import Icon from '../components/Icon'
+import { styled } from '@stitches/react'
+
+import Box from 'components/Box'
+import Button from 'components/Button'
+import Flex from 'components/Flex'
+import Grid from 'components/Grid'
+import Navbar from 'components/public/Navbar'
+import Icon from 'components/Icon'
 
 const LandingGfx = styled('img', {
   width: '100%',

@@ -1,9 +1,9 @@
 import { styled } from '@stitches/react'
 
-import Flex from './Flex'
-import IconButton from './IconButton'
-import Separator from './Seperator'
-import Text from './Text'
+import Flex from 'components/Flex'
+import IconButton from 'components/IconButton'
+import Separator from 'components/Seperator'
+import Text from 'components/Text'
 
 interface Props {
   title: string,

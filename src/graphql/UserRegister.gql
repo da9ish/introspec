@@ -11,14 +11,10 @@ mutation UserRegister(
     confirmUrl: $confirmUrl
   ) {
     authenticatable {
-      email
+      ...UserFragment
     }
     credentials {
-      accessToken
-      client
-      uid
-      tokenType
-      expiry
+      ...CredentialFragment
     }
   }
 }

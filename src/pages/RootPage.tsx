@@ -11,7 +11,7 @@ const RootPage = () => {
 
   useEffect(() => {
     if (currentAccount) navigate('/overview')
-    else navigate('/login')
+    else navigate('/landing')
   }, [ currentAccount, navigate ])
 
   return (

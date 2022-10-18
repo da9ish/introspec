@@ -1,7 +1,8 @@
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
-import Box from './Box'
-import { styled } from '../stiches.config'
+import { styled } from '@stitches/react'
+
+import Box from 'components/Box'
 
 interface Props {
   code: string

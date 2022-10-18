@@ -8,12 +8,11 @@ import Flex from 'components/Flex'
 import Input from 'components/Input'
 import Button from 'components/Button'
 import Box from 'components/Box'
+import Text from 'components/Text'
+import Label from 'components/Label'
 import { ReactComponent as Logo } from 'assets/logo.svg'
 import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
-import Text from 'components/Text'
-import Label from 'components/Label'
-import Link from 'components/Link'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -23,7 +22,7 @@ const Container = styled(Flex, {
   flexDirection: 'column'
 })
 
-const SignUp: React.FC = () => {
+const Onboard: React.FC = () => {
   const navigate = useNavigate()
 
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
@@ -36,9 +35,7 @@ const SignUp: React.FC = () => {
           accessToken,
           client,
           expiry,
-          tokenType,
-          workspaceId: null,
-          environmentId: null
+          tokenType
         } })
           .then(() => navigate('/onboard'))
       }
@@ -54,48 +51,35 @@ const SignUp: React.FC = () => {
       <Container>
         <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
           <Logo style={{ width: '84px', height: '84px' }} />
-          <Text type="title3">Create your Introspec account</Text>
+          <Text type="title3">Create a new workspace</Text>
+          <Text>This is where you&apos;ll manage all the data</Text>
           <Form
             onSubmit={onSubmit}
             validate={() => ({})}
             render={({ handleSubmit }) => (
               <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
-                <Field name="email">
+                <Field name="name">
                   {({ input, meta }) => (
                     <Label>
-                      Email
-                      <Input placeholder="elon.musk@spacex.com" type="email" {...input} />
+                      Workspace Name
+                      <Input placeholder="SpaceX" type="email" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
-                <Field name="password">
+                <Field name="identifier">
                   {({ input, meta }) => (
                     <Label>
-                      Password
-                      <Input placeholder="WeAreGoing@M4rs" type="password" {...input} />
+                      Workspace URL
+                      <Input placeholder="spacex" type="password" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
-                <Field name="passwordConfirmation">
-                  {({ input, meta }) => (
-                    <Label>
-                      Confirm Password
-                      <Input placeholder="Confirm Password" type="password" {...input} />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </Label>
-                  )}
-                </Field>
-                <Button color="primary" onClick={handleSubmit}>Sign up</Button>
-                <Text align="center" fontSize={13}>Already have an account?<Link to="/login">Login</Link> </Text>
+                <Button color="primary" onClick={handleSubmit}>Create Workspace</Button>
               </Flex>
             )}
           />
-          <Text align="center">
-            By signing up, you agree to the Terms of Service
-            and Data Processing Agreement.
-          </Text>
         </Flex>
       </Container>
       <Box css={{ width: '100%', backgroundColor: '#448aff' }} />
@@ -103,4 +87,4 @@ const SignUp: React.FC = () => {
   )
 }
 
-export default SignUp
+export default Onboard

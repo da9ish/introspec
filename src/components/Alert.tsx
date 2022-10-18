@@ -1,9 +1,10 @@
-import { styled } from '../stiches.config'
-import Box from './Box'
+import { styled } from '@stitches/react'
+
+import Box from 'components/Box'
 
 const Alert = styled(Box, {
   padding: '8px 16px',
-  borderRadius: '8px',
+  borderRadius: '4px',
 
   variants: {
     kind: {

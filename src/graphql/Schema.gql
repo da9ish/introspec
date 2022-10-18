@@ -1,0 +1,21 @@
+query Schema {
+  schema {
+    id
+    database {
+      name
+      identifier
+    }
+    tables {
+      name
+      identifier
+      indexes
+      contraints
+      columns {
+        name
+        identifier
+        dataType
+        contraints
+      }
+    }
+  }
+}

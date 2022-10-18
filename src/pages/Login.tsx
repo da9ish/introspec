@@ -2,54 +2,25 @@ import { useNavigate } from 'react-router'
 import { useMutation } from '@apollo/client'
 import { Field, Form } from 'react-final-form'
 
-import Box from '../components/Box'
-import Button from '../components/Button'
-import Flex from '../components/Flex'
-import Input from '../components/Input'
-import { styled } from '../stiches.config'
-import { ReactComponent as Logo } from '../assets/logo-light.svg'
-import { AppName } from '../components/public/Navbar'
+import { styled } from '@stitches/react'
+
+import Box from 'components/Box'
+import Button from 'components/Button'
+import Flex from 'components/Flex'
+import Input from 'components/Input'
+import { ReactComponent as Logo } from 'assets/logo.svg'
 import { UserLoginMutationVariables, useUserLoginMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
+import Label from 'components/Label'
+import Text from 'components/Text'
 
-const Container = styled(Box, {
+const Container = styled(Flex, {
   width: '100%',
   height: '100vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column'
-})
-
-const Ellipse1 = styled(Box, {
-  zIndex: -1,
-  position: 'absolute',
-  width: '647px',
-  height: '647px',
-  left: '674px',
-  top: '153px',
-
-  background: 'rgba(255, 187, 216, 0.5)',
-  filter: 'blur(205px)'
-})
-
-const Card = styled(Flex, {
-  zIndex: 10,
-  width: '100%',
-  boxSizing: 'border-box',
-  padding: '50px 32px',
-  variants: {
-    shadow: {
-      true: {
-        backgroundColor: 'white',
-        boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.15), 0px 20px 30px rgba(0, 0, 0, 0.05), 0px 10px 50px rgba(0, 0, 0, 0.05)'
-      },
-      false: {
-        backgroundColor: 'transparent',
-        boxShadow: 'none'
-      }
-    }
-  }
 })
 
 const Login: React.FC = () => {
@@ -59,9 +30,21 @@ const Login: React.FC = () => {
   const [ userLogin ] = useUserLoginMutation({
     onCompleted: (data) => {
       if (data.userLogin) {
+        const { workspace } = data.userLogin.authenticatable
         const { uid, accessToken, expiry, client, tokenType } = data.userLogin.credentials
-        setSession({ variables: { id: uid, accessToken, client, expiry, tokenType } })
-          .then(() => navigate('/'))
+        setSession({ variables: {
+          id: uid,
+          accessToken,
+          client,
+          expiry,
+          tokenType,
+          workspaceId: workspace ? workspace.id : null,
+          environmentId: workspace ? workspace.environments?.[0].id : null
+        } })
+          .then(() => {
+            if (workspace) navigate('/')
+            else navigate('/onboard')
+          })
       }
     }
   })
@@ -71,23 +54,20 @@ const Login: React.FC = () => {
   }
 
   return (
-    <Container css={{ position: 'relative', overflow: 'auto', background: 'rgba(255, 255, 255, 0.38)', backdropFilter: 'blur(50px)' }}>
-      <Ellipse1 />
-      <Card shadow direction="column" alignItems="center" css={{ width: '400px' }}>
-        <Flex direction="column" alignItems="center" gap="lg" css={{ width: '100%' }}>
-          <Flex alignItems="center" gap="md">
-            <Logo />
-            <AppName>Instrospec</AppName>
-          </Flex>
-          <h4>Login</h4>
+    <Flex grow={1}>
+      <Container>
+        <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
+          <Logo />
+          <Text type="title3">Sign in to your Introspec account</Text>
           <Form
             onSubmit={onSubmit}
             validate={() => ({})}
             render={({ handleSubmit }) => (
-              <Flex direction="column" gap="sm" as="form" onSubmit={handleSubmit}>
+              <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
                 <Field name="email">
                   {({ input, meta }) => (
-                    <Box>
+                    <Label>
+                      Email
                       <Input
                         placeholder="Email"
                         type="email"
@@ -95,12 +75,13 @@ const Login: React.FC = () => {
                         {...input}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </Box>
+                    </Label>
                   )}
                 </Field>
                 <Field name="password">
                   {({ input, meta }) => (
-                    <Box>
+                    <Label>
+                      Password
                       <Input
                         placeholder="Password"
                         type="password"
@@ -108,7 +89,7 @@ const Login: React.FC = () => {
                         {...input}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </Box>
+                    </Label>
                   )}
                 </Field>
                 <Button type="submit" css={{ width: '100%' }} color="primary">Login</Button>
@@ -130,8 +111,9 @@ const Login: React.FC = () => {
             )}
           />
         </Flex>
-      </Card>
-    </Container>
+      </Container>
+      <Box css={{ width: '100%', backgroundColor: '#448aff' }} />
+    </Flex>
   )
 }
 

@@ -1,12 +1,12 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
-import type { IconProps } from 'react-feather'
 import SVG from 'react-inlinesvg'
+import { styled } from '@stitches/react'
+import type { IconProps } from 'react-feather'
 
-import { styled } from '../stiches.config'
-import Flex from './Flex'
+import Flex from 'components/Flex'
 
-const reqIcons = require.context('../assets/icons', true, /\.svg$/)
+const reqIcons = require.context('assets/icons', true, /\.svg$/)
 
 interface StyledIconProps {
   name: string,

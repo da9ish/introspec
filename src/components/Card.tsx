@@ -1,5 +1,6 @@
-import { styled } from '../stiches.config'
-import Flex from './Flex'
+import { styled } from '@stitches/react'
+
+import Flex from 'components/Flex'
 
 const Card = styled(Flex, {
   transition: 'all 0.1s ease',

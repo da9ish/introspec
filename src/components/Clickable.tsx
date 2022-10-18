@@ -1,6 +1,4 @@
-import { grayA } from '@radix-ui/colors'
-
-import { styled } from '../stiches.config'
+import { styled } from '@stitches/react'
 
 const Clickable = styled('div', {
   transition: 'all 0.1s ease',
@@ -18,7 +16,7 @@ const Clickable = styled('div', {
   color: '#282A30',
 
   '&:hover': {
-    backgroundColor: grayA.grayA2
+    backgroundColor: '#f0f3f9'
   }
 })
 

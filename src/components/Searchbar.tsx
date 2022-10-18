@@ -1,8 +1,8 @@
 import { blackA } from '@radix-ui/colors'
+import { styled } from '@stitches/react'
 
-import { styled } from '../stiches.config'
-import Flex from './Flex'
-import Icon from './Icon'
+import Flex from 'components/Flex'
+import Icon from 'components/Icon'
 
 interface Props {
   value: string,

@@ -1,7 +1,7 @@
 mutation UserLogout {
   userLogout {
     authenticatable {
-      email
+      ...UserFragment
     }
   }
 }

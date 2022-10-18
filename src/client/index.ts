@@ -34,6 +34,8 @@ const authLink = setContext(async (_gqlContext, { headers }) => {
       modifiedHeaders.uid = session.id
       modifiedHeaders.expiry = session.expiry
       modifiedHeaders.tokenType = session.tokenType
+      modifiedHeaders.workspaceId = session.workspaceId
+      modifiedHeaders.environmentId = session.environmentId
     }
   }
 

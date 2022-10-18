@@ -1,10 +1,10 @@
-import Select from 'components/Select'
-import { styled } from '../../stiches.config'
-import Box from '../Box'
-import Clickable from '../Clickable'
-import Flex from '../Flex'
-import Icon from '../Icon'
-import IconButton from '../IconButton'
+import { styled } from '@stitches/react'
+
+import Box from 'components/Box'
+import Clickable from 'components/Clickable'
+import Flex from 'components/Flex'
+import Icon from 'components/Icon'
+import IconButton from 'components/IconButton'
 
 const StyledTopbar = styled('header', {
   boxSizing: 'border-box',

@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router'
 
-import { styled } from '../../stiches.config'
-import { ReactComponent as Logo } from '../../assets/logo-light.svg'
-import Button from '../Button'
-import Flex from '../Flex'
+import { styled } from '@stitches/react'
+
+import { ReactComponent as Logo } from 'assets/logo.svg'
+import Button from 'components/Button'
+import Flex from 'components/Flex'
 
 const StyledNavbar = styled('nav', {
   margin: '0 10%',

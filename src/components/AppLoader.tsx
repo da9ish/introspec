@@ -1,7 +1,7 @@
 import { styled } from '@stitches/react'
 
-import Flex from './Flex'
-import Text from './Text'
+import Flex from 'components/Flex'
+import Text from 'components/Text'
 
 const StyledAppLoader = styled(Flex, {
   fullscreen: true,

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Introspec",
+  "name": "Building blocks for creating awesome apps",
   "icons": [
     {
       "src": "favicon.ico",

@@ -2,8 +2,8 @@ import * as SwitchPrimitive from '@radix-ui/react-switch'
 import { blackA } from '@radix-ui/colors'
 import { styled } from '@stitches/react'
 
-import Flex from './Flex'
-import Label from './Label'
+import Flex from 'components/Flex'
+import Label from 'components/Label'
 
 interface SwitchProps {
   name: string,

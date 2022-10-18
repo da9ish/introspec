@@ -3,10 +3,15 @@ import { ApolloProvider } from '@apollo/client'
 import AppContainer from 'components/containers/AppContainer'
 import AppLoader from 'components/AppLoader'
 import ClientProvider from 'providers/ClientProvider'
-import CurrentAccountProvider from 'contexts/CurrentAccountContext'
+import CurrentAccountProvider, { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import GlobalProvider from 'providers/GlobalProvider'
 import WorkspaceContainer from 'components/containers/WorkspaceContainer'
-import { isAppHostname } from 'libs/hostname'
+
+const Containers = () => {
+  const currentAccount = useCurrentAccountContext()
+
+  return currentAccount ? <WorkspaceContainer /> : <AppContainer />
+}
 
 const Root: React.FC = () => (
   <ClientProvider>
@@ -19,7 +24,7 @@ const Root: React.FC = () => (
         <ApolloProvider client={apolloClient}>
           <GlobalProvider>
             <CurrentAccountProvider>
-              {isAppHostname ? <AppContainer /> : <WorkspaceContainer />}
+              <Containers />
             </CurrentAccountProvider>
           </GlobalProvider>
         </ApolloProvider>

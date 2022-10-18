@@ -1,7 +1,7 @@
-import Card from '../components/Card'
-import Clickable from '../components/Clickable'
-import Flex from '../components/Flex'
-import Text from '../components/Text'
+import Card from 'components/Card'
+import Clickable from 'components/Clickable'
+import Flex from 'components/Flex'
+import Text from 'components/Text'
 
 const Overview: React.FC = () => (
   <Flex alignItems="center" justifyContent="center" css={{ width: '100%', height: 'calc(100vh - 60px)', flexGrow: 1, padding: '0 24px 0 36px', overflow: 'auto' }}>

@@ -1,5 +1,6 @@
-import { styled } from '../stiches.config'
-import Box from './Box'
+import { styled } from '@stitches/react'
+
+import Box from 'components/Box'
 
 const contentOptions = [ 'start', 'end', 'center', 'stretch', 'space-between', 'space-around', 'space-evenly' ] as const
 const itemsOptions = [ 'start', 'end', 'center', 'stretch' ] as const

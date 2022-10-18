@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router'
 
-import Box from '../Box'
-import { css, styled } from '../../stiches.config'
-import Link from '../Link'
-import Icon from '../Icon'
+import Box from 'components/Box'
+import { css, styled } from 'stiches.config'
+import Link from 'components/Link'
+import Icon from 'components/Icon'
 
 const StyledSidebar = styled(Box, {
   transition: 'all 0.1s ease',
@@ -96,17 +96,18 @@ const NavItem = styled(Box, {
   padding: '8px',
   margin: 0,
   display: 'flex',
+  direction: 'row',
   alignItems: 'center',
   justifyContent: 'flex-start',
   color: '#282A30',
   borderRadius: '4px',
 
   '&:focus': {
-    backgroundColor: '#FAFAFA'
+    backgroundColor: '#f0f3f9'
   },
 
   '&:hover': {
-    backgroundColor: '#F5F5F5'
+    backgroundColor: '#f0f3f9'
   },
 
   variants: {
@@ -147,11 +148,11 @@ const LinkItem = styled(Link, {
   borderRadius: '4px',
 
   '&:focus': {
-    backgroundColor: '#FAFAFA'
+    backgroundColor: '#f0f3f9'
   },
 
   '&:hover': {
-    backgroundColor: '#F5F5F5'
+    backgroundColor: '#f0f3f9'
   },
 
   variants: {
@@ -190,6 +191,7 @@ const NavTitle = styled('a', {
   transition: 'all 0.1s ease',
 
   flexGrow: 1,
+  textAlign: 'left',
   margin: '0 8px',
   color: 'inherit'
 })
@@ -331,8 +333,8 @@ const useStyles = (count: number) => ({
   })()
 })
 
-const MenuItem: React.FC<LinkType & {indent?: boolean, tabIndex: number}> = ({
-  id, name, path, icon, submenus, tabIndex, indent = false
+const MenuItem: React.FC<LinkType & { indent?: boolean, tabIndex: number }> = ({
+  name, path, icon, submenus, tabIndex, indent = false
 }) => {
   const location = useLocation()
   const [ open, setOpen ] = useState(false)

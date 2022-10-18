@@ -1,7 +1,32 @@
-import { styled } from '../stiches.config'
+import { styled } from '@stitches/react'
+
+const sizeOptions = [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64 ] as const
+const alignOptions = [ 'left', 'right', 'center', 'justify', 'initial', 'inherit' ]
+
+const generateVariants = (options: any, property: string) => options
+  .reduce((acc: any, curr: any) => {
+    acc[curr] = { [property]: curr }
+    return acc
+  }, {})
 
 const Text = styled('span', {
   variants: {
+    fontWeight: {
+      400: {
+        fontWeight: 400
+      },
+      500: {
+        fontWeight: 500
+      },
+      700: {
+        fontWeight: 700
+      },
+      900: {
+        fontWeight: 900
+      }
+    },
+    fontSize: generateVariants(sizeOptions, 'fontSize'),
+    align: generateVariants(alignOptions, 'textAlign'),
     type: {
       body: {
         fontFamily: '$body',

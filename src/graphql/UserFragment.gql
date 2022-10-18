@@ -1,0 +1,21 @@
+fragment UserFragment on User {
+  name
+  username
+  email
+  firstName
+  lastName
+  username
+  profilePic
+
+  workspace {
+    id
+    name
+    identifier
+
+    environments {
+      id
+      name
+      identifier
+    }
+  }
+}

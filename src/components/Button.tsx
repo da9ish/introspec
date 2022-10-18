@@ -1,6 +1,5 @@
 import { blackA } from '@radix-ui/colors'
-
-import { styled } from '../stiches.config'
+import { styled } from '@stitches/react'
 
 const Button = styled('button', {
   transition: 'all 0.1s ease',
@@ -13,7 +12,7 @@ const Button = styled('button', {
   outline: 'unset',
   padding: '12px 16px',
   marginX: '8px',
-  borderRadius: '8px',
+  borderRadius: '4px',
   fontFamily: '$body',
   fontWeight: 500,
 

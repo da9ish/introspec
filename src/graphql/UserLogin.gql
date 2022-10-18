@@ -1,14 +1,10 @@
 mutation UserLogin($email: String!, $password: String!) {
   userLogin(email: $email, password: $password) {
     authenticatable {
-      email
+      ...UserFragment
     }
     credentials {
-      accessToken
-      client
-      uid
-      tokenType
-      expiry
+      ...CredentialFragment
     }
   }
 }
