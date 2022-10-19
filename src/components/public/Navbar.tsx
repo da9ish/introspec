@@ -34,10 +34,8 @@ const Navbar: React.FC = () => {
         <AppName>Instrospec</AppName>
       </Flex>
       <Flex alignItems="center" gap="lg">
-        <Button as="a" href="/login" kind="ghost">
-          Login
-        </Button>
-        <Button kind="filled" color="primary" onClick={() => navigate('/signup')}>Get Started</Button>
+        <Button size="large" kind="secondary" onClick={() => navigate('/login')}>Login</Button>
+        <Button size="large" kind="primary" onClick={() => navigate('/signup')}>Get Started</Button>
       </Flex>
     </StyledNavbar>
   )

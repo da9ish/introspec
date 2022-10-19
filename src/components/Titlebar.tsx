@@ -1,14 +1,19 @@
 import { styled } from '@stitches/react'
+import type React from 'react'
 
 import Flex from 'components/Flex'
 import IconButton from 'components/IconButton'
 import Separator from 'components/Seperator'
 import Text from 'components/Text'
+import Searchbar from './Searchbar'
 
 interface Props {
   title: string,
+  actions?: React.ReactNode,
   actionIcon: string,
-  onAction: () => void
+  canSearch?: boolean,
+  onAction: () => void,
+  onSearch?: () => void
 }
 
 const Container = styled(Flex, {
@@ -16,13 +21,33 @@ const Container = styled(Flex, {
   borderBottom: '1px solid #F8F9FB'
 })
 
+const PrimaryContent = styled(Flex, {
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'flex-start'
+})
+
+const SecondaryContent = styled(Flex, {
+  width: '100%',
+  alignItems: 'center',
+  justifyContent: 'flex-end'
+})
+
 const Titlebar: React.FC<Props> = ({
-  title, actionIcon, onAction
+  title, canSearch = true, actions, actionIcon, onAction, onSearch
 }) => (
-  <Container alignItems="center" gap="md">
-    <Text type="title1">{title}</Text>
-    <Separator decorative orientation="vertical" />
-    <IconButton name={actionIcon} onClick={onAction} />
+  <Container alignItems="center">
+    <PrimaryContent gap="md">
+      <Text type="title1">{title}</Text>
+      <Separator decorative orientation="vertical" />
+      <IconButton name={actionIcon} onClick={onAction} />
+      {canSearch && onSearch && (
+        <Searchbar value="" onChange={onSearch} />
+      )}
+    </PrimaryContent>
+    <SecondaryContent gap="md">
+      {actions}
+    </SecondaryContent>
   </Container>
 )
 

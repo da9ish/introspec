@@ -5,6 +5,7 @@ import Box from 'components/Box'
 import { css, styled } from 'stiches.config'
 import Link from 'components/Link'
 import Icon from 'components/Icon'
+import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
 const StyledSidebar = styled(Box, {
   transition: 'all 0.1s ease',
@@ -381,23 +382,27 @@ const MenuItem: React.FC<LinkType & { indent?: boolean, tabIndex: number }> = ({
   )
 }
 
-const Sidebar: React.FC = () => (
-  <StyledSidebar>
-    <Header>
-      <LogoContainer>Introspec</LogoContainer>
-      <Profile />
-    </Header>
-    <Body>
-      {ROOT_LINKS.filter((link) => !link.isFooter).map((link, idx) => (
-        <MenuItem key={link.id} tabIndex={idx} {...link} />
-      ))}
-    </Body>
-    <FooterContainer>
-      {ROOT_LINKS.filter((link) => link.isFooter).map((link, idx) => (
-        <MenuItem key={link.id} tabIndex={idx} {...link} />
-      ))}
-    </FooterContainer>
-  </StyledSidebar>
-)
+const Sidebar: React.FC = () => {
+  const currentAccount = useCurrentAccountContext()
+
+  return (
+    <StyledSidebar>
+      <Header>
+        <LogoContainer>{currentAccount?.workspace?.name}</LogoContainer>
+        <Profile />
+      </Header>
+      <Body>
+        {ROOT_LINKS.filter((link) => !link.isFooter).map((link, idx) => (
+          <MenuItem key={link.id} tabIndex={idx} {...link} />
+        ))}
+      </Body>
+      <FooterContainer>
+        {ROOT_LINKS.filter((link) => link.isFooter).map((link, idx) => (
+          <MenuItem key={link.id} tabIndex={idx} {...link} />
+        ))}
+      </FooterContainer>
+    </StyledSidebar>
+  )
+}
 
 export default Sidebar

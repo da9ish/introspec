@@ -87,7 +87,7 @@ const SignUp: React.FC = () => {
                     </Label>
                   )}
                 </Field>
-                <Button color="primary" onClick={handleSubmit}>Sign up</Button>
+                <Button kind="primary" onClick={handleSubmit}>Sign up</Button>
                 <Text align="center" fontSize={13}>Already have an account?<Link to="/login">Login</Link> </Text>
               </Flex>
             )}

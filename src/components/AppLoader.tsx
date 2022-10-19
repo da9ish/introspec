@@ -1,4 +1,6 @@
 import { styled } from '@stitches/react'
+import { SpinnerRoundFilled } from 'spinners-react'
+import { blue } from '@radix-ui/colors'
 
 import Flex from 'components/Flex'
 import Text from 'components/Text'
@@ -12,7 +14,7 @@ const StyledAppLoader = styled(Flex, {
 function AppLoader() {
   return (
     <StyledAppLoader alignItems="center" justifyContent="center">
-      <Text>Loading...</Text>
+      <SpinnerRoundFilled color={blue.blue10} />
     </StyledAppLoader>
   )
 }

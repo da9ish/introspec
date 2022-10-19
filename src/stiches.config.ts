@@ -12,13 +12,18 @@ import {
 
 import { createStitches } from '@stitches/react'
 
+import { colors } from 'colors'
+
 const { styled, css, keyframes, theme } = createStitches({
   theme: {
     colors: {
       primary: '#1271FF',
       secondary: '#64FFDA',
+      danger: '#EE5459',
+      dangetHighlight: '#DB4340',
       background: '#FCFBF4',
       border: '#eee',
+      ...colors,
       ...gray,
       ...blue,
       ...red,

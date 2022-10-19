@@ -5,6 +5,7 @@ import Clickable from 'components/Clickable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
+import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
 const StyledTopbar = styled('header', {
   boxSizing: 'border-box',
@@ -31,16 +32,19 @@ const Environment = styled(Box, {
   fontSize: '$body'
 })
 
-const Topbar: React.FC = () => (
-  <StyledTopbar>
-    <Flex>
-      <Clickable>
-        <ApiBar>workspace.introspec.app/graphql</ApiBar>
-        <Icon name="copy" />
-      </Clickable>
-      <IconButton name="book" onClick={() => {}} />
-    </Flex>
-    {/* <Select
+const Topbar: React.FC = () => {
+  const currentAccount = useCurrentAccountContext()
+
+  return (
+    <StyledTopbar>
+      <Flex>
+        <Clickable>
+          <ApiBar>{`${currentAccount?.workspace?.identifier}.introspec.app/graphql`}</ApiBar>
+          <Icon name="copy" />
+        </Clickable>
+        <IconButton name="book" onClick={() => {}} />
+      </Flex>
+      {/* <Select
       ariaLabel="environments"
       placeholder="Environment"
       label="Environments"
@@ -50,11 +54,12 @@ const Topbar: React.FC = () => (
         { label: 'Live', value: 'live' }
       ]}
     /> */}
-    <Clickable>
-      <Icon name="layers" />
-      <Environment>Staging</Environment>
-    </Clickable>
-  </StyledTopbar>
-)
+      <Clickable>
+        <Icon name="layers" />
+        <Environment>Staging</Environment>
+      </Clickable>
+    </StyledTopbar>
+  )
+}
 
 export default Topbar

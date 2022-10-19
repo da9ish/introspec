@@ -93,7 +93,7 @@ const Onboard: React.FC = () => {
                       </Label>
                     )}
                   </Field>
-                  <Button color="primary" onClick={handleSubmit}>Create Workspace</Button>
+                  <Button kind="primary" onClick={handleSubmit}>Create Workspace</Button>
                 </Flex>
               )}
             />

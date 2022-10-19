@@ -92,6 +92,7 @@ export type ApplicationQuery = {
   readonly testField: Scalars['String'];
   readonly testFieldWithArgs: Scalars['String'];
   readonly testFieldWithArgsAndSelector: Test;
+  readonly usersList?: Maybe<ReadonlyArray<User>>;
 };
 
 
@@ -337,6 +338,11 @@ export type UserSendPasswordResetWithTokenMutationVariables = Exact<{
 
 
 export type UserSendPasswordResetWithTokenMutation = { readonly __typename?: 'ApplicationMutation', readonly userSendPasswordResetWithToken?: { readonly __typename?: 'UserSendPasswordResetWithTokenPayload', readonly message: string } };
+
+export type UsersListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsersListQuery = { readonly __typename?: 'ApplicationQuery', readonly usersList?: ReadonlyArray<{ readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }> };
 
 export type WorkspaceFragmentFragment = { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> };
 
@@ -774,3 +780,36 @@ export function useUserSendPasswordResetWithTokenMutation(baseOptions?: ApolloRe
         return ApolloReactHooks.useMutation<UserSendPasswordResetWithTokenMutation, UserSendPasswordResetWithTokenMutationVariables>(UserSendPasswordResetWithTokenDocument, options);
       }
 export type UserSendPasswordResetWithTokenMutationHookResult = ReturnType<typeof useUserSendPasswordResetWithTokenMutation>;
+export const UsersListDocument = gql`
+    query UsersList {
+  usersList {
+    ...UserFragment
+  }
+}
+    ${UserFragmentFragmentDoc}`;
+
+/**
+ * __useUsersListQuery__
+ *
+ * To run a query within a React component, call `useUsersListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsersListQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UsersListQuery, UsersListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<UsersListQuery, UsersListQueryVariables>(UsersListDocument, options);
+      }
+export function useUsersListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UsersListQuery, UsersListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<UsersListQuery, UsersListQueryVariables>(UsersListDocument, options);
+        }
+export type UsersListQueryHookResult = ReturnType<typeof useUsersListQuery>;
+export type UsersListLazyQueryHookResult = ReturnType<typeof useUsersListLazyQuery>;

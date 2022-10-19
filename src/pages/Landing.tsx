@@ -112,8 +112,8 @@ const Landing: React.FC = () => {
             <h1>Create beautiful GraphQL API documentation</h1>
             <p style={{ fontSize: '21px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
             <Flex gap="md">
-              <Button kind="filled" color="primary" onClick={() => navigate('/signup')}>Get Started</Button>
-              <Button kind="outlined" color="accent">See Example</Button>
+              <Button size="large" kind="primary" onClick={() => navigate('/signup')}>Get Started</Button>
+              <Button size="large" kind="secondary">See Examples</Button>
             </Flex>
           </Flex>
           <LandingGfx src="./assets/images/landing.png" />
@@ -182,7 +182,7 @@ const Landing: React.FC = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Dignissim egestas vitae volutpat volutpat felis.
             </p>
-            <Button kind="filled" color="primary" onClick={() => navigate('/signup')}>Get Started</Button>
+            <Button kind="primary" onClick={() => navigate('/signup')}>Get Started</Button>
           </Card>
 
         </Box>

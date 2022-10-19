@@ -92,7 +92,7 @@ const Login: React.FC = () => {
                     </Label>
                   )}
                 </Field>
-                <Button type="submit" css={{ width: '100%' }} color="primary">Login</Button>
+                <Button type="submit" kind="primary">Login</Button>
                 <Box as="p" css={{ color: '$gray10', fontSize: 14 }}>Don&apos;t have an account?
                   <Box
                     as="a"
