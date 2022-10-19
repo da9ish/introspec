@@ -12,7 +12,7 @@ const Clickable = styled('div', {
   border: 'none',
   backgroundColor: 'transparent',
   borderRadius: '4px',
-  padding: '7px',
+  padding: '8px',
   color: '#282A30',
 
   '&:hover': {

@@ -10,7 +10,7 @@ const Input = styled('input', {
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '4px',
-  padding: '0 16px',
+  padding: '8px 16px',
   margin: '4px 0',
   fontSize: 15,
   lineHeight: 1,

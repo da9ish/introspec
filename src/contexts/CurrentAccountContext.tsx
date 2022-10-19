@@ -17,7 +17,8 @@ const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
     data: { currentAccount } = {},
     loading
   } = useCurrentAccountQuery({
-    skip
+    skip,
+    fetchPolicy: 'network-only'
   })
 
   if (!currentAccount && loading) {

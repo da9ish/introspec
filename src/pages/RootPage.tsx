@@ -10,8 +10,10 @@ const RootPage = () => {
   const currentAccount = useCurrentAccountContext()
 
   useEffect(() => {
-    if (currentAccount) navigate('/overview')
-    else navigate('/landing')
+    if (currentAccount) {
+      if (currentAccount.workspace) navigate('/overview')
+      else navigate('/onboard')
+    } else navigate('/')
   }, [ currentAccount, navigate ])
 
   return (

@@ -1,21 +1,19 @@
 import { Outlet, Route, Routes } from 'react-router'
 
-import Schema from 'pages/Database/Schema'
-import Overview from 'pages/Overview'
 import RootPage from 'pages/RootPage'
-import InternalLayout from 'layouts/InternalLayout'
+import Onboard from 'pages/Onboard'
+import WorkspaceSetup from 'pages/WorkspaceSetup'
+import ExternalLayout from 'layouts/ExternalLayout'
 
 const WorkspaceContainer: React.FC = () => (
-  <InternalLayout>
+  <ExternalLayout>
     <Routes>
       <Route path="/" element={<RootPage />} />
-      <Route path="/overview" element={<Overview />} />
-      <Route path="/database">
-        <Route path="/database/schema" element={<Schema />} />
-      </Route>
+      <Route path="/onboard" element={<Onboard />} />
+      <Route path="/workspace-setup" element={<WorkspaceSetup />} />
     </Routes>
     <Outlet />
-  </InternalLayout>
+  </ExternalLayout>
 )
 
 export default WorkspaceContainer

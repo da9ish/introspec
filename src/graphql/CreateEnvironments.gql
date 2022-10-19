@@ -1,0 +1,5 @@
+mutation CreateEnvironments($input: createEnvironmentsInput!) {
+  createEnvironments(input: $input) {
+    ...EnvironmentFragment
+  }
+}

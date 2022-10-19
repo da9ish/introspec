@@ -11,8 +11,10 @@ import Box from 'components/Box'
 import Text from 'components/Text'
 import Label from 'components/Label'
 import { ReactComponent as Logo } from 'assets/logo.svg'
-import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
-import { SET_SESSION_MUTATION } from 'client/state/session'
+import { CreateWorkspaceInput, useCreateWorkspaceMutation } from 'generated/schema'
+import { SessionQuery, SESSION_QUERY, SET_SESSION_MUTATION } from 'client/state/session'
+import { cache } from 'client'
+import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -22,66 +24,82 @@ const Container = styled(Flex, {
   flexDirection: 'column'
 })
 
+const AccountContext = styled(Flex, {
+  padding: '24px 32px',
+  alignItems: 'center',
+  justifyContent: 'space-between'
+})
+
 const Onboard: React.FC = () => {
   const navigate = useNavigate()
 
+  const currentAccount = useCurrentAccountContext()
+
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
-  const [ userLogin ] = useUserRegisterMutation({
+  const [ createWorkspace ] = useCreateWorkspaceMutation({
     onCompleted: (data) => {
-      if (data.userRegister && data.userRegister.credentials) {
-        const { uid, accessToken, expiry, client, tokenType } = data.userRegister.credentials
+      if (data.createWorkspace) {
+        const { session } = cache.readQuery({ query: SESSION_QUERY }) as SessionQuery
+        const { id, environments } = data.createWorkspace
         setSession({ variables: {
-          id: uid,
-          accessToken,
-          client,
-          expiry,
-          tokenType
+          ...session,
+          workspaceId: id,
+          environmentId: environments?.[0].id
         } })
-          .then(() => navigate('/onboard'))
+          .then(() => navigate('/workspace-setup'))
       }
     }
   })
 
-  const onSubmit = (values: UserRegisterMutationVariables) => {
-    userLogin({ variables: values })
+  const onSubmit = (values: CreateWorkspaceInput) => {
+    createWorkspace({ variables: { input: values } })
   }
 
   return (
     <Flex grow={1}>
-      <Container>
-        <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
-          <Logo style={{ width: '84px', height: '84px' }} />
-          <Text type="title3">Create a new workspace</Text>
-          <Text>This is where you&apos;ll manage all the data</Text>
-          <Form
-            onSubmit={onSubmit}
-            validate={() => ({})}
-            render={({ handleSubmit }) => (
-              <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
-                <Field name="name">
-                  {({ input, meta }) => (
-                    <Label>
-                      Workspace Name
-                      <Input placeholder="SpaceX" type="email" {...input} />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </Label>
-                  )}
-                </Field>
-                <Field name="identifier">
-                  {({ input, meta }) => (
-                    <Label>
-                      Workspace URL
-                      <Input placeholder="spacex" type="password" {...input} />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </Label>
-                  )}
-                </Field>
-                <Button color="primary" onClick={handleSubmit}>Create Workspace</Button>
-              </Flex>
-            )}
-          />
-        </Flex>
-      </Container>
+      <Flex direction="column" css={{ width: '100%' }}>
+        <AccountContext>
+          <Flex direction="column">
+            <Label>Logged in as:</Label>
+            <Text>{currentAccount?.email}</Text>
+          </Flex>
+          <Text>Log out</Text>
+        </AccountContext>
+        <Container>
+          <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
+            <Logo style={{ width: '84px', height: '84px' }} />
+            <Text type="title3">Create a new workspace</Text>
+            <Text>This is where you&apos;ll manage all the data</Text>
+            <Form
+              onSubmit={onSubmit}
+              validate={() => ({})}
+              render={({ handleSubmit }) => (
+                <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
+                  <Field name="name">
+                    {({ input, meta }) => (
+                      <Label>
+                        Workspace Name
+                        <Input placeholder="SpaceX" {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                      </Label>
+                    )}
+                  </Field>
+                  <Field name="identifier">
+                    {({ input, meta }) => (
+                      <Label>
+                        Workspace URL
+                        <Input placeholder="spacex" {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                      </Label>
+                    )}
+                  </Field>
+                  <Button color="primary" onClick={handleSubmit}>Create Workspace</Button>
+                </Flex>
+              )}
+            />
+          </Flex>
+        </Container>
+      </Flex>
       <Box css={{ width: '100%', backgroundColor: '#448aff' }} />
     </Flex>
   )

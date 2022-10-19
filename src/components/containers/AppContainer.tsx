@@ -1,21 +1,23 @@
-import { Outlet, Route, Routes } from 'react-router'
+import { Navigate, Outlet, Route, Routes } from 'react-router'
 
-import Landing from 'pages/Landing'
-import Login from 'pages/Login'
-import SignUp from 'pages/Signup'
-import Onboard from 'pages/Onboard'
-import ExternalLayout from 'layouts/ExternalLayout'
+import Schema from 'pages/Database/Schema'
+import Overview from 'pages/Overview'
+import InternalLayout from 'layouts/InternalLayout'
 
 const AppContainer: React.FC = () => (
-  <ExternalLayout>
+  <InternalLayout>
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/onboard" element={<Onboard />} />
+      <Route
+        path="/"
+        element={<Navigate to="/overview" replace />}
+      />
+      <Route path="/overview" element={<Overview />} />
+      <Route path="/database">
+        <Route path="/database/schema" element={<Schema />} />
+      </Route>
     </Routes>
     <Outlet />
-  </ExternalLayout>
+  </InternalLayout>
 )
 
 export default AppContainer

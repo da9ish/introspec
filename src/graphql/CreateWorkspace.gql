@@ -1,0 +1,5 @@
+mutation CreateWorkspace($input: createWorkspaceInput!) {
+  createWorkspace(input: $input) {
+    ...WorkspaceFragment
+  }
+}

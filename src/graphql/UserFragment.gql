@@ -8,14 +8,6 @@ fragment UserFragment on User {
   profilePic
 
   workspace {
-    id
-    name
-    identifier
-
-    environments {
-      id
-      name
-      identifier
-    }
+    ...WorkspaceFragment
   }
 }

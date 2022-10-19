@@ -1,16 +1,21 @@
 import { ApolloProvider } from '@apollo/client'
 
-import AppContainer from 'components/containers/AppContainer'
+import PublicContainer from 'components/containers/PublicContainer'
 import AppLoader from 'components/AppLoader'
 import ClientProvider from 'providers/ClientProvider'
 import CurrentAccountProvider, { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import GlobalProvider from 'providers/GlobalProvider'
 import WorkspaceContainer from 'components/containers/WorkspaceContainer'
+import AppContainer from 'components/containers/AppContainer'
 
 const Containers = () => {
   const currentAccount = useCurrentAccountContext()
-
-  return currentAccount ? <WorkspaceContainer /> : <AppContainer />
+  console.log(currentAccount)
+  if (currentAccount) {
+    if (currentAccount.workspace) return <AppContainer />
+    return <WorkspaceContainer />
+  }
+  return <PublicContainer />
 }
 
 const Root: React.FC = () => (

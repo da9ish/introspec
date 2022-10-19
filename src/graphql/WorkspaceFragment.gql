@@ -1,0 +1,9 @@
+fragment WorkspaceFragment on Workspace {
+  id
+  name
+  identifier
+
+  environments {
+    ...EnvironmentFragment
+  }
+}
