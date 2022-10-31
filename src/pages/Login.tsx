@@ -13,6 +13,7 @@ import { UserLoginMutationVariables, useUserLoginMutation } from 'generated/sche
 import { SET_SESSION_MUTATION } from 'client/state/session'
 import Label from 'components/Label'
 import Text from 'components/Text'
+import Link from 'components/Link'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -71,7 +72,7 @@ const Login: React.FC = () => {
                       <Input
                         placeholder="Email"
                         type="email"
-                        css={{ width: '100%' }}
+                        size="large"
                         {...input}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
@@ -85,28 +86,15 @@ const Login: React.FC = () => {
                       <Input
                         placeholder="Password"
                         type="password"
-                        css={{ width: '100%' }}
+                        size="large"
                         {...input}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
-                <Button type="submit" css={{ width: '100%' }} color="primary">Login</Button>
-                <Box as="p" css={{ color: '$gray10', fontSize: 14 }}>Don&apos;t have an account?
-                  <Box
-                    as="a"
-                    css={{
-                      transition: 'all 0.1s ease',
-                      cursor: 'pointer',
-                      padding: '0 8px',
-                      '&:hover': { textDecoration: 'underline', textDecorationThickness: 2 }
-                    }}
-                    href="/signup"
-                  >
-                    Create an account
-                  </Box>
-                </Box>
+                <Button type="submit" size="large" kind="primary">Login</Button>
+                <Text align="center" fontSize={13}>Don&apos;t have an account?<Link to="/signup">Create an account</Link></Text>
               </Flex>
             )}
           />

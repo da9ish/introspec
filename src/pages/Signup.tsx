@@ -1,19 +1,18 @@
 import { useNavigate } from 'react-router'
 import { Field, Form } from 'react-final-form'
 import { useMutation } from '@apollo/client'
-
 import { styled } from '@stitches/react'
 
+import Box from 'components/Box'
+import Button from 'components/Button'
 import Flex from 'components/Flex'
 import Input from 'components/Input'
-import Button from 'components/Button'
-import Box from 'components/Box'
+import Label from 'components/Label'
+import Link from 'components/Link'
+import Text from 'components/Text'
 import { ReactComponent as Logo } from 'assets/logo.svg'
 import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
-import Text from 'components/Text'
-import Label from 'components/Label'
-import Link from 'components/Link'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -64,7 +63,7 @@ const SignUp: React.FC = () => {
                   {({ input, meta }) => (
                     <Label>
                       Email
-                      <Input placeholder="elon.musk@spacex.com" type="email" {...input} />
+                      <Input placeholder="elon.musk@spacex.com" type="email" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
@@ -73,7 +72,7 @@ const SignUp: React.FC = () => {
                   {({ input, meta }) => (
                     <Label>
                       Password
-                      <Input placeholder="WeAreGoing@M4rs" type="password" {...input} />
+                      <Input placeholder="WeAreGoing@M4rs" type="password" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
@@ -82,13 +81,13 @@ const SignUp: React.FC = () => {
                   {({ input, meta }) => (
                     <Label>
                       Confirm Password
-                      <Input placeholder="Confirm Password" type="password" {...input} />
+                      <Input placeholder="Confirm Password" type="password" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
-                <Button color="primary" onClick={handleSubmit}>Sign up</Button>
-                <Text align="center" fontSize={13}>Already have an account?<Link to="/login">Login</Link> </Text>
+                <Button kind="primary" size="large" onClick={handleSubmit}>Sign up</Button>
+                <Text align="center" fontSize={13}>Already have an account?<Link to="/login">Login</Link></Text>
               </Flex>
             )}
           />

@@ -1,127 +1,98 @@
-import { blackA } from '@radix-ui/colors'
-import { styled } from '@stitches/react'
+import { styled, VariantProps } from '@stitches/react'
+import type { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 
-const Button = styled('button', {
+import Icon, { IconProps } from 'components/Icon'
+import Flex from './Flex'
+
+interface ButtonProps extends PropsWithChildren,
+VariantProps<typeof StyledButton>,
+ButtonHTMLAttributes<HTMLButtonElement> {
+  icon?: IconProps['name'],
+  iconPlacement?: 'left' | 'right'
+}
+
+const StyledButton = styled('button', {
   transition: 'all 0.1s ease',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   textDecoration: 'none',
   cursor: 'pointer',
-  fontSize: '13px',
   outline: 'unset',
-  padding: '8px 16px',
-  marginX: '8px',
+  padding: '0 8px',
   borderRadius: '4px',
   fontFamily: '$body',
   fontWeight: 500,
 
   variants: {
-    color: {
+    kind: {
       primary: {
-        backgroundColor: '$primary',
-        color: '$primary',
+        backgroundColor: '$controlBase',
+        color: '$controlLabel',
 
         '&:hover': {
-          backgroundColor: '#0057DA'
+          backgroundColor: '$controlBaseHighlight'
         }
       },
       secondary: {
-        backgroundColor: '$secondary',
-        color: '$secondary',
+        backgroundColor: '$controlSecondary',
+        color: '$labelBase',
+        border: '1px solid $buttonBorder',
+        boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
 
         '&:hover': {
-          opacity: 0.8
+          backgroundColor: '$buttonHoverBg',
+          border: '1px solid $buttonBorderHover'
         }
       },
-      accent: {
-        backgroundColor: '$gray1',
-        color: '$gray1',
+      outlined: {
+        backgroundColor: 'transparent',
+        border: '1px solid $buttonBorder',
+        color: '$bgBorderSolid',
 
         '&:hover': {
-          opacity: 0.8
+          color: '$labelBase'
+        }
+      },
+      dangerous: {
+        backgroundColor: '$danger',
+        color: '$bgBase',
+        boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
+
+        '&:hover': {
+          color: '$dangetHighlight'
         }
       }
     },
-    kind: {
-      filled: {
-        border: 'unset'
+    size: {
+      small: {
+        height: 28,
+        fontSize: '12px'
       },
-      outlined: {
-        borderWidth: '1px',
-        borderStyle: 'solid',
-
-        '&:hover': {
-          backgroundColor: blackA.blackA2
-        }
+      normal: {
+        height: 32,
+        fontSize: '13px'
       },
-      ghost: {
-        border: 'unset',
-        backgroundColor: 'unset',
-
-        '&:hover': {
-          backgroundColor: blackA.blackA2
-        }
+      large: {
+        height: 44,
+        fontSize: '13px'
       }
     }
   },
-  compoundVariants: [
-    {
-      color: 'primary',
-      kind: 'filled',
-      css: {
-        border: 'unset',
-        color: 'white'
-      }
-    },
-    {
-      color: 'secondary',
-      kind: 'filled',
-      css: {
-        border: 'unset',
-        color: '$gray1'
-      }
-    },
-    {
-      color: 'accent',
-      kind: 'filled',
-      css: {
-        border: 'unset',
-        color: 'white'
-      }
-    },
-    {
-      color: 'primary',
-      kind: 'outlined',
-      css: {
-        backgroundColor: 'unset',
-        color: '$primary',
-        borderColor: '$primary'
-      }
-    },
-    {
-      color: 'secondary',
-      kind: 'outlined',
-      css: {
-        backgroundColor: 'unset',
-        color: '$secondary',
-        borderColor: '$secondary'
-      }
-    },
-    {
-      color: 'accent',
-      kind: 'outlined',
-      css: {
-        backgroundColor: 'unset',
-        color: '$accent',
-        borderColor: '$accent'
-      }
-    }
-  ],
   defaultVariants: {
-    kind: 'filled',
-    color: 'accent'
+    kind: 'primary',
+    size: 'small'
   }
 })
+
+const Button: React.FC<ButtonProps> = ({ children, icon = null, iconPlacement = 'left', ...props }) => (
+  <StyledButton {...props}>
+    <Flex gap="sm">
+      {icon && iconPlacement === 'left' && <Icon name={icon} />}
+      {children}
+      {icon && iconPlacement === 'right' && <Icon name={icon} />}
+    </Flex>
+  </StyledButton>
+)
 
 export default Button
