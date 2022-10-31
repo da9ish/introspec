@@ -4,7 +4,7 @@ import { styled } from '@stitches/react'
 
 const Link = styled(RouterLink, {
   textDecoration: 'none',
-  color: '#313131',
+  color: '$labelLink',
   margin: '4px 0',
   transition: 'all 0.1s ease',
   cursor: 'pointer',

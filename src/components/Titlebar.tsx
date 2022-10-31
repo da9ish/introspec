@@ -12,8 +12,9 @@ interface Props {
   actions?: React.ReactNode,
   actionIcon: string,
   canSearch?: boolean,
+  searchText?: string,
   onAction: () => void,
-  onSearch?: () => void
+  onSearch?: (value: string) => void
 }
 
 const Container = styled(Flex, {
