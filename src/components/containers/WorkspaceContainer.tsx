@@ -5,7 +5,9 @@ import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 const WorkspaceContainer: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
 
-  if (currentAccount && currentAccount.workspace) return <PrivateContainer />
+  if (currentAccount
+    && currentAccount.workspace
+    && currentAccount.onBoardingCompleted) return <PrivateContainer />
 
   // if (currentAccount) return <PrivateContainer />
 

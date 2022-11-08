@@ -285,7 +285,7 @@ export type CredentialFragmentFragment = { readonly __typename?: 'Credential', r
 export type CurrentAccountQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentAccountQuery = { readonly __typename?: 'ApplicationQuery', readonly currentAccount?: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } } };
+export type CurrentAccountQuery = { readonly __typename?: 'ApplicationQuery', readonly currentAccount?: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } } };
 
 export type EnvironmentFragmentFragment = { readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string };
 
@@ -299,9 +299,9 @@ export type UserConfirmRegistrationWithTokenMutationVariables = Exact<{
 }>;
 
 
-export type UserConfirmRegistrationWithTokenMutation = { readonly __typename?: 'ApplicationMutation', readonly userConfirmRegistrationWithToken?: { readonly __typename?: 'UserConfirmRegistrationWithTokenPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials?: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
+export type UserConfirmRegistrationWithTokenMutation = { readonly __typename?: 'ApplicationMutation', readonly userConfirmRegistrationWithToken?: { readonly __typename?: 'UserConfirmRegistrationWithTokenPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials?: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
 
-export type UserFragmentFragment = { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } };
+export type UserFragmentFragment = { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } };
 
 export type UserLoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -309,12 +309,12 @@ export type UserLoginMutationVariables = Exact<{
 }>;
 
 
-export type UserLoginMutation = { readonly __typename?: 'ApplicationMutation', readonly userLogin?: { readonly __typename?: 'UserLoginPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
+export type UserLoginMutation = { readonly __typename?: 'ApplicationMutation', readonly userLogin?: { readonly __typename?: 'UserLoginPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
 
 export type UserLogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UserLogoutMutation = { readonly __typename?: 'ApplicationMutation', readonly userLogout?: { readonly __typename?: 'UserLogoutPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } } } };
+export type UserLogoutMutation = { readonly __typename?: 'ApplicationMutation', readonly userLogout?: { readonly __typename?: 'UserLogoutPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } } } };
 
 export type UserRegisterMutationVariables = Exact<{
   firstName: Scalars['String'];
@@ -328,7 +328,7 @@ export type UserRegisterMutationVariables = Exact<{
 }>;
 
 
-export type UserRegisterMutation = { readonly __typename?: 'ApplicationMutation', readonly userRegister?: { readonly __typename?: 'userRegisterPayload', readonly authenticatable?: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials?: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
+export type UserRegisterMutation = { readonly __typename?: 'ApplicationMutation', readonly userRegister?: { readonly __typename?: 'userRegisterPayload', readonly authenticatable?: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials?: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
 
 export type UserResendConfirmationWithTokenMutationVariables = Exact<{
   email: Scalars['String'];
@@ -345,7 +345,7 @@ export type UserUpdatePasswordWithTokenMutationVariables = Exact<{
 }>;
 
 
-export type UserUpdatePasswordWithTokenMutation = { readonly __typename?: 'ApplicationMutation', readonly userUpdatePasswordWithToken?: { readonly __typename?: 'UserUpdatePasswordWithTokenPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials?: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
+export type UserUpdatePasswordWithTokenMutation = { readonly __typename?: 'ApplicationMutation', readonly userUpdatePasswordWithToken?: { readonly __typename?: 'UserUpdatePasswordWithTokenPayload', readonly authenticatable: { readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }, readonly credentials?: { readonly __typename?: 'Credential', readonly accessToken: string, readonly client: string, readonly uid: string, readonly tokenType: string, readonly expiry: number } } };
 
 export type UserSendPasswordResetWithTokenMutationVariables = Exact<{
   email: Scalars['String'];
@@ -358,7 +358,7 @@ export type UserSendPasswordResetWithTokenMutation = { readonly __typename?: 'Ap
 export type UsersListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersListQuery = { readonly __typename?: 'ApplicationQuery', readonly usersList?: ReadonlyArray<{ readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }> };
+export type UsersListQuery = { readonly __typename?: 'ApplicationQuery', readonly usersList?: ReadonlyArray<{ readonly __typename?: 'User', readonly name: string, readonly username: string, readonly email: string, readonly firstName: string, readonly lastName: string, readonly role: RoleEnum, readonly profilePic?: string, readonly workspace?: { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> } }> };
 
 export type WorkspaceFragmentFragment = { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> };
 
@@ -397,6 +397,7 @@ export const UserFragmentFragmentDoc = gql`
   firstName
   lastName
   username
+  role
   profilePic
   workspace {
     ...WorkspaceFragment

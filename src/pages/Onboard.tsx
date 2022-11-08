@@ -174,6 +174,15 @@ const WorkspaceForm = ({
 
 const EnvironmentForm = ({ setTopbarSetupMode }: any) => {
   const navigate = useNavigate()
+  const [ setSession ] = useMutation(SET_SESSION_MUTATION)
+  const completeOnboarding = () => {
+    const { session } = cache.readQuery({ query: SESSION_QUERY }) as SessionQuery
+    setSession({ variables: {
+      ...session,
+      onBoardingCompleted: true
+    } })
+      .then(() => navigate('/overview'))
+  }
   return (
     <>
       <Text type="title3">Environments</Text>
@@ -194,7 +203,7 @@ const EnvironmentForm = ({ setTopbarSetupMode }: any) => {
       >Live
       </Button>
       <Flex css={{ width: '100%' }}>
-        <Button size="large" className={classes.button()} onClick={() => navigate('/overview')}>Continue</Button>
+        <Button size="large" className={classes.button()} onClick={completeOnboarding}>Continue</Button>
       </Flex>
     </>
   )
@@ -204,7 +213,7 @@ const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
   const [ sidebarSetupMode, setSidebarSetupMode ] = useState(false)
   const [ topbarSetupMode, setTopbarSetupMode ] = useState(false)
-  const [ step, setStep ] = useState<'none' | 'true' | 'false'>('none')
+  const [ step, setStep ] = useState<'none' | 'true' | 'false'>(currentAccount?.workspace ? 'true' : 'none')
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
   const [ createWorkspace ] = useCreateWorkspaceMutation({
     onCompleted: (data) => {

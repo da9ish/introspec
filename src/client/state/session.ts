@@ -12,6 +12,7 @@ const DEFAULT_SESSION: Session = {
   client: null,
   expiry: null,
   tokenType: null,
+  onBoardingCompleted: false,
   workspace: null
 }
 
@@ -24,6 +25,7 @@ export type Session = {
   client: string | null,
   expiry: number | null,
   tokenType: string | null,
+  onBoardingCompleted: boolean,
   workspace: Workspace | null
 }
 
@@ -41,6 +43,7 @@ export const SESSION_QUERY = gql`
       client
       expiry
       tokenType
+      onBoardingCompleted
       workspace {
         id
         name
@@ -66,8 +69,8 @@ export const writeDefaults = {
 /* Mutations */
 
 export const SET_SESSION_MUTATION = gql`
-  mutation setSessionMutation($id: UUID!, $accessToken: String!, $client: String!, $expiry: Integer!, $tokenType: String!, $workspace: Workspace!) {
-    setSession(id: $id, accessToken: $accessToken, client: $client, expiry: $expiry, tokenType: $tokenType, workspace: $workspace) @client
+  mutation setSessionMutation($id: UUID!, $accessToken: String!, $client: String!, $expiry: Integer!, $tokenType: String!, $onBoardingCompleted: Boolean!, $workspace: Workspace!) {
+    setSession(id: $id, accessToken: $accessToken, client: $client, expiry: $expiry, tokenType: $tokenType, onBoardingCompleted: $onBoardingCompleted, workspace: $workspace) @client
   }
 `
 
@@ -82,7 +85,7 @@ export default {
   resolvers: {
     Mutation: {
       setSession: (_, {
-        id, accessToken, client, expiry, tokenType, workspace
+        id, accessToken, client, expiry, tokenType, onBoardingCompleted = false, workspace
       }, { cache }) => {
         cache.writeQuery({
           query: SESSION_QUERY,
@@ -94,6 +97,7 @@ export default {
               client,
               expiry,
               tokenType,
+              onBoardingCompleted,
               workspace
             }
           }

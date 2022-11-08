@@ -5,13 +5,14 @@ import AppLoader from 'components/AppLoader'
 import useClientQuery from 'hooks/useClientQuery'
 import { SessionQuery, SESSION_QUERY } from 'client/state/session'
 
-const currentAccountContext = createContext<User | undefined>(undefined)
+type CurrentAccountContextType = User & {onBoardingCompleted?: boolean}
+const currentAccountContext = createContext<CurrentAccountContextType | undefined>(undefined)
 
 const useCurrentAccountContext = () => useContext(currentAccountContext)
 
 const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
   const {
-    data: { session: { accessToken, workspace } }
+    data: { session: { accessToken, workspace, onBoardingCompleted } }
   } = useClientQuery<SessionQuery>(SESSION_QUERY)
 
   const skip = !accessToken || !workspace
@@ -25,8 +26,9 @@ const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
 
   const currentAccount = useMemo(() => ({
     ...currentAccountData,
-    workspace: currentAccountData?.workspace || workspace
-  }), [ currentAccountData, workspace ])
+    workspace: currentAccountData?.workspace || workspace,
+    onBoardingCompleted
+  }), [ currentAccountData, workspace, onBoardingCompleted ])
 
   if (!currentAccountData && loading) {
     return <AppLoader />
