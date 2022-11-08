@@ -3,6 +3,8 @@ import { Field, Form } from 'react-final-form'
 import { useMutation } from '@apollo/client'
 import { styled } from '@stitches/react'
 
+import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
+
 import Box from 'components/Box'
 import Button from 'components/Button'
 import Flex from 'components/Flex'
@@ -11,7 +13,6 @@ import Label from 'components/Label'
 import Link from 'components/Link'
 import Text from 'components/Text'
 import { ReactComponent as Logo } from 'assets/logo.svg'
-import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
 
 const Container = styled(Flex, {
@@ -36,8 +37,7 @@ const SignUp: React.FC = () => {
           client,
           expiry,
           tokenType,
-          workspaceId: null,
-          environmentId: null
+          workspace: null
         } })
           .then(() => navigate('/onboard'))
       }
@@ -56,12 +56,44 @@ const SignUp: React.FC = () => {
           <Text type="title3">Create your Introspec account</Text>
           <Form
             onSubmit={onSubmit}
+            initialValues={{
+              role: 'WORKSPACE_MEMBER'
+            }}
             validate={() => ({})}
             render={({ handleSubmit }) => (
               <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
+                <Flex gap="md">
+                  <Field name="firstName">
+                    {({ input, meta }) => (
+                      <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        First Name
+                        <Input placeholder="Elon" type="text" size="large" {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                      </Label>
+                    )}
+                  </Field>
+                  <Field name="lastName">
+                    {({ input, meta }) => (
+                      <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        Last Name
+                        <Input placeholder="Musk" type="text" size="large" {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                      </Label>
+                    )}
+                  </Field>
+                </Flex>
+                <Field name="username">
+                  {({ input, meta }) => (
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      Username
+                      <Input placeholder="elon.musk" type="text" size="large" {...input} />
+                      {meta.error && meta.touched && <span>{meta.error}</span>}
+                    </Label>
+                  )}
+                </Field>
                 <Field name="email">
                   {({ input, meta }) => (
-                    <Label>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                       Email
                       <Input placeholder="elon.musk@spacex.com" type="email" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
@@ -70,7 +102,7 @@ const SignUp: React.FC = () => {
                 </Field>
                 <Field name="password">
                   {({ input, meta }) => (
-                    <Label>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                       Password
                       <Input placeholder="WeAreGoing@M4rs" type="password" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
@@ -79,7 +111,7 @@ const SignUp: React.FC = () => {
                 </Field>
                 <Field name="passwordConfirmation">
                   {({ input, meta }) => (
-                    <Label>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                       Confirm Password
                       <Input placeholder="Confirm Password" type="password" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}

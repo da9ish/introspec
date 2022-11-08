@@ -4,6 +4,7 @@ const Clickable = styled('div', {
   transition: 'all 0.1s ease',
 
   display: 'flex',
+  boxSizing: 'border-box',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
@@ -17,6 +18,23 @@ const Clickable = styled('div', {
 
   '&:hover': {
     backgroundColor: '#f0f3f9'
+  },
+
+  variants: {
+    size: {
+      small: {
+        height: 30
+      },
+      normal: {
+        height: 32
+      },
+      large: {
+        height: 36
+      }
+    }
+  },
+  defaultVariants: {
+    size: 'small'
   }
 })
 

@@ -1,70 +1,150 @@
-import { styled } from '@stitches/react'
-import { violet, mauve, blackA } from '@radix-ui/colors'
-import { ChevronUp, ChevronDown, Check } from 'react-feather'
+import { styled, VariantProps } from '@stitches/react'
+
 import * as SelectPrimitive from '@radix-ui/react-select'
 
-const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
-  all: 'unset',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: 4,
-  padding: '0 15px',
-  fontSize: 13,
-  lineHeight: 1,
-  height: 35,
-  gap: 5,
-  backgroundColor: 'white',
-  color: '#282A30',
-  boxShadow: `0 2px 10px ${blackA.blackA7}`,
-  '&:hover': { backgroundColor: mauve.mauve3 },
-  '&:focus': { boxShadow: '0 0 0 2px black' },
-  '&[data-placeholder]': { color: violet.violet9 }
+import Icon, { IconProps } from 'components/Icon'
+
+interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'>,
+VariantProps<typeof StyledTrigger> {
+  label: string,
+  value: string,
+  labelKey?: string,
+  valueKey?: string,
+  iconKey?: string,
+  icon?: IconProps['name'],
+  options: Record<string, any>
+}
+
+const StyledSelect = styled(SelectPrimitive.Root, {
+  position: 'relative'
+})
+
+const DropdownIcon = styled(SelectPrimitive.SelectIcon, {
+  position: 'absolute',
+  right: 10,
+  color: '$labelBase'
 })
 
 const StyledIcon = styled(SelectPrimitive.SelectIcon, {
-  color: '#282A30'
+  position: 'absolute',
+  left: 8,
+  color: '$labelBase'
+})
+
+const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
+  position: 'relative !important',
+  all: 'unset',
+  gap: 5,
+  boxSizing: 'border-box',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0 15px',
+  borderRadius: 4,
+  fontSize: 13,
+  lineHeight: 1,
+  backgroundColor: '$controlSecondary',
+  color: '$labelBase',
+  border: '1px solid transparent',
+  boxShadow: 'rgb(223 225 228) 0px 0px 0px 1px',
+
+  '&[data-placeholder]': { color: '$labelFaint' },
+
+  '&:hover:not(:disabled)': {
+    transition: 'none 0s ease 0s',
+    // border: '1px solid $buttonBorderHover',
+    boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
+  },
+
+  '&:focus': {
+    border: '1px solid $controlSelectLabel'
+  },
+
+  '&:focus-within': {
+    border: '1px solid $controlSelectLabel'
+  },
+
+  variants: {
+    size: {
+      small: {
+        height: 28,
+        padding: '1px 40px 1px 28px',
+        fontSize: '12px'
+      },
+      normal: {
+        height: 32,
+        padding: '1px 48px 1px 30px',
+        fontSize: '13px'
+      },
+      large: {
+        height: 35,
+        padding: 12,
+        fontSize: '1px 52px 1px 32px'
+      }
+    }
+  },
+  defaultVariants: {
+    size: 'normal'
+  }
 })
 
 const StyledContent = styled(SelectPrimitive.Content, {
-  overflow: 'hidden',
+  width: 'min-content',
+  borderRadius: 4,
+  padding: 0,
   backgroundColor: 'white',
-  borderRadius: 6,
-  boxShadow:
-    '0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)'
+  border: '1px solid rgb(223, 225, 228)',
+  boxShadow: 'rgb(0 0 0 / 6%) 0px 7px 24px',
+  overflow: 'hidden'
 })
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
-  padding: 5
+  padding: 0
 })
 
-const Content = ({ children, ...props }: SelectPrimitive.SelectContentProps) => (
-  <SelectPrimitive.Portal>
-    <StyledContent {...props}>{children}</StyledContent>
-  </SelectPrimitive.Portal>
-)
+function Content({ children, ...props }: SelectPrimitive.SelectContentProps) {
+  return (
+    <SelectPrimitive.Portal>
+      <StyledContent {...props}>{children}</StyledContent>
+    </SelectPrimitive.Portal>
+  )
+}
 
 const StyledItem = styled(SelectPrimitive.Item, {
   all: 'unset',
   fontSize: 13,
   lineHeight: 1,
-  color: violet.violet11,
+  color: '$labelBase',
   borderRadius: 3,
   display: 'flex',
   alignItems: 'center',
-  height: 25,
-  padding: '0 35px 0 25px',
+  height: 32,
+  padding: '0px 35px 0px 25px',
   position: 'relative',
   userSelect: 'none',
 
   '&[data-disabled]': {
-    color: mauve.mauve8,
+    color: '$labelMuted',
     pointerEvents: 'none'
   },
 
   '&[data-highlighted]': {
-    backgroundColor: violet.violet9,
-    color: violet.violet1
+    backgroundColor: '$controlSelectedBg',
+    color: '$labelBase'
+  },
+
+  variants: {
+    size: {
+      small: {
+        height: 28
+      },
+      normal: {
+        height: 32
+      },
+      large: {
+        height: 35
+      }
+    }
   }
 })
 
@@ -72,12 +152,12 @@ const StyledLabel = styled(SelectPrimitive.Label, {
   padding: '0 25px',
   fontSize: 12,
   lineHeight: '25px',
-  color: mauve.mauve11
+  color: '$labelBase'
 })
 
 const StyledSeparator = styled(SelectPrimitive.Separator, {
   height: 1,
-  backgroundColor: violet.violet6,
+  backgroundColor: '$buttonBorder',
   margin: 5
 })
 
@@ -96,7 +176,7 @@ const scrollButtonStyles = {
   justifyContent: 'center',
   height: 25,
   backgroundColor: 'white',
-  color: violet.violet11,
+  color: '$controlBase',
   cursor: 'default'
 }
 
@@ -104,7 +184,6 @@ const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButton
 
 const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton, scrollButtonStyles)
 
-const SelectRoot = SelectPrimitive.Root
 const SelectTrigger = StyledTrigger
 const SelectValue = SelectPrimitive.Value
 const SelectIcon = StyledIcon
@@ -119,49 +198,48 @@ const SelectSeparator = StyledSeparator
 const SelectScrollUpButton = StyledScrollUpButton
 const SelectScrollDownButton = StyledScrollDownButton
 
-interface SelectProps {
-  ariaLabel: string,
-  placeholder: string,
-  label: string,
-  options: { label: string, value: string }[],
-  checkSelection?: boolean
-}
-
-const Select = ({
-  ariaLabel, placeholder, label, options, checkSelection = false
-}: SelectProps) => (
-  <SelectRoot>
-    <SelectTrigger aria-label={ariaLabel}>
+const Select: React.FC<SelectProps> = ({
+  name,
+  label,
+  value,
+  icon,
+  placeholder = 'Select...',
+  options,
+  labelKey = 'label',
+  valueKey = 'value',
+  size = 'normal'
+}) => (
+  <StyledSelect value={value} name={name}>
+    <SelectTrigger size={size} aria-label={label} value={value}>
+      {icon && (
+        <SelectIcon>
+          <Icon name={icon} />
+        </SelectIcon>
+      )}
       <SelectValue placeholder={placeholder} />
-      <SelectIcon>
-        <ChevronDown />
-      </SelectIcon>
+      <DropdownIcon>
+        <Icon name="chevron-down" />
+      </DropdownIcon>
     </SelectTrigger>
     <SelectContent>
       <SelectScrollUpButton>
-        <ChevronUp />
+        <Icon name="chevron-up" />
       </SelectScrollUpButton>
       <SelectViewport>
-        <SelectGroup>
-          <SelectLabel>{label}</SelectLabel>
-          {options.map((opt) => (
-            <SelectItem value={opt.value}>
-              <SelectItemText>{opt.label}</SelectItemText>
-              {checkSelection
-              && (
-                <SelectItemIndicator>
-                  <Check />
-                </SelectItemIndicator>
-              )}
-            </SelectItem>
-          ))}
-        </SelectGroup>
+        {options.map((opt: any) => (
+          <SelectItem size={size} value={opt[valueKey]}>
+            <SelectItemText>{opt[labelKey]}</SelectItemText>
+            <SelectItemIndicator>
+              <Icon name="check" />
+            </SelectItemIndicator>
+          </SelectItem>
+        ))}
       </SelectViewport>
       <SelectScrollDownButton>
-        <ChevronDown />
+        <Icon name="chevron-down" />
       </SelectScrollDownButton>
     </SelectContent>
-  </SelectRoot>
+  </StyledSelect>
 )
 
 export default Select

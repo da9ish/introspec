@@ -1,10 +1,10 @@
 import { styled } from '@stitches/react'
 
-import Box from 'components/Box'
 import Clickable from 'components/Clickable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
+import Select from 'components/Select'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
 const StyledTopbar = styled('header', {
@@ -18,6 +18,38 @@ const StyledTopbar = styled('header', {
   borderBottom: '1px solid #F8F9FB'
 })
 
+const ApiContainer = styled(Flex, {
+  transition: 'all 0.3s ease',
+
+  variants: {
+    setupMode: {
+      true: {
+        backgroundColor: 'white',
+        border: '1px solid transparent',
+        transform: 'scale(110%)',
+        borderRadius: 4,
+        boxShadow: 'rgb(68 138 255 / 90%) 0px 0px 0px 2px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
+      }
+    }
+  }
+})
+
+const EnvironmentContainer = styled(Flex, {
+  transition: 'all 0.3s ease',
+
+  variants: {
+    setupMode: {
+      true: {
+        backgroundColor: 'white',
+        border: '1px solid transparent',
+        transform: 'scale(110%)',
+        borderRadius: 4,
+        boxShadow: 'rgb(68 138 255 / 90%) 0px 0px 0px 2px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
+      }
+    }
+  }
+})
+
 const ApiBar = styled(Flex, {
   alignItems: 'center',
   fontSize: '$body',
@@ -26,38 +58,37 @@ const ApiBar = styled(Flex, {
   marginRight: '8px'
 })
 
-const Environment = styled(Box, {
-  marginLeft: '8px',
-  fontFamily: '$body',
-  fontSize: '$body'
-})
+interface TopbarProps {
+  setupMode?: boolean,
+  formValues?: Record<string, any>
+}
 
-const Topbar: React.FC = () => {
+const Topbar: React.FC<TopbarProps> = ({
+  setupMode = false, formValues
+}) => {
   const currentAccount = useCurrentAccountContext()
+  const environments = currentAccount?.workspace?.environments || []
 
   return (
     <StyledTopbar>
-      <Flex>
-        <Clickable>
-          <ApiBar>{`${currentAccount?.workspace?.identifier}.introspec.app/graphql`}</ApiBar>
+      <ApiContainer setupMode={setupMode}>
+        <Clickable size="small">
+          <ApiBar>{`${currentAccount?.workspace?.identifier || formValues?.identifier}.introspec.app/graphql`}</ApiBar>
           <Icon name="copy" />
         </Clickable>
         <IconButton name="book" onClick={() => {}} />
-      </Flex>
-      {/* <Select
-      ariaLabel="environments"
-      placeholder="Environment"
-      label="Environments"
-      options={[
-        { label: 'Develop', value: 'develop' },
-        { label: 'Staging', value: 'staging' },
-        { label: 'Live', value: 'live' }
-      ]}
-    /> */}
-      <Clickable>
-        <Icon name="layers" />
-        <Environment>Staging</Environment>
-      </Clickable>
+      </ApiContainer>
+      <EnvironmentContainer setupMode={setupMode}>
+        <Select
+          label="Live"
+          value="live"
+          icon="layers"
+          labelKey="name"
+          valueKey="identifier"
+          size="small"
+          options={formValues?.environments || environments}
+        />
+      </EnvironmentContainer>
     </StyledTopbar>
   )
 }

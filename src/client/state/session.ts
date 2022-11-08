@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client'
 
 import type { ClientState } from 'client/state/types'
+import type { Workspace } from 'generated/schema'
 
 /* Default Data */
 
@@ -11,8 +12,7 @@ const DEFAULT_SESSION: Session = {
   client: null,
   expiry: null,
   tokenType: null,
-  workspaceId: null,
-  environmentId: null
+  workspace: null
 }
 
 /* Types */
@@ -24,8 +24,7 @@ export type Session = {
   client: string | null,
   expiry: number | null,
   tokenType: string | null,
-  workspaceId: string | null,
-  environmentId: string | null
+  workspace: Workspace | null
 }
 
 export type SessionQuery = {
@@ -42,8 +41,17 @@ export const SESSION_QUERY = gql`
       client
       expiry
       tokenType
-      workspaceId
-      environmentId
+      workspace {
+        id
+        name
+        identifier
+        logo
+        environments {
+          id
+          name
+          identifier
+        }
+      }
     }
   }
 `
@@ -58,8 +66,8 @@ export const writeDefaults = {
 /* Mutations */
 
 export const SET_SESSION_MUTATION = gql`
-  mutation setSessionMutation($id: UUID!, $accessToken: String!, $client: String!, $expiry: Integer!, $tokenType: String!, $workspaceId: String!, $environmentId: String) {
-    setSession(id: $id, accessToken: $accessToken, client: $client, expiry: $expiry, tokenType: $tokenType, workspaceId: $workspaceId, environmentId: $environmentId) @client
+  mutation setSessionMutation($id: UUID!, $accessToken: String!, $client: String!, $expiry: Integer!, $tokenType: String!, $workspace: Workspace!) {
+    setSession(id: $id, accessToken: $accessToken, client: $client, expiry: $expiry, tokenType: $tokenType, workspace: $workspace) @client
   }
 `
 
@@ -74,7 +82,7 @@ export default {
   resolvers: {
     Mutation: {
       setSession: (_, {
-        id, accessToken, client, expiry, tokenType, workspaceId, environmentId
+        id, accessToken, client, expiry, tokenType, workspace
       }, { cache }) => {
         cache.writeQuery({
           query: SESSION_QUERY,
@@ -86,8 +94,7 @@ export default {
               client,
               expiry,
               tokenType,
-              workspaceId,
-              environmentId
+              workspace
             }
           }
         })

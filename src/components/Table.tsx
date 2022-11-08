@@ -61,7 +61,7 @@ const TD = styled('td', {
   textAlign: 'left'
 })
 
-function Table<T>({ data, loading, error, columns }: Props<T>) {
+function Table<T>({ data = [], loading, error, columns }: Props<T>) {
   const table = useReactTable({
     data,
     columns,

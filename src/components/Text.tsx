@@ -58,6 +58,11 @@ const Text = styled('span', {
         fontFamily: '$body',
         fontSize: '16px',
         fontWeight: 500
+      },
+      label: {
+        fontFamily: '$body',
+        fontSize: '12px',
+        fontWeight: 400
       }
     },
     color: {

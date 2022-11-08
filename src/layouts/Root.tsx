@@ -1,22 +1,13 @@
 import { ApolloProvider } from '@apollo/client'
+import { BrowserRouter } from 'react-router-dom'
 
-import PublicContainer from 'components/containers/PublicContainer'
 import AppLoader from 'components/AppLoader'
 import ClientProvider from 'providers/ClientProvider'
-import CurrentAccountProvider, { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
+import CurrentAccountProvider from 'contexts/CurrentAccountContext'
 import GlobalProvider from 'providers/GlobalProvider'
 import WorkspaceContainer from 'components/containers/WorkspaceContainer'
 import AppContainer from 'components/containers/AppContainer'
-
-const Containers = () => {
-  const currentAccount = useCurrentAccountContext()
-  console.log(currentAccount)
-  if (currentAccount) {
-    if (currentAccount.workspace) return <AppContainer />
-    return <WorkspaceContainer />
-  }
-  return <PublicContainer />
-}
+import { hasWorkspaceHostname } from 'libs/hostname'
 
 const Root: React.FC = () => (
   <ClientProvider>
@@ -29,7 +20,9 @@ const Root: React.FC = () => (
         <ApolloProvider client={apolloClient}>
           <GlobalProvider>
             <CurrentAccountProvider>
-              <Containers />
+              <BrowserRouter>
+                {hasWorkspaceHostname ? <WorkspaceContainer /> : <AppContainer />}
+              </BrowserRouter>
             </CurrentAccountProvider>
           </GlobalProvider>
         </ApolloProvider>

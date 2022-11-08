@@ -2,6 +2,7 @@ fragment WorkspaceFragment on Workspace {
   id
   name
   identifier
+  logo
 
   environments {
     ...EnvironmentFragment

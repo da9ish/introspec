@@ -1,19 +1,18 @@
-import { useNavigate } from 'react-router'
-import { useMutation } from '@apollo/client'
 import { Field, Form } from 'react-final-form'
-
 import { styled } from '@stitches/react'
+import { useMutation } from '@apollo/client'
+import { useNavigate } from 'react-router'
 
 import Box from 'components/Box'
 import Button from 'components/Button'
 import Flex from 'components/Flex'
 import Input from 'components/Input'
+import Label from 'components/Label'
+import Link from 'components/Link'
+import Text from 'components/Text'
 import { ReactComponent as Logo } from 'assets/logo.svg'
 import { UserLoginMutationVariables, useUserLoginMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
-import Label from 'components/Label'
-import Text from 'components/Text'
-import Link from 'components/Link'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -39,8 +38,7 @@ const Login: React.FC = () => {
           client,
           expiry,
           tokenType,
-          workspaceId: workspace ? workspace.id : null,
-          environmentId: workspace ? workspace.environments?.[0].id : null
+          workspace
         } })
           .then(() => {
             if (workspace) navigate('/')
@@ -67,7 +65,7 @@ const Login: React.FC = () => {
               <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
                 <Field name="email">
                   {({ input, meta }) => (
-                    <Label>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                       Email
                       <Input
                         placeholder="Email"
@@ -81,7 +79,7 @@ const Login: React.FC = () => {
                 </Field>
                 <Field name="password">
                   {({ input, meta }) => (
-                    <Label>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                       Password
                       <Input
                         placeholder="Password"

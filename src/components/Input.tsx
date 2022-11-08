@@ -5,6 +5,7 @@ import Flex from './Flex'
 
 import type { IconProps } from './Icon'
 import Icon from './Icon'
+import Text from './Text'
 
 interface InputProps extends VariantProps<typeof InputContainer>,
 Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -100,9 +101,10 @@ const StyledInput = styled('input', {
   }
 })
 
-const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size = 'small', ...props }) => (
+const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size = 'small', prefix, ...props }) => (
   <InputContainer size={size}>
     {icon && iconPlacement === 'left' && <StyledIconLeft name={icon} />}
+    {prefix && <Text type="body" color="muted">{prefix}</Text>}
     <StyledInput {...props} />
     {icon && iconPlacement === 'right' && <StyledIconRight name={icon} />}
   </InputContainer>

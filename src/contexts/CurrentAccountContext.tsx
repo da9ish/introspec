@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext } from 'react'
+import { createContext, PropsWithChildren, useContext, useMemo } from 'react'
 
 import { User, useCurrentAccountQuery } from 'generated/schema'
 import AppLoader from 'components/AppLoader'
@@ -10,18 +10,25 @@ const currentAccountContext = createContext<User | undefined>(undefined)
 const useCurrentAccountContext = () => useContext(currentAccountContext)
 
 const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
-  const { data: { session: { accessToken } } } = useClientQuery<SessionQuery>(SESSION_QUERY)
-
-  const skip = !accessToken
   const {
-    data: { currentAccount } = {},
+    data: { session: { accessToken, workspace } }
+  } = useClientQuery<SessionQuery>(SESSION_QUERY)
+
+  const skip = !accessToken || !workspace
+  const {
+    data: { currentAccount: currentAccountData } = {},
     loading
   } = useCurrentAccountQuery({
     skip,
     fetchPolicy: 'network-only'
   })
 
-  if (!currentAccount && loading) {
+  const currentAccount = useMemo(() => ({
+    ...currentAccountData,
+    workspace: currentAccountData?.workspace || workspace
+  }), [ currentAccountData, workspace ])
+
+  if (!currentAccountData && loading) {
     return <AppLoader />
   }
 

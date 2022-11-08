@@ -40,9 +40,10 @@ const StyledButton = styled('button', {
         border: '1px solid $buttonBorder',
         boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
 
-        '&:hover': {
+        '&:hover:not(:disabled)': {
           backgroundColor: '$buttonHoverBg',
-          border: '1px solid $buttonBorderHover'
+          border: '1px solid $buttonBorderHover',
+          boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
         }
       },
       outlined: {
@@ -94,5 +95,7 @@ const Button: React.FC<ButtonProps> = ({ children, icon = null, iconPlacement = 
     </Flex>
   </StyledButton>
 )
+
+export type { ButtonProps }
 
 export default Button
