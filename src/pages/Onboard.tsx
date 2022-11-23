@@ -9,9 +9,9 @@ import Box from 'components/Box'
 import Button from 'components/Button'
 import Flex from 'components/Flex'
 import Grid from 'components/Grid'
-import GridBg from 'assets/grid.svg'
 import Input from 'components/Input'
 import Label from 'components/Label'
+import Logo from 'components/Logo'
 import Sidebar from 'components/private/Sidebar'
 import Text from 'components/Text'
 import Topbar from 'components/private/Topbar'
@@ -21,6 +21,8 @@ import { SessionQuery, SESSION_QUERY, SET_SESSION_MUTATION } from 'client/state/
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import { colors } from 'colors'
 
+import GridBg from 'assets/grid.png'
+
 const reqAvatar = require.context('assets/avatars', true, /avatar-[1-9].png$/)
 
 const Container = styled(Flex, {
@@ -29,7 +31,7 @@ const Container = styled(Flex, {
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  background: '$landingBg'
+  background: 'linear-gradient(270deg, $landingBg 20%, $landingSubtleBg)'
 })
 
 const FormContainer = styled(Flex, {
@@ -41,7 +43,7 @@ const AccountContext = styled(Flex, {
   padding: '24px 32px',
   alignItems: 'center',
   justifyContent: 'space-between',
-  background: '$landingBg'
+  background: 'linear-gradient(270deg, $landingBg 20%, $landingSubtleBg)'
 })
 
 const PreviewContainer = styled(Flex, {
@@ -52,16 +54,7 @@ const PreviewContainer = styled(Flex, {
   padding: '32px',
   overflow: 'hidden',
   backgroundImage: `url("${GridBg}")`,
-
-  '&::after': {
-    content: '',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(70, 101, 213, 0.2) 100%)'
-  }
+  backgroundSize: 'cover'
 })
 
 const moveToRight = keyframes({
@@ -76,6 +69,8 @@ const moveToLeft = keyframes({
 
 const AppContainer = styled(Box, {
   position: 'absolute',
+  transform: 'scale(1.25)',
+  transformOrigin: 'left top',
   width: '100vw',
   height: '100vh',
   backgroundColor: 'white',
@@ -84,6 +79,16 @@ const AppContainer = styled(Box, {
   boxShadow: 'rgb(62 99 221 / 50%) 0px 0px 20px 2px, rgb(62 99 221 / 50%) 0px 0px 0px 3px',
   top: '20%',
   left: '10%',
+
+  '&::after': {
+    content: '',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(70, 101, 213, 0.2) 100%)'
+  },
 
   variants: {
     step: {
@@ -120,8 +125,13 @@ const WorkspaceForm = ({
   setSidebarSetupMode, setTopbarSetupMode
 }: any) => (
   <>
-    <Text color={colors.landingLabelTitle} type="title3">Create your workspace</Text>
-    <Text color={colors.landingLabelMuted}>This is where you&apos;ll manage all the data</Text>
+    <Flex direction="column" gap="lg">
+      <Logo full size="36px" />
+      <Flex direction="column" gap="sm">
+        <Text color={colors.landingLabelTitle} type="title3">Create your workspace</Text>
+        <Text color={colors.landingLabelMuted}>This is where you&apos;ll manage all the data</Text>
+      </Flex>
+    </Flex>
     <Flex css={{ width: '100%' }} direction="column" gap="lg">
       <Field name="logo">
         {({ input, meta }) => (
@@ -144,6 +154,7 @@ const WorkspaceForm = ({
               {...input}
               placeholder="SpaceX"
               size="large"
+              kind="website"
               onFocus={() => setSidebarSetupMode(true)}
               onBlur={() => setSidebarSetupMode(false)}
             />
@@ -160,6 +171,7 @@ const WorkspaceForm = ({
               prefix="introspec.app/"
               placeholder="spacex"
               size="large"
+              kind="website"
               onFocus={() => setTopbarSetupMode(true)}
               onBlur={() => setTopbarSetupMode(false)}
             />
@@ -217,7 +229,6 @@ const EnvironmentForm = ({ setTopbarSetupMode }: any) => {
 
 const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
-  console.log(currentAccount)
   const [ sidebarSetupMode, setSidebarSetupMode ] = useState(false)
   const [ topbarSetupMode, setTopbarSetupMode ] = useState(false)
   const [ step, setStep ] = useState<'none' | 'true' | 'false'>(currentAccount?.workspace ? 'true' : 'none')

@@ -3,11 +3,6 @@ import { styled } from '@stitches/react'
 
 import { indigoDark } from '@radix-ui/colors'
 
-import AvatarImg from 'assets/avatars/avatar-1.png'
-import AuthImg from 'assets/auth-gfx.png'
-import FeatureBg from 'assets/feature-bg.png'
-import LandingBg from 'assets/landing-bg.png'
-
 import Box from 'components/Box'
 import Flex from 'components/Flex'
 import Navbar from 'components/public/Navbar'
@@ -15,6 +10,11 @@ import Text from 'components/Text'
 import { colors } from 'colors'
 import { ActionButton } from 'components/ActionButton'
 import Grid from 'components/Grid'
+
+import LandingBg from 'assets/landing-bg.png'
+import FeatureBg from 'assets/feature-bg.png'
+import AuthImg from 'assets/auth-gfx.png'
+import AvatarImg from 'assets/avatars/avatar-1.png'
 
 const Container = styled(Box, {
   width: '100vw',

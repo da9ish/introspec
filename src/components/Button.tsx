@@ -2,7 +2,8 @@ import { styled, VariantProps } from '@stitches/react'
 import type { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 
 import Icon, { IconProps } from 'components/Icon'
-import Flex from './Flex'
+
+import Flex from 'components/Flex'
 
 interface ButtonProps extends PropsWithChildren,
 VariantProps<typeof StyledButton>,

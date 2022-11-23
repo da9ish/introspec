@@ -3,13 +3,10 @@ import { styled, VariantProps } from '@stitches/react'
 
 import type { InputHTMLAttributes } from 'react'
 
-import { colors } from 'colors'
-
-import Flex from './Flex'
-
-import type { IconProps } from './Icon'
-import Icon from './Icon'
-import Text from './Text'
+import Flex from 'components/Flex'
+import Icon from 'components/Icon'
+import Text from 'components/Text'
+import type { IconProps } from 'components/Icon'
 
 interface InputProps extends VariantProps<typeof InputContainer>,
 Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -81,21 +78,7 @@ const InputContainer = styled(Flex, {
   borderRadius: '4px',
   fontSize: 15,
   lineHeight: 1,
-  backgroundColor: '$inputBg',
-  border: '1px solid $inputBorder',
   boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
-
-  '&:hover': {
-    border: '1px solid $inputBorderHover'
-  },
-
-  '&:focus': {
-    border: '1px solid $inputBorderFocus'
-  },
-
-  '&:focus-within': {
-    border: '1px solid $inputBorderFocus'
-  },
 
   [`& > ${StyledIconLeft}, & > ${StyledIconRight}`]: {
     color: '$inputPlaceholder',
@@ -105,6 +88,41 @@ const InputContainer = styled(Flex, {
   },
 
   variants: {
+    kind: {
+      app: {
+        backgroundColor: '$inputBg',
+        border: '1px solid $inputBorder',
+
+        '&:hover': {
+          border: '1px solid $inputBorderHover'
+        },
+
+        '&:focus': {
+          border: '1px solid $inputBorderFocus'
+        },
+
+        '&:focus-within': {
+          border: '1px solid $inputBorderFocus'
+        }
+
+      },
+      website: {
+        backgroundColor: '$landingInputBg',
+        border: '1px solid $landingInputBorder',
+
+        '&:hover': {
+          border: '1px solid $landingInputBorderHover'
+        },
+
+        '&:focus': {
+          border: '1px solid $landingInputBorderFocus'
+        },
+
+        '&:focus-within': {
+          border: '1px solid $landingInputBorderFocus'
+        }
+      }
+    },
     size: {
       small: {
         fontSize: '12px',
@@ -131,12 +149,13 @@ const InputContainer = styled(Flex, {
     }
   },
   defaultVariants: {
-    size: 'small'
+    size: 'small',
+    kind: 'app'
   }
 })
 
-const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size = 'small', prefix, ...props }) => (
-  <InputContainer size={size}>
+const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size = 'small', kind, prefix, ...props }) => (
+  <InputContainer size={size} kind={kind}>
     {icon && iconPlacement === 'left' && <StyledIconLeft name={icon} />}
     {prefix && <Prefix type="body" color="muted">{prefix}</Prefix>}
     <StyledInput prefix={Boolean(prefix)} icon={Boolean(icon)} {...props} />

@@ -11,10 +11,11 @@ import Label from 'components/Label'
 import Link from 'components/Link'
 import Logo from 'components/Logo'
 import Text from 'components/Text'
-import GridBg from 'assets/grid.svg'
 import { UserLoginMutationVariables, useUserLoginMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
 import { colors } from 'colors'
+
+import LoginBg from 'assets/login-gfx.png'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -23,7 +24,7 @@ const Container = styled(Flex, {
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  background: '$landingBg'
+  background: 'linear-gradient(270deg, $landingBg 20%, $landingSubtleBg)'
 })
 
 const Login: React.FC = () => {
@@ -34,7 +35,6 @@ const Login: React.FC = () => {
     onCompleted: (data) => {
       if (data.userLogin) {
         const { workspace, ...user } = data.userLogin.authenticatable
-        console.log(data.userLogin)
         const { uid, accessToken, expiry, client, tokenType } = data.userLogin.credentials
         setSession({ variables: {
           id: uid,
@@ -61,9 +61,11 @@ const Login: React.FC = () => {
   return (
     <Flex grow={1}>
       <Container>
-        <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
-          <Logo full size={36} />
-          <Text color={colors.landingLabelTitle} type="title3">Sign in to your Introspec account</Text>
+        <Flex css={{ width: '336px', gap: '24px' }} direction="column" alignItems="start" justifyContent="center">
+          <Flex direction="column" gap="lg">
+            <Logo full size="36px" />
+            <Text color={colors.landingLabelTitle} type="title3">Sign in to your Introspec account</Text>
+          </Flex>
           <Form
             onSubmit={onSubmit}
             validate={() => ({})}
@@ -77,6 +79,7 @@ const Login: React.FC = () => {
                         placeholder="Email"
                         type="email"
                         size="large"
+                        kind="website"
                         {...input}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
@@ -91,6 +94,7 @@ const Login: React.FC = () => {
                         placeholder="Password"
                         type="password"
                         size="large"
+                        kind="website"
                         {...input}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
@@ -104,7 +108,7 @@ const Login: React.FC = () => {
           />
         </Flex>
       </Container>
-      <Box css={{ width: '100%', backgroundColor: colors.landingBg, backgroundImage: `url("${GridBg}")` }} />
+      <Box css={{ width: '100%', backgroundColor: colors.landingBg, backgroundImage: `url("${LoginBg}")`, backgroundSize: 'cover' }} />
     </Flex>
   )
 }

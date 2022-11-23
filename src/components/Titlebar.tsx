@@ -5,7 +5,8 @@ import Flex from 'components/Flex'
 import IconButton from 'components/IconButton'
 import Separator from 'components/Seperator'
 import Text from 'components/Text'
-import Searchbar from './Searchbar'
+
+import Searchbar from 'components/Searchbar'
 
 interface Props {
   title: string,

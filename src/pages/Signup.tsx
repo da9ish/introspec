@@ -3,17 +3,19 @@ import { Field, Form } from 'react-final-form'
 import { useMutation } from '@apollo/client'
 import { styled } from '@stitches/react'
 
-import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
-
 import Box from 'components/Box'
 import Button from 'components/Button'
 import Flex from 'components/Flex'
 import Input from 'components/Input'
 import Label from 'components/Label'
 import Link from 'components/Link'
+import Logo from 'components/Logo'
 import Text from 'components/Text'
-import { ReactComponent as Logo } from 'assets/logo.svg'
 import { SET_SESSION_MUTATION } from 'client/state/session'
+import { UserRegisterMutationVariables, useUserRegisterMutation } from 'generated/schema'
+import { colors } from 'colors'
+
+import SignUpBg from 'assets/signup-gfx.png'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -21,7 +23,7 @@ const Container = styled(Flex, {
   alignItems: 'center',
   justifyContent: 'center',
   flexDirection: 'column',
-  background: '$landingBg'
+  background: 'linear-gradient(270deg, $landingBg 20%, $landingSubtleBg)'
 })
 
 const SignUp: React.FC = () => {
@@ -32,7 +34,6 @@ const SignUp: React.FC = () => {
     onCompleted: (data) => {
       if (data.userRegister && data.userRegister.credentials) {
         const user = data.userRegister.authenticatable
-        console.log(user)
         const { uid, accessToken, expiry, client, tokenType } = data.userRegister.credentials
         setSession({ variables: {
           id: uid,
@@ -55,9 +56,11 @@ const SignUp: React.FC = () => {
   return (
     <Flex grow={1}>
       <Container>
-        <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
-          <Logo style={{ width: '84px', height: '84px' }} />
-          <Text type="title3">Create your Introspec account</Text>
+        <Flex css={{ width: '336px', gap: '24px' }} direction="column" alignItems="start" justifyContent="center" gap="lg">
+          <Flex direction="column" gap="lg">
+            <Logo full size="36px" />
+            <Text type="title3">Create your Introspec account</Text>
+          </Flex>
           <Form
             onSubmit={onSubmit}
             initialValues={{
@@ -69,18 +72,18 @@ const SignUp: React.FC = () => {
                 <Flex gap="md">
                   <Field name="firstName">
                     {({ input, meta }) => (
-                      <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                         First Name
-                        <Input placeholder="Elon" type="text" size="large" {...input} />
+                        <Input kind="website" placeholder="Elon" type="text" size="large" {...input} />
                         {meta.error && meta.touched && <span>{meta.error}</span>}
                       </Label>
                     )}
                   </Field>
                   <Field name="lastName">
                     {({ input, meta }) => (
-                      <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                         Last Name
-                        <Input placeholder="Musk" type="text" size="large" {...input} />
+                        <Input kind="website" placeholder="Musk" type="text" size="large" {...input} />
                         {meta.error && meta.touched && <span>{meta.error}</span>}
                       </Label>
                     )}
@@ -88,36 +91,36 @@ const SignUp: React.FC = () => {
                 </Flex>
                 <Field name="username">
                   {({ input, meta }) => (
-                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                       Username
-                      <Input placeholder="elon.musk" type="text" size="large" {...input} />
+                      <Input kind="website" placeholder="elon.musk" type="text" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
                 <Field name="email">
                   {({ input, meta }) => (
-                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                       Email
-                      <Input placeholder="elon.musk@spacex.com" type="email" size="large" {...input} />
+                      <Input kind="website" placeholder="elon.musk@spacex.com" type="email" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
                 <Field name="password">
                   {({ input, meta }) => (
-                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                       Password
-                      <Input placeholder="WeAreGoing@M4rs" type="password" size="large" {...input} />
+                      <Input kind="website" placeholder="WeAreGoing@M4rs" type="password" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
                 </Field>
                 <Field name="passwordConfirmation">
                   {({ input, meta }) => (
-                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                       Confirm Password
-                      <Input placeholder="Confirm Password" type="password" size="large" {...input} />
+                      <Input kind="website" placeholder="Confirm Password" type="password" size="large" {...input} />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
                   )}
@@ -127,13 +130,13 @@ const SignUp: React.FC = () => {
               </Flex>
             )}
           />
-          <Text align="center">
+          <Text color={colors.landingLabelMuted} align="center">
             By signing up, you agree to the Terms of Service
             and Data Processing Agreement.
           </Text>
         </Flex>
       </Container>
-      <Box css={{ width: '100%', backgroundColor: '#448aff' }} />
+      <Box css={{ width: '100%', backgroundColor: colors.landingBg, backgroundImage: `url("${SignUpBg}")`, backgroundSize: 'cover' }} />
     </Flex>
   )
 }
