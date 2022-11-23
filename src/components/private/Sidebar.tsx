@@ -1,48 +1,91 @@
-import { useState } from 'react'
 import { useLocation } from 'react-router'
+import { useState } from 'react'
 
 import Box from 'components/Box'
-import { css, styled } from 'stiches.config'
-import Link from 'components/Link'
+import Clickable from 'components/Clickable'
+import Flex from 'components/Flex'
 import Icon from 'components/Icon'
+import Link from 'components/Link'
+import Text from 'components/Text'
+import { css, styled } from 'stiches.config'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
+import { colors } from 'colors'
 
 const StyledSidebar = styled(Box, {
   transition: 'all 0.1s ease',
 
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   width: '220px',
+  maxWidth: '330px',
+  minWidth: '220px',
   fontSize: '$body',
-  borderRight: '1px solid #F8F9FB'
+  backgroundColor: '$bgBase',
+  borderRight: '1px solid $bgBorder',
+  borderTopLeftRadius: 15
 })
 
 const Header = styled(Box, {
+  transition: 'all 0.3s ease',
+
   boxSizing: 'border-box',
   width: '100%',
-  height: '60px',
+  backgroundColor: '$bgBase',
   display: 'flex',
   alignItems: 'center',
-  padding: '0 16px'
+  justifyContent: 'space-between',
+  padding: '12px 16px',
+  borderTopLeftRadius: 15,
+
+  variants: {
+    setupMode: {
+      true: {
+        backgroundColor: '$bgBase',
+        border: '1px solid transparent',
+        transform: 'scale(110%)',
+        transformOrigin: 'center',
+        borderRadius: '8px',
+        boxShadow: 'rgb(62 99 221 / 90%) 0px 0px 0px 3px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
+      }
+    }
+  }
 })
 
-const LogoContainer = styled(Box, {
+const HeaderContainer = styled(Flex, {
+  width: '100%',
+  height: 30,
+  alignItems: 'center',
+  justifyContent: 'space-between'
+})
+
+const WorkspaceContainer = styled('button', {
   boxSizing: 'border-box',
-  flexGrow: 1,
-  height: '28px',
-  backgroundColor: '#F5F5F5',
   borderRadius: '4px',
-  padding: '4px 8px',
-  marginRight: '8px',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  padding: '6px 9px',
+
+  '&:hover': {
+    backgroundColor: '$bgBaseHover'
+  }
 })
 
-const Profile = styled(Box, {
-  width: '28px',
-  height: '28px',
-  backgroundColor: '#F5F5F5',
+const LogoContainer = styled('img', {
+  width: 18,
+  height: 18,
+  borderRadius: '50%'
+})
+
+const WorkspaceTitle = styled(Text, {
+  marginLeft: 12
+})
+
+const Profile = styled('img', {
+  width: '18px',
+  height: '18px',
+  backgroundColor: '$bgSubtle',
   borderRadius: '50%'
 })
 
@@ -100,24 +143,27 @@ const NavItem = styled(Box, {
   direction: 'row',
   alignItems: 'center',
   justifyContent: 'flex-start',
-  color: '#282A30',
+  color: '$labelTitle',
   borderRadius: '4px',
+  textTransform: 'none',
 
   '&:focus': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   '&:hover': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   variants: {
     active: {
       true: {
-        color: '#282A30'
+        color: '$labelTitle'
       },
       false: {
-        color: '#6b6f76'
+        color: '$labelMuted'
       }
     },
     indent: {
@@ -147,22 +193,25 @@ const LinkItem = styled(Link, {
   alignItems: 'center',
   justifyContent: 'flex-start',
   borderRadius: '4px',
+  textTransform: 'none',
 
   '&:focus': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   '&:hover': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   variants: {
     active: {
       true: {
-        color: '#282A30'
+        color: '$labelTitle'
       },
       false: {
-        color: '#6b6f76'
+        color: '$labelMuted'
       }
     },
     indent: {
@@ -182,7 +231,7 @@ const LinkItem = styled(Link, {
       active: true,
       indent: true,
       css: {
-        backgroundColor: '#F5F5F5'
+        backgroundColor: '$bgBaseHover'
       }
     }
   ]
@@ -382,14 +431,31 @@ const MenuItem: React.FC<LinkType & { indent?: boolean, tabIndex: number }> = ({
   )
 }
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  setupMode?: boolean,
+  formValues?: Record<string, any>
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  setupMode = false,
+  formValues
+}) => {
   const currentAccount = useCurrentAccountContext()
 
   return (
     <StyledSidebar>
-      <Header>
-        <LogoContainer>{currentAccount?.workspace?.name}</LogoContainer>
-        <Profile />
+      <Header setupMode={setupMode}>
+        <HeaderContainer>
+          <WorkspaceContainer>
+            <LogoContainer src={currentAccount?.workspace?.logo || formValues?.logo?.preview} />
+            <WorkspaceTitle color={colors.labelTitle} fontSize={13}>
+              {currentAccount?.workspace?.name || formValues?.name}
+            </WorkspaceTitle>
+          </WorkspaceContainer>
+          <Clickable css={{ height: '-webkit-fill-available' }}>
+            <Profile src="https://uploads.linear.app/9ce8f073-64f8-442a-9993-143fc4d8c6ee/e101b696-d608-4f2d-bf38-79a97d621d94" />
+          </Clickable>
+        </HeaderContainer>
       </Header>
       <Body>
         {ROOT_LINKS.filter((link) => !link.isFooter).map((link, idx) => (

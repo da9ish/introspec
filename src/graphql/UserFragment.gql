@@ -5,6 +5,7 @@ fragment UserFragment on User {
   firstName
   lastName
   username
+  role
   profilePic
 
   workspace {

@@ -1,13 +1,21 @@
 mutation UserRegister(
+  $firstName: String!
+  $lastName: String!
+  $username: String!
   $email: String!
   $password: String!
   $passwordConfirmation: String!
+  $role: RoleEnum!
   $confirmUrl: String
 ) {
   userRegister(
+    firstName: $firstName
+    lastName: $lastName
+    username: $username
     email: $email
     password: $password
     passwordConfirmation: $passwordConfirmation
+    role: $role
     confirmUrl: $confirmUrl
   ) {
     authenticatable {

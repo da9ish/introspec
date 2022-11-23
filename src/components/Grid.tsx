@@ -26,6 +26,9 @@ const generateVariants = (options: any, property: string) => options
   }, {})
 
 const Grid = styled(Box, {
+  width: '100%',
+  height: '100%',
+
   variants: {
     alignContent: generateVariants(contentOptions, 'alignContent'),
     alignItems: generateVariants(itemsOptions, 'alignItems'),
@@ -46,7 +49,8 @@ const Grid = styled(Box, {
     rowGap: generateVariants(gapOptions, 'rowGap')
   },
   defaultVariants: {
-    display: 'grid'
+    display: 'grid',
+    gap: 16
   }
 })
 

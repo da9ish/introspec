@@ -29,7 +29,11 @@ const columns = [
 
 const Users: React.FC = () => {
   const [ userSearch, setUserSearch ] = useState('')
-  const { data, loading, error } = useUsersListQuery()
+  const { data, loading, error } = useUsersListQuery({
+    variables: {
+      id: ''
+    } as any
+  })
 
   const toolbarActions = (
     <>

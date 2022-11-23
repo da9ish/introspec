@@ -1,5 +1,11 @@
+import type { ApolloError } from '@apollo/client'
+
 import Flex from 'components/Flex'
 import CodeBlock from 'components/Codeblock'
+
+interface Props {
+  error: ApolloError
+}
 
 const ERROR_OBJECT = `{
   "data": {
@@ -22,9 +28,9 @@ const ERROR_OBJECT = `{
   ]
 }`
 
-const Error: React.FC = () => (
+const Error: React.FC<Props> = ({ error }) => (
   <Flex css={{ width: 'calc(100vw - 220px)', height: '100%' }} direction="column" alignItems="center" justifyContent="center">
-    <CodeBlock code={ERROR_OBJECT} language="json" />
+    <CodeBlock code={JSON.stringify(error)} language="json" />
   </Flex>
 )
 

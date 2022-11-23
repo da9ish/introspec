@@ -35,13 +35,13 @@ const ListItem = styled(Flex, {
 
   height: '44px',
   boxSizing: 'border-box',
-  borderBottom: '1px solid #F8F9FB',
+  borderBottom: '1px solid $bgBorder',
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '8px 24px 8px 36px',
 
   '&:hover': {
-    backgroundColor: '#fbfbfc'
+    backgroundColor: '$bgBorderHover'
   }
 })
 

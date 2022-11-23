@@ -13,7 +13,9 @@ const RootPage = () => {
     if (currentAccount) {
       if (currentAccount.workspace) navigate('/overview')
       else navigate('/onboard')
-    } else navigate('/')
+    } else {
+      navigate('/login')
+    }
   }, [ currentAccount, navigate ])
 
   return (

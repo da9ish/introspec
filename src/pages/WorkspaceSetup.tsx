@@ -8,8 +8,10 @@ import Box from 'components/Box'
 import Text from 'components/Text'
 import Label from 'components/Label'
 import Clickable from 'components/Clickable'
-import { ReactComponent as Logo } from 'assets/logo.svg'
+
 import { useCreateEnvironmentsMutation } from 'generated/schema'
+
+import { ReactComponent as Logo } from 'assets/logo.svg'
 
 const Container = styled(Flex, {
   width: '100%',

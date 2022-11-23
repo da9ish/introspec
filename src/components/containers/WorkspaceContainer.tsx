@@ -1,19 +1,20 @@
-import { Outlet, Route, Routes } from 'react-router'
+import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
-import RootPage from 'pages/RootPage'
-import Onboard from 'pages/Onboard'
-import WorkspaceSetup from 'pages/WorkspaceSetup'
-import ExternalLayout from 'layouts/ExternalLayout'
+import PrivateContainer from 'components/containers/PrivateContainer'
+import PublicContainer from 'components/containers/PublicContainer'
 
-const WorkspaceContainer: React.FC = () => (
-  <ExternalLayout>
-    <Routes>
-      <Route path="/" element={<RootPage />} />
-      <Route path="/onboard" element={<Onboard />} />
-      <Route path="/workspace-setup" element={<WorkspaceSetup />} />
-    </Routes>
-    <Outlet />
-  </ExternalLayout>
-)
+const WorkspaceContainer: React.FC = () => {
+  const currentAccount = useCurrentAccountContext()
+
+  if (currentAccount
+    && currentAccount.workspace
+  && currentAccount.onBoardingCompleted) return <PrivateContainer />
+
+  // if (currentAccount) return <PrivateContainer />
+
+  return (
+    <PublicContainer currentAccount={currentAccount} />
+  )
+}
 
 export default WorkspaceContainer

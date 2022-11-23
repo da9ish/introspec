@@ -2,7 +2,8 @@ import { styled, VariantProps } from '@stitches/react'
 import type { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 
 import Icon, { IconProps } from 'components/Icon'
-import Flex from './Flex'
+
+import Flex from 'components/Flex'
 
 interface ButtonProps extends PropsWithChildren,
 VariantProps<typeof StyledButton>,
@@ -27,31 +28,34 @@ const StyledButton = styled('button', {
   variants: {
     kind: {
       primary: {
-        backgroundColor: '$controlBase',
-        color: '$controlLabel',
+        backgroundColor: '$buttonBg',
+        color: '$buttonLabel',
 
         '&:hover': {
-          backgroundColor: '$controlBaseHighlight'
+          backgroundColor: '$buttonBgHover'
         }
       },
       secondary: {
-        backgroundColor: '$controlSecondary',
-        color: '$labelBase',
-        border: '1px solid $buttonBorder',
+        backgroundColor: '$buttonBgSecondary',
+        color: '$buttonLabel',
+        border: '1px solid $buttonSecondaryBorder',
         boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
 
-        '&:hover': {
-          backgroundColor: '$buttonHoverBg',
-          border: '1px solid $buttonBorderHover'
+        '&:hover:not(:disabled)': {
+          backgroundColor: '$buttonSecondaryBgHover',
+          border: '1px solid $buttonSecondaryBorderHover',
+          boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
         }
       },
       outlined: {
         backgroundColor: 'transparent',
-        border: '1px solid $buttonBorder',
-        color: '$bgBorderSolid',
+        border: '1px solid $buttonBgSecondary',
+        color: '$buttonLabel',
 
         '&:hover': {
-          color: '$labelBase'
+          backgroundColor: '$buttonSecondaryBgHover',
+          border: '1px solid $buttonSecondaryBorderHover',
+          boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
         }
       },
       dangerous: {
@@ -94,5 +98,7 @@ const Button: React.FC<ButtonProps> = ({ children, icon = null, iconPlacement = 
     </Flex>
   </StyledButton>
 )
+
+export type { ButtonProps }
 
 export default Button

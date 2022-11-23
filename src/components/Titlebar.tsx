@@ -5,7 +5,8 @@ import Flex from 'components/Flex'
 import IconButton from 'components/IconButton'
 import Separator from 'components/Seperator'
 import Text from 'components/Text'
-import Searchbar from './Searchbar'
+
+import Searchbar from 'components/Searchbar'
 
 interface Props {
   title: string,
@@ -19,13 +20,14 @@ interface Props {
 
 const Container = styled(Flex, {
   padding: '12px 24px 12px 36px',
-  borderBottom: '1px solid #F8F9FB'
+  borderBottom: '1px solid $bgBorder'
 })
 
 const PrimaryContent = styled(Flex, {
   width: '100%',
   alignItems: 'center',
-  justifyContent: 'flex-start'
+  justifyContent: 'flex-start',
+  alignSelf: 'stretch'
 })
 
 const SecondaryContent = styled(Flex, {
@@ -39,7 +41,7 @@ const Titlebar: React.FC<Props> = ({
 }) => (
   <Container alignItems="center">
     <PrimaryContent gap="md">
-      <Text type="title1">{title}</Text>
+      <Text type="title2">{title}</Text>
       <Separator decorative orientation="vertical" />
       <IconButton name={actionIcon} onClick={onAction} />
       {canSearch && onSearch && (

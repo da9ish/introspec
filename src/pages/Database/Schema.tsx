@@ -8,6 +8,7 @@ import Flex from 'components/Flex'
 import Separator from 'components/Seperator'
 import { useSchemaQuery } from 'generated/schema'
 import List from 'components/List'
+import { colors } from 'colors'
 
 const Schema: React.FC = () => {
   const [ tableSearch, setTableSearch ] = useState('')
@@ -19,7 +20,7 @@ const Schema: React.FC = () => {
     <Flex direction="column" css={{ width: '100%', height: 'calc(100vh - 60px)' }}>
       <Titlebar title="Schema" actionIcon="refresh-ccw" onAction={() => {}} />
       <Flex>
-        <Flex direction="column" css={{ width: '25%', height: '100%', borderRight: '1px solid #F8F9FB' }}>
+        <Flex direction="column" css={{ width: '25%', height: '100%', borderRight: `1px solid ${colors.bgBorder}` }}>
           <Flex alignItems="center" justifyContent="space-between" css={{ padding: '12px 24px 12px 36px' }}>
             <Text type="title4">Tables</Text>
             <Flex gap="md" alignSelf="stretch">
