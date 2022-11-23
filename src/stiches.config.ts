@@ -1,11 +1,12 @@
 import {
   gray,
-  blue,
   red,
   green,
   yellow,
+  indigo,
+  indigoDark,
+  yellowDark,
   grayDark,
-  blueDark,
   redDark,
   greenDark
 } from '@radix-ui/colors'
@@ -17,22 +18,22 @@ import { colors } from 'colors'
 const { styled, css, keyframes, theme } = createStitches({
   theme: {
     colors: {
-      primary: '#1271FF',
       secondary: '#64FFDA',
       danger: '#EE5459',
       dangetHighlight: '#DB4340',
       background: '#FCFBF4',
       border: '#eee',
       ...colors,
-      ...gray,
-      ...blue,
-      ...red,
-      ...green,
-      ...yellow,
+      // ...gray,
       ...grayDark,
-      ...blueDark,
+      // ...indigo,
+      ...indigoDark,
+      // ...red,
       ...redDark,
-      ...greenDark
+      // ...green,
+      ...greenDark,
+      // ...yellow,
+      ...yellowDark
     },
     fonts: {
       body: 'Poppins, sans-serif',

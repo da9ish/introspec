@@ -2,6 +2,9 @@ import type { ApolloError } from '@apollo/client'
 import { styled } from '@stitches/react'
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
+import Error from 'components/Error'
+import Loader from 'components/Loader'
+
 interface Props<T> {
   data: any,
   loading: boolean,
@@ -67,6 +70,9 @@ function Table<T>({ data = [], loading, error, columns }: Props<T>) {
     columns,
     getCoreRowModel: getCoreRowModel()
   })
+
+  if (loading) return <Loader />
+  if (error) return <Error error={error} />
 
   return (
     <StyledTable>

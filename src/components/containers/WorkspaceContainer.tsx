@@ -7,7 +7,7 @@ const WorkspaceContainer: React.FC = () => {
 
   if (currentAccount
     && currentAccount.workspace
-    && currentAccount.onBoardingCompleted) return <PrivateContainer />
+  && currentAccount.onBoardingCompleted) return <PrivateContainer />
 
   // if (currentAccount) return <PrivateContainer />
 

@@ -6,9 +6,9 @@ import type { IconProps } from 'react-feather'
 
 import Flex from 'components/Flex'
 
-const reqIcons = require.context('assets/icons', true, /\.svg$/)
+const reqIcons = require.context('assets', true, /\.svg$/)
 
-interface StyledIconProps {
+interface StyledIconProps extends IconProps {
   name: string,
   feather?: boolean
 }
@@ -18,17 +18,17 @@ const StyledIcon = styled(Flex, {
   justifyContent: 'center'
 })
 
-const Icon = ({ name, size = '13px', feather = true }: IconProps & StyledIconProps) => {
+const Icon: React.FC<StyledIconProps> = ({ name, size = '13px', feather = true, ...props }) => {
   const renderSVG = () => {
     try {
       return (
         <SVG
           style={{
             display: 'block',
-            height: '24px',
-            width: '24px'
+            height: size,
+            width: size
           }}
-          src={reqIcons(`./${name}.svg`).default}
+          src={reqIcons(`./${name}.svg`)}
         />
       )
     } catch (e) {
@@ -39,12 +39,12 @@ const Icon = ({ name, size = '13px', feather = true }: IconProps & StyledIconPro
   if (feather) {
     const FeatherIcon = require(`react-feather/dist/icons/${name}`).default
     return (
-      <StyledIcon><FeatherIcon size={size} /></StyledIcon>
+      <StyledIcon {...props as any}><FeatherIcon size={size} /></StyledIcon>
     )
   }
 
   return (
-    <StyledIcon>
+    <StyledIcon {...props as any}>
       <i>{renderSVG()}</i>
     </StyledIcon>
   )

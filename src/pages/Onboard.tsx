@@ -9,6 +9,7 @@ import Box from 'components/Box'
 import Button from 'components/Button'
 import Flex from 'components/Flex'
 import Grid from 'components/Grid'
+import GridBg from 'assets/grid.svg'
 import Input from 'components/Input'
 import Label from 'components/Label'
 import Sidebar from 'components/private/Sidebar'
@@ -18,6 +19,7 @@ import { cache } from 'client'
 import { CreateWorkspaceInput, useCreateWorkspaceMutation } from 'generated/schema'
 import { SessionQuery, SESSION_QUERY, SET_SESSION_MUTATION } from 'client/state/session'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
+import { colors } from 'colors'
 
 const reqAvatar = require.context('assets/avatars', true, /avatar-[1-9].png$/)
 
@@ -26,7 +28,8 @@ const Container = styled(Flex, {
   height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  background: '$landingBg'
 })
 
 const FormContainer = styled(Flex, {
@@ -37,16 +40,18 @@ const FormContainer = styled(Flex, {
 const AccountContext = styled(Flex, {
   padding: '24px 32px',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  background: '$landingBg'
 })
 
 const PreviewContainer = styled(Flex, {
   position: 'relative',
   boxSizing: 'border-box',
   width: '100%',
-  backgroundColor: '#EFEFEF',
+  backgroundColor: '$landingBg',
   padding: '32px',
   overflow: 'hidden',
+  backgroundImage: `url("${GridBg}")`,
 
   '&::after': {
     content: '',
@@ -55,7 +60,7 @@ const PreviewContainer = styled(Flex, {
     left: 0,
     width: '100%',
     height: '100%',
-    background: 'linear-gradient(0deg, rgba(236, 236, 236, 0.9), transparent )'
+    background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(70, 101, 213, 0.2) 100%)'
   }
 })
 
@@ -75,8 +80,8 @@ const AppContainer = styled(Box, {
   height: '100vh',
   backgroundColor: 'white',
   borderRadius: 16,
-  border: '1px solid transparent',
-  boxShadow: 'rgb(0 0 0 / 7%) 0px 0px 20px 2px, rgb(0 0 0 / 7%) 0px 0px 0px 3px',
+  border: '1px solid $primary',
+  boxShadow: 'rgb(62 99 221 / 50%) 0px 0px 20px 2px, rgb(62 99 221 / 50%) 0px 0px 0px 3px',
   top: '20%',
   left: '10%',
 
@@ -101,7 +106,8 @@ const AppWindow = styled(Flex, {
   transition: 'all 1s ease',
 
   width: '100%',
-  height: '100%'
+  height: '100%',
+  borderRadius: 16
 })
 
 const classes = {
@@ -114,8 +120,8 @@ const WorkspaceForm = ({
   setSidebarSetupMode, setTopbarSetupMode
 }: any) => (
   <>
-    <Text type="title3">Create your workspace</Text>
-    <Text>This is where you&apos;ll manage all the data</Text>
+    <Text color={colors.landingLabelTitle} type="title3">Create your workspace</Text>
+    <Text color={colors.landingLabelMuted}>This is where you&apos;ll manage all the data</Text>
     <Flex css={{ width: '100%' }} direction="column" gap="lg">
       <Field name="logo">
         {({ input, meta }) => (
@@ -185,8 +191,8 @@ const EnvironmentForm = ({ setTopbarSetupMode }: any) => {
   }
   return (
     <>
-      <Text type="title3">Environments</Text>
-      <Text>
+      <Text color={colors.landingLabelTitle} type="title3">Environments</Text>
+      <Text color={colors.landingLabelMuted}>
         Workspaces have multiple environments.
         It make sure your data is isolated across environments for
         development and testing purpose
@@ -211,6 +217,7 @@ const EnvironmentForm = ({ setTopbarSetupMode }: any) => {
 
 const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
+  console.log(currentAccount)
   const [ sidebarSetupMode, setSidebarSetupMode ] = useState(false)
   const [ topbarSetupMode, setTopbarSetupMode ] = useState(false)
   const [ step, setStep ] = useState<'none' | 'true' | 'false'>(currentAccount?.workspace ? 'true' : 'none')
@@ -248,12 +255,11 @@ const Onboard: React.FC = () => {
             <AccountContext>
               <Flex direction="column">
                 <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>Logged in as:</Label>
-                <Text>{currentAccount?.email}</Text>
+                <Text color={colors.labelTitle}>{currentAccount?.email}</Text>
               </Flex>
-              <Text>Log out</Text>
+              <Text color={colors.labelTitle}>Log out</Text>
             </AccountContext>
             <Container>
-
               <Flex css={{ width: '336px' }} direction="column" alignItems="start" justifyContent="center" gap="lg" as="form" onSubmit={handleSubmit}>
                 {step === 'none'
                   ? (
@@ -273,7 +279,7 @@ const Onboard: React.FC = () => {
                   setupMode={sidebarSetupMode}
                   formValues={values}
                 />
-                <Box css={{ width: '100%', height: '100%' }}>
+                <Box css={{ width: '100%', height: '100%', backgroundColor: colors.bgBase }}>
                   <Flex direction="column" css={{ flexGrow: 1 }}>
                     <Topbar
                       setupMode={topbarSetupMode}
@@ -282,7 +288,7 @@ const Onboard: React.FC = () => {
                     <Box css={{ padding: '16px' }}>
                       <Grid columns={6} columnGap={8} rowGap={8}>
                         {new Array(20).fill(0).map(() => (
-                          <Box css={{ width: '200px', height: '16px', borderRadius: '4px', backgroundColor: '#f5f5f5' }} />
+                          <Box css={{ width: '200px', height: '16px', borderRadius: '4px', backgroundColor: colors.bgSubtle }} />
                         ))}
                       </Grid>
                     </Box>

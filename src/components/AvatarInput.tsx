@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useCallback, useRef, useState } from 'react'
+import { InputHTMLAttributes, useCallback, useRef } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { styled } from '@stitches/react'
 import type { FieldInputProps, FieldRenderProps } from 'react-final-form'
@@ -8,6 +8,7 @@ import Button, { ButtonProps } from 'components/Button'
 import Box from 'components/Box'
 import Flex from 'components/Flex'
 import Text from 'components/Text'
+import { colors } from 'colors'
 
 interface Props extends Pick<ButtonProps, 'size'>, Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>, FieldRenderProps<any, HTMLInputElement> {
   label?: string,
@@ -58,7 +59,7 @@ const AvatarInput: React.FC<Props> = ({ input, meta, label = 'Upload', size }) =
     <Flex alignItems="center" gap="lg">
       <WorkspaceLogo src={input.value ? input.value?.preview : Avatar} alt="workspace-logo" />
       <Flex grow={1} direction="column" gap="md">
-        <Text type="body">Workspace Logo</Text>
+        <Text color={colors.inputLabel} type="body">Workspace Logo</Text>
         <Box {...getRootProps()}>
           <StyledInput {...getInputProps()} />
           <Button

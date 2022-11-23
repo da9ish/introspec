@@ -12,10 +12,10 @@ const useCurrentAccountContext = () => useContext(currentAccountContext)
 
 const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
   const {
-    data: { session: { accessToken, workspace, onBoardingCompleted } }
+    data: { session: { accessToken, workspace, onBoardingCompleted, user } }
   } = useClientQuery<SessionQuery>(SESSION_QUERY)
 
-  const skip = !accessToken || !workspace
+  const skip = Boolean(accessToken && workspace)
   const {
     data: { currentAccount: currentAccountData } = {},
     loading
@@ -24,11 +24,13 @@ const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
     fetchPolicy: 'network-only'
   })
 
+  const currentUser = currentAccountData || user
+
   const currentAccount = useMemo(() => ({
-    ...currentAccountData,
+    ...currentUser,
     workspace: currentAccountData?.workspace || workspace,
     onBoardingCompleted
-  }), [ currentAccountData, workspace, onBoardingCompleted ])
+  }), [ currentUser, currentAccountData, workspace, onBoardingCompleted ])
 
   if (!currentAccountData && loading) {
     return <AppLoader />

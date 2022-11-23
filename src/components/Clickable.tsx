@@ -11,13 +11,17 @@ const Clickable = styled('div', {
   fontSize: '13px',
   outline: 'unset',
   border: 'none',
-  backgroundColor: 'transparent',
+  backgroundColor: '$bgBase',
   borderRadius: '4px',
   padding: '8px',
-  color: '#282A30',
+  color: '$labelMuted',
 
   '&:hover': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover'
+  },
+
+  '&:hover > *': {
+    color: '$labelTitle'
   },
 
   variants: {

@@ -9,10 +9,12 @@ import Flex from 'components/Flex'
 import Input from 'components/Input'
 import Label from 'components/Label'
 import Link from 'components/Link'
+import Logo from 'components/Logo'
 import Text from 'components/Text'
-import { ReactComponent as Logo } from 'assets/logo.svg'
+import GridBg from 'assets/grid.svg'
 import { UserLoginMutationVariables, useUserLoginMutation } from 'generated/schema'
 import { SET_SESSION_MUTATION } from 'client/state/session'
+import { colors } from 'colors'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -20,7 +22,8 @@ const Container = styled(Flex, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  background: '$landingBg'
 })
 
 const Login: React.FC = () => {
@@ -30,7 +33,8 @@ const Login: React.FC = () => {
   const [ userLogin ] = useUserLoginMutation({
     onCompleted: (data) => {
       if (data.userLogin) {
-        const { workspace } = data.userLogin.authenticatable
+        const { workspace, ...user } = data.userLogin.authenticatable
+        console.log(data.userLogin)
         const { uid, accessToken, expiry, client, tokenType } = data.userLogin.credentials
         setSession({ variables: {
           id: uid,
@@ -38,10 +42,12 @@ const Login: React.FC = () => {
           client,
           expiry,
           tokenType,
-          workspace
+          onBoardingCompleted: !!workspace,
+          workspace,
+          user
         } })
           .then(() => {
-            if (workspace) navigate('/')
+            if (workspace) navigate('/overview')
             else navigate('/onboard')
           })
       }
@@ -56,8 +62,8 @@ const Login: React.FC = () => {
     <Flex grow={1}>
       <Container>
         <Flex css={{ width: '336px' }} direction="column"alignItems="center" justifyContent="center" gap="lg">
-          <Logo />
-          <Text type="title3">Sign in to your Introspec account</Text>
+          <Logo full size={36} />
+          <Text color={colors.landingLabelTitle} type="title3">Sign in to your Introspec account</Text>
           <Form
             onSubmit={onSubmit}
             validate={() => ({})}
@@ -65,7 +71,7 @@ const Login: React.FC = () => {
               <Flex css={{ width: '100%' }} direction="column" gap="md" as="form" onSubmit={handleSubmit}>
                 <Field name="email">
                   {({ input, meta }) => (
-                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                       Email
                       <Input
                         placeholder="Email"
@@ -79,7 +85,7 @@ const Login: React.FC = () => {
                 </Field>
                 <Field name="password">
                   {({ input, meta }) => (
-                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 4 }}>
                       Password
                       <Input
                         placeholder="Password"
@@ -92,13 +98,13 @@ const Login: React.FC = () => {
                   )}
                 </Field>
                 <Button type="submit" size="large" kind="primary">Login</Button>
-                <Text align="center" fontSize={13}>Don&apos;t have an account?<Link to="/signup">Create an account</Link></Text>
+                <Text color={colors.landingLabelMuted} align="center" fontSize={13}>Don&apos;t have an account?<Link to="/signup">Create an account</Link></Text>
               </Flex>
             )}
           />
         </Flex>
       </Container>
-      <Box css={{ width: '100%', backgroundColor: '#448aff' }} />
+      <Box css={{ width: '100%', backgroundColor: colors.landingBg, backgroundImage: `url("${GridBg}")` }} />
     </Flex>
   )
 }

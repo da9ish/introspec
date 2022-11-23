@@ -1,5 +1,7 @@
 import { styled } from '@stitches/react'
 
+import { colors } from 'colors'
+
 import Clickable from 'components/Clickable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
@@ -15,20 +17,22 @@ const StyledTopbar = styled('header', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  borderBottom: '1px solid #F8F9FB'
+  backgroundColor: '$bgBase',
+  borderBottom: '1px solid $bgBorder'
 })
 
 const ApiContainer = styled(Flex, {
   transition: 'all 0.3s ease',
+  color: '$labelMuted',
 
   variants: {
     setupMode: {
       true: {
-        backgroundColor: 'white',
+        backgroundColor: '$bgBase',
         border: '1px solid transparent',
         transform: 'scale(110%)',
         borderRadius: 4,
-        boxShadow: 'rgb(68 138 255 / 90%) 0px 0px 0px 2px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
+        boxShadow: 'rgb(62 99 221 / 90%) 0px 0px 0px 3px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
       }
     }
   }
@@ -40,11 +44,11 @@ const EnvironmentContainer = styled(Flex, {
   variants: {
     setupMode: {
       true: {
-        backgroundColor: 'white',
+        backgroundColor: '$bgBase',
         border: '1px solid transparent',
         transform: 'scale(110%)',
         borderRadius: 4,
-        boxShadow: 'rgb(68 138 255 / 90%) 0px 0px 0px 2px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
+        boxShadow: 'rgb(62 99 221 / 90%) 0px 0px 0px 3px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
       }
     }
   }
@@ -54,8 +58,13 @@ const ApiBar = styled(Flex, {
   alignItems: 'center',
   fontSize: '$body',
   fontFamily: '$code',
+  color: '$labelMuted',
   borderRadius: '4px',
-  marginRight: '8px'
+  marginRight: '8px',
+
+  '&:hover': {
+    color: '$labelTitle'
+  }
 })
 
 interface TopbarProps {
@@ -74,7 +83,7 @@ const Topbar: React.FC<TopbarProps> = ({
       <ApiContainer setupMode={setupMode}>
         <Clickable size="small">
           <ApiBar>{`${currentAccount?.workspace?.identifier || formValues?.identifier}.introspec.app/graphql`}</ApiBar>
-          <Icon name="copy" />
+          <Icon color={colors.labelMuted} name="copy" />
         </Clickable>
         <IconButton name="book" onClick={() => {}} />
       </ApiContainer>

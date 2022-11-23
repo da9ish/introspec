@@ -20,16 +20,19 @@ const Container = styled(Flex, {
   height: '100vh',
   alignItems: 'center',
   justifyContent: 'center',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  background: '$landingBg'
 })
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate()
 
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
-  const [ userLogin ] = useUserRegisterMutation({
+  const [ userRegistration ] = useUserRegisterMutation({
     onCompleted: (data) => {
       if (data.userRegister && data.userRegister.credentials) {
+        const user = data.userRegister.authenticatable
+        console.log(user)
         const { uid, accessToken, expiry, client, tokenType } = data.userRegister.credentials
         setSession({ variables: {
           id: uid,
@@ -37,7 +40,8 @@ const SignUp: React.FC = () => {
           client,
           expiry,
           tokenType,
-          workspace: null
+          workspace: null,
+          user
         } })
           .then(() => navigate('/onboard'))
       }
@@ -45,7 +49,7 @@ const SignUp: React.FC = () => {
   })
 
   const onSubmit = (values: UserRegisterMutationVariables) => {
-    userLogin({ variables: values })
+    userRegistration({ variables: values })
   }
 
   return (

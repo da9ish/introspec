@@ -1,6 +1,14 @@
-import { styled } from '@stitches/react'
+import { slate, slateDark } from '@radix-ui/colors'
+import { styled, VariantProps } from '@stitches/react'
+import type { PropsWithChildren } from 'react'
+
+interface TextProps extends PropsWithChildren,
+VariantProps<typeof StyledText> {
+  color?: string
+}
 
 const sizeOptions = [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 20, 24, 32, 36, 40, 48, 64 ] as const
+const linHeightOptions = [ 0.5, 1, 2, 3 ] as const
 const alignOptions = [ 'left', 'right', 'center', 'justify', 'initial', 'inherit' ]
 
 const generateVariants = (options: any, property: string) => options
@@ -9,7 +17,7 @@ const generateVariants = (options: any, property: string) => options
     return acc
   }, {})
 
-const Text = styled('span', {
+const StyledText = styled('span', {
   variants: {
     fontWeight: {
       400: {
@@ -26,8 +34,14 @@ const Text = styled('span', {
       }
     },
     fontSize: generateVariants(sizeOptions, 'fontSize'),
+    lineHeight: generateVariants(linHeightOptions, 'lineHeight'),
     align: generateVariants(alignOptions, 'textAlign'),
     type: {
+      display: {
+        fontFamily: '$body',
+        fontSize: '64px',
+        fontWeight: 700
+      },
       body: {
         fontFamily: '$body',
         fontSize: '13px',
@@ -65,19 +79,23 @@ const Text = styled('span', {
         fontWeight: 400
       }
     },
-    color: {
+    kind: {
       primary: {
-        color: '#282A30'
+        color: slateDark.slate12
       },
       muted: {
-        color: '#6b6f76'
+        color: slateDark.slate11
       }
     }
   },
   defaultVariants: {
     type: 'body',
-    color: 'primary'
+    kind: 'primary'
   }
 })
+
+const Text = ({ children, color, ...props }: TextProps) => (
+  <StyledText {...props} css={{ color }}>{children}</StyledText>
+)
 
 export default Text

@@ -43,25 +43,24 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   borderRadius: 4,
   fontSize: 13,
   lineHeight: 1,
-  backgroundColor: '$controlSecondary',
-  color: '$labelBase',
+  backgroundColor: '$inputBg',
+  color: '$inputLabel',
   border: '1px solid transparent',
-  boxShadow: 'rgb(223 225 228) 0px 0px 0px 1px',
+  boxShadow: 'rgb(49 53 56) 0px 0px 0px 1px',
 
-  '&[data-placeholder]': { color: '$labelFaint' },
+  '&[data-placeholder]': { color: '$inputLabelFaint' },
 
   '&:hover:not(:disabled)': {
     transition: 'none 0s ease 0s',
-    // border: '1px solid $buttonBorderHover',
-    boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
+    border: '1px solid $inputBorderHover'
   },
 
   '&:focus': {
-    border: '1px solid $controlSelectLabel'
+    border: '1px solid $inputBorderFocus'
   },
 
   '&:focus-within': {
-    border: '1px solid $controlSelectLabel'
+    border: '1px solid $inputBorderFocus'
   },
 
   variants: {
@@ -92,14 +91,15 @@ const StyledContent = styled(SelectPrimitive.Content, {
   width: 'min-content',
   borderRadius: 4,
   padding: 0,
-  backgroundColor: 'white',
-  border: '1px solid rgb(223, 225, 228)',
+  backgroundColor: '$inputBgSubtle',
+  border: '1px solid $inputBgBorder',
   boxShadow: 'rgb(0 0 0 / 6%) 0px 7px 24px',
   overflow: 'hidden'
 })
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
-  padding: 0
+  padding: 0,
+  backgroundColor: '$inputBgSubtle'
 })
 
 function Content({ children, ...props }: SelectPrimitive.SelectContentProps) {
@@ -124,13 +124,13 @@ const StyledItem = styled(SelectPrimitive.Item, {
   userSelect: 'none',
 
   '&[data-disabled]': {
-    color: '$labelMuted',
+    color: '$inputLabelMuted',
     pointerEvents: 'none'
   },
 
   '&[data-highlighted]': {
     backgroundColor: '$controlSelectedBg',
-    color: '$labelBase'
+    color: '$inputLabel'
   },
 
   variants: {
@@ -152,12 +152,12 @@ const StyledLabel = styled(SelectPrimitive.Label, {
   padding: '0 25px',
   fontSize: 12,
   lineHeight: '25px',
-  color: '$labelBase'
+  color: '$inputLabel'
 })
 
 const StyledSeparator = styled(SelectPrimitive.Separator, {
   height: 1,
-  backgroundColor: '$buttonBorder',
+  backgroundColor: '$bgBorder',
   margin: 5
 })
 
@@ -176,7 +176,7 @@ const scrollButtonStyles = {
   justifyContent: 'center',
   height: 25,
   backgroundColor: 'white',
-  color: '$controlBase',
+  color: '$inputLabel',
   cursor: 'default'
 }
 

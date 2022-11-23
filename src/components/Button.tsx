@@ -27,32 +27,34 @@ const StyledButton = styled('button', {
   variants: {
     kind: {
       primary: {
-        backgroundColor: '$controlBase',
-        color: '$controlLabel',
+        backgroundColor: '$buttonBg',
+        color: '$buttonLabel',
 
         '&:hover': {
-          backgroundColor: '$controlBaseHighlight'
+          backgroundColor: '$buttonBgHover'
         }
       },
       secondary: {
-        backgroundColor: '$controlSecondary',
-        color: '$labelBase',
-        border: '1px solid $buttonBorder',
+        backgroundColor: '$buttonBgSecondary',
+        color: '$buttonLabel',
+        border: '1px solid $buttonSecondaryBorder',
         boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
 
         '&:hover:not(:disabled)': {
-          backgroundColor: '$buttonHoverBg',
-          border: '1px solid $buttonBorderHover',
+          backgroundColor: '$buttonSecondaryBgHover',
+          border: '1px solid $buttonSecondaryBorderHover',
           boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
         }
       },
       outlined: {
         backgroundColor: 'transparent',
-        border: '1px solid $buttonBorder',
-        color: '$bgBorderSolid',
+        border: '1px solid $buttonBgSecondary',
+        color: '$buttonLabel',
 
         '&:hover': {
-          color: '$labelBase'
+          backgroundColor: '$buttonSecondaryBgHover',
+          border: '1px solid $buttonSecondaryBorderHover',
+          boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
         }
       },
       dangerous: {

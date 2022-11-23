@@ -1,197 +1,247 @@
 import { useNavigate } from 'react-router'
-
 import { styled } from '@stitches/react'
 
+import { indigoDark } from '@radix-ui/colors'
+
+import AvatarImg from 'assets/avatars/avatar-1.png'
+import AuthImg from 'assets/auth-gfx.png'
+import FeatureBg from 'assets/feature-bg.png'
+import LandingBg from 'assets/landing-bg.png'
+
 import Box from 'components/Box'
-import Button from 'components/Button'
 import Flex from 'components/Flex'
-import Grid from 'components/Grid'
 import Navbar from 'components/public/Navbar'
-import Icon from 'components/Icon'
+import Text from 'components/Text'
+import { colors } from 'colors'
+import { ActionButton } from 'components/ActionButton'
+import Grid from 'components/Grid'
 
-const LandingGfx = styled('img', {
-  width: '100%',
-  flexGrow: 1,
-  marginTop: '64px',
-  border: '5px solid #313131',
-  borderRadius: '32px',
-  boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.15), 0px 20px 30px rgba(0, 0, 0, 0.05), 0px 10px 50px rgba(0, 0, 0, 0.05)'
+const Container = styled(Box, {
+  width: '100vw',
+  height: '100vh',
+  overflow: 'auto',
+  background: '$landingBg'
 })
 
-const FeatureBlock = styled(Box, {
-  '& > h3': {
-    marginTop: '32px',
-    color: '#313131',
-    fontWeight: 600
+const LandingImage = styled('img', {
+  marginTop: '-43vw',
+  width: '100%',
+  zIndex: -1
+})
+
+const Content = styled(Box, {})
+
+const HeroSection = styled(Flex, {
+  position: 'relative',
+  margin: '150px 30%',
+  zIndex: 1,
+
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 20
+})
+
+const Section = styled(Flex, {
+  position: 'relative',
+  zIndex: 1,
+  margin: '16px 0',
+
+  gridColumnStart: 2,
+  gridColumnEnd: 12,
+  flexDirection: 'column'
+})
+
+const FeatureSection = styled(Section, {
+  border: `1px dashed ${indigoDark.indigo10}`,
+  borderRadius: 30
+})
+
+const TestimonialGrid = styled(Grid, {
+  '& > :nth-child(1)': {
+    borderBottom: `1px dashed ${indigoDark.indigo10}`
   },
-  '& > p': {
-    color: '#070707',
-    margin: 0
+  '& > :nth-child(2)': {
+    borderBottom: `1px dashed ${indigoDark.indigo10}`,
+    borderLeft: `1px dashed ${indigoDark.indigo10}`,
+    borderRight: `1px dashed ${indigoDark.indigo10}`
+  },
+  '& > :nth-child(3)': {
+    borderBottom: `1px dashed ${indigoDark.indigo10}`
   }
 })
 
-const Card = styled(Flex, {
-  zIndex: 10,
+const TestimonialContainer = styled(Flex, {
+  flexDirection: 'column',
+  gap: 24,
+  padding: 40
+})
+
+const Avatar = styled('img', {
+  width: 48,
+  height: 48
+})
+
+const FeatureGrid = styled(Grid, {
+  '& > :nth-child(1)': {
+    borderTop: `1px dashed ${indigoDark.indigo10}`
+  },
+  '& > :nth-child(2)': {
+    borderTop: `1px dashed ${indigoDark.indigo10}`,
+    borderLeft: `1px dashed ${indigoDark.indigo10}`,
+    borderRight: `1px dashed ${indigoDark.indigo10}`
+  },
+  '& > :nth-child(3)': {
+    borderTop: `1px dashed ${indigoDark.indigo10}`
+  },
+  '& > :nth-child(4)': {
+    borderTop: `1px dashed ${indigoDark.indigo10}`
+  },
+  '& > :nth-child(5)': {
+    borderTop: `1px dashed ${indigoDark.indigo10}`,
+    borderLeft: `1px dashed ${indigoDark.indigo10}`,
+    borderRight: `1px dashed ${indigoDark.indigo10}`
+  },
+  '& > :nth-child(6)': {
+    borderTop: `1px dashed ${indigoDark.indigo10}`
+  }
+})
+
+const TitleContainer = styled(Grid, {
+  backgroundImage: `url("${FeatureBg}")`,
+  backgroundSize: 'cover',
+  alignItems: 'center',
+  justifyContent: 'center',
+
+  '& > div': {
+    margin: '120px 0'
+  }
+})
+
+const FeatureContainer = styled(Flex, {
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  gap: 24,
+  padding: 40
+})
+
+const FeatureImage = styled('img', {
   width: '100%',
-  boxSizing: 'border-box',
-  padding: '50px 32px',
-  variants: {
-    shadow: {
-      true: {
-        backgroundColor: 'white',
-        boxShadow: '0px 0px 1px rgba(0, 0, 0, 0.15), 0px 20px 30px rgba(0, 0, 0, 0.05), 0px 10px 50px rgba(0, 0, 0, 0.05)'
-      },
-      false: {
-        backgroundColor: 'transparent',
-        boxShadow: 'none'
-      }
-    }
-  }
+  borderRadius: 30
 })
 
-const Ellipse1 = styled(Box, {
-  zIndex: -1,
-  position: 'absolute',
-  width: '647px',
-  height: '647px',
-  left: '674px',
-  top: '153px',
-
-  background: 'rgba(187, 210, 255, 0.5)',
-  filter: 'blur(205px)'
-})
-
-const Ellipse2 = styled(Box, {
-  zIndex: -1,
-  position: 'absolute',
-  width: '429px',
-  height: '429px',
-  left: '1105px',
-  top: '262px',
-
-  background: 'rgba(188, 255, 187, 0.5)',
-  filter: 'blur(205px)'
-})
-
-const Ellipse3 = styled(Box, {
-  zIndex: -1,
-  position: 'absolute',
-  width: '429px',
-  height: '429px',
-  left: '297px',
-  top: '1086px',
-
-  background: 'rgba(255, 187, 216, 0.5)',
-  filter: 'blur(205px)'
-})
-
-const Ellipse4 = styled(Box, {
-  zIndex: -1,
-  position: 'absolute',
-  width: '569px',
-  height: '569px',
-  left: '850px',
-  top: '1775px',
-
-  background: 'rgba(245, 255, 187, 0.5)',
-  filter: 'blur(205px)'
-})
+const SiteContent = styled(Grid, {})
 
 const Landing: React.FC = () => {
   const navigate = useNavigate()
   return (
-    <Box css={{ position: 'relative', overflow: 'auto', background: 'rgba(255, 255, 255, 0.38)', backdropFilter: 'blur(50px)' }}>
-      <Ellipse1 />
-      <Ellipse2 />
-      <Ellipse3 />
-      <Ellipse4 />
+    <Container>
       <Navbar />
-      <Box as="main" css={{ width: '80%', margin: '0 auto', paddingBottom: '64px' }}>
-        <Flex as="section" alignItems="center" justifyContent="end" direction="column" css={{ height: '100%', padding: '64px 0' }}>
-          <Flex direction="column" alignItems="center" css={{ margin: '32px 0' }}>
-            <h1>Create beautiful GraphQL API documentation</h1>
-            <p style={{ fontSize: '21px' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <Flex gap="md">
-              <Button size="large" kind="primary" onClick={() => navigate('/signup')}>Get Started</Button>
-              <Button size="large" kind="secondary">See Examples</Button>
-            </Flex>
-          </Flex>
-          <LandingGfx src="./assets/images/landing.png" />
-        </Flex>
-        <Box as="section" css={{ height: '100vh' }}>
-          <Grid columns={3} rows={2} columnGap={32} alignItems="start">
-            <Card shadow direction="column" css={{ alignSelf: 'center', gridColumn: '1 / span 1', gridRow: '1 / span 2' }}>
-              <h3 style={{ fontWeight: 600 }}>Why introspec?</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Dignissim egestas vitae volutpat volutpat felis.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Dignissim egestas vitae volutpat volutpat felis.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Dignissim egestas vitae volutpat volutpat felis.
-              </p>
-            </Card>
-            <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '2 / span 1', gridRow: '1 / span 1' }}>
-              <FeatureBlock>
-                <Box>
-                  <Icon name="hosting" feather={false} />
-                </Box>
-                <h3>Self Hosted</h3>
-                <p>All your docs are self hosted once you publish</p>
-              </FeatureBlock>
-            </Card>
-            <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '3 / span 1', gridRow: '1 / span 1' }}>
-              <FeatureBlock>
-                <Box>
-                  <Icon name="document" feather={false} />
-                </Box>
-                <h3>Clean Documentation</h3>
-                <p>
-                  No more hassle with traditional GraphQL docs.
-                  Introspec is simple, easy and clean
-                </p>
-              </FeatureBlock>
-            </Card>
-            <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '2 / span 1', gridRow: '2 / span 1' }}>
-              <FeatureBlock>
-                <Box>
-                  <Icon name="search" feather={false} />
-                </Box>
-                <h3>Global Search</h3>
-                <p>
-                  Everything in one place,
-                  search for all your types, queries, mutations and
-                  subscription with magic of one command
-                </p>
-              </FeatureBlock>
-            </Card>
-            <Card justifyContent="space-between" gap="lg" css={{ gridColumn: '3 / span 1', gridRow: '2 / span 1' }}>
-              <FeatureBlock>
-                <Box>
-                  <Icon name="theming" feather={false} />
-                </Box>
-                <h3>Theming</h3>
-                <p>Choose from a variety of themes. Ensure your docs looks beautiful</p>
-              </FeatureBlock>
-            </Card>
-          </Grid>
-        </Box>
-        <Box as="section">
-          <Card direction="column" alignItems="center" shadow="true">
-            <h3>Start creating your GraphQL documentation today</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Dignissim egestas vitae volutpat volutpat felis.
-            </p>
-            <Button kind="primary" onClick={() => navigate('/signup')}>Get Started</Button>
-          </Card>
-
-        </Box>
-      </Box>
-      <Flex alignItems="center" justifyContent="space-between" as="footer" css={{ width: '80%', margin: '0 auto' }}>
-        <p>Copyright &copy; Introspec 2021</p>
-        <p>Reach out to us: <a href="mailto:support@introspec.app">support@introspec.app</a></p>
-      </Flex>
-    </Box>
+      <Content as="main">
+        <HeroSection>
+          <Text type="display" align="center" color={colors.landingLabelTitle}>GraphQL backend for your next project</Text>
+          <Text type="title1" align="center" color={colors.landingLabelTitle}>Authentication, Database, Storage all in one GraphQL endpoint</Text>
+          <ActionButton kind="primary" size="large" onClick={() => navigate('/signup')}>Get Started</ActionButton>
+        </HeroSection>
+        <LandingImage loading="eager" src={LandingBg} alt="landing-bg" />
+        <SiteContent columns={12}>
+          <FeatureSection>
+            <TestimonialGrid columns={3} gap={0}>
+              <TestimonialContainer>
+                <Flex direction="column">
+                  <Text type="title1" lineHeight={0.5} fontSize={48} color={colors.landingLabelMuted}>&ldquo;</Text>
+                  <Text type="title1" color={colors.landingLabelTitle}>Introspec provided us with a best in class development workflow out of the box from day zero.</Text>
+                </Flex>
+                <Flex gap="lg">
+                  <Avatar src={AvatarImg} alt="avatar" />
+                  <Flex direction="column">
+                    <Text type="title3" color={colors.landingLabelTitle}>John Doe</Text>
+                    <Text type="title4" color={colors.landingLabelMuted}>XYZ Inc</Text>
+                  </Flex>
+                </Flex>
+              </TestimonialContainer>
+              <TestimonialContainer>
+                <Flex direction="column">
+                  <Text type="title1" lineHeight={0.5} fontSize={48} color={colors.landingLabelMuted}>&ldquo;</Text>
+                  <Text type="title1" color={colors.landingLabelTitle}>Introspec provided us with a best in class development workflow out of the box from day zero.</Text>
+                </Flex>
+                <Flex gap="lg">
+                  <Avatar src={AvatarImg} alt="avatar" />
+                  <Flex direction="column">
+                    <Text type="title3" color={colors.landingLabelTitle}>John Doe</Text>
+                    <Text type="title4" color={colors.landingLabelMuted}>XYZ Inc</Text>
+                  </Flex>
+                </Flex>
+              </TestimonialContainer>
+              <TestimonialContainer>
+                <Flex direction="column">
+                  <Text type="title1" lineHeight={0.5} fontSize={48} color={colors.landingLabelMuted}>&ldquo;</Text>
+                  <Text type="title1" color={colors.landingLabelTitle}>Introspec provided us with a best in class development workflow out of the box from day zero.</Text>
+                </Flex>
+                <Flex gap="lg">
+                  <Avatar src={AvatarImg} alt="avatar" />
+                  <Flex direction="column">
+                    <Text type="title3" color={colors.landingLabelTitle}>John Doe</Text>
+                    <Text type="title4" color={colors.landingLabelMuted}>XYZ Inc</Text>
+                  </Flex>
+                </Flex>
+              </TestimonialContainer>
+            </TestimonialGrid>
+            <TitleContainer columns="3" gap={0}>
+              <div />
+              <Flex direction="column" gap="md">
+                <Text type="display" align="center" color={colors.landingLabelTitle}>What is Introspec?</Text>
+                <Text type="title3" align="center" color={colors.landingLabelMuted}>Introspec provides with the basic building blocks to quickly start building your app.</Text>
+              </Flex>
+            </TitleContainer>
+            <FeatureGrid columns={3} gap={0}>
+              <FeatureContainer>
+                <Flex gap="lg" direction="column">
+                  <Text type="title2" color={colors.landingLabelTitle}>Authentication</Text>
+                  <Text type="title4" fontSize={16} fontWeight={400} color={colors.landingLabelMuted}>Add an end-to-end identity solution to your app for easy user authentication, sign-in, and onboarding in just a few lines of code.</Text>
+                </Flex>
+                <FeatureImage src={AuthImg} alt-text="authentication" />
+              </FeatureContainer>
+              <FeatureContainer>
+                <Flex gap="lg" direction="column">
+                  <Text type="title2" color={colors.landingLabelTitle}>Database</Text>
+                  <Text type="title4" fontSize={16} fontWeight={400} color={colors.landingLabelMuted}>Every project is a full Postgres database, the world&apos;s most trusted relational database.</Text>
+                </Flex>
+                <FeatureImage src={AuthImg} alt-text="authentication" />
+              </FeatureContainer>
+              <FeatureContainer>
+                <Flex gap="lg" direction="column">
+                  <Text type="title2" color={colors.landingLabelTitle}>Storage</Text>
+                  <Text type="title4" fontSize={16} fontWeight={400} color={colors.landingLabelMuted}>Store, organize, and serve large files. Any media, including videos and images.</Text>
+                </Flex>
+                <FeatureImage src={AuthImg} alt-text="authentication" />
+              </FeatureContainer>
+              <FeatureContainer>
+                <Flex gap="lg" direction="column">
+                  <Text type="title2" color={colors.landingLabelTitle}>Custom Resolver</Text>
+                  <Text type="title4" fontSize={16} fontWeight={400} color={colors.landingLabelMuted}>Write custom code without deploying or scaling servers.</Text>
+                </Flex>
+                <FeatureImage src={AuthImg} alt-text="authentication" />
+              </FeatureContainer>
+              <FeatureContainer>
+                <Flex gap="lg" direction="column">
+                  <Text type="title2" color={colors.landingLabelTitle}>Integrations</Text>
+                  <Text type="title4" fontSize={16} fontWeight={400} color={colors.landingLabelMuted}>Use your favorite tools with Supabase.</Text>
+                </Flex>
+                <FeatureImage src={AuthImg} alt-text="authentication" />
+              </FeatureContainer>
+              <FeatureContainer>
+                <Flex gap="lg" direction="column">
+                  <Text type="title2" color={colors.landingLabelTitle}>Schedulars</Text>
+                  <Text type="title4" fontSize={16} fontWeight={400} color={colors.landingLabelMuted}>Fully managed enterprise-grade cron job scheduler. Schedule virtually any job.</Text>
+                </Flex>
+                <FeatureImage src={AuthImg} alt-text="authentication" />
+              </FeatureContainer>
+            </FeatureGrid>
+          </FeatureSection>
+        </SiteContent>
+      </Content>
+    </Container>
   )
 }
 

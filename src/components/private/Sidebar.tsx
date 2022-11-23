@@ -9,6 +9,7 @@ import Link from 'components/Link'
 import Text from 'components/Text'
 import { css, styled } from 'stiches.config'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
+import { colors } from 'colors'
 
 const StyledSidebar = styled(Box, {
   transition: 'all 0.1s ease',
@@ -21,7 +22,9 @@ const StyledSidebar = styled(Box, {
   maxWidth: '330px',
   minWidth: '220px',
   fontSize: '$body',
-  borderRight: '1px solid #F8F9FB'
+  backgroundColor: '$bgBase',
+  borderRight: '1px solid $bgBorder',
+  borderTopLeftRadius: 15
 })
 
 const Header = styled(Box, {
@@ -29,20 +32,22 @@ const Header = styled(Box, {
 
   boxSizing: 'border-box',
   width: '100%',
+  backgroundColor: '$bgBase',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '12px 16px',
+  borderTopLeftRadius: 15,
 
   variants: {
     setupMode: {
       true: {
-        backgroundColor: 'white',
+        backgroundColor: '$bgBase',
         border: '1px solid transparent',
         transform: 'scale(110%)',
         transformOrigin: 'center',
         borderRadius: '8px',
-        boxShadow: 'rgb(68 138 255 / 90%) 0px 0px 0px 3px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
+        boxShadow: 'rgb(62 99 221 / 90%) 0px 0px 0px 3px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
       }
     }
   }
@@ -63,7 +68,7 @@ const WorkspaceContainer = styled('button', {
   padding: '6px 9px',
 
   '&:hover': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover'
   }
 })
 
@@ -80,7 +85,7 @@ const WorkspaceTitle = styled(Text, {
 const Profile = styled('img', {
   width: '18px',
   height: '18px',
-  backgroundColor: '#F5F5F5',
+  backgroundColor: '$bgSubtle',
   borderRadius: '50%'
 })
 
@@ -138,24 +143,27 @@ const NavItem = styled(Box, {
   direction: 'row',
   alignItems: 'center',
   justifyContent: 'flex-start',
-  color: '#282A30',
+  color: '$labelTitle',
   borderRadius: '4px',
+  textTransform: 'none',
 
   '&:focus': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   '&:hover': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   variants: {
     active: {
       true: {
-        color: '#282A30'
+        color: '$labelTitle'
       },
       false: {
-        color: '#6b6f76'
+        color: '$labelMuted'
       }
     },
     indent: {
@@ -185,22 +193,25 @@ const LinkItem = styled(Link, {
   alignItems: 'center',
   justifyContent: 'flex-start',
   borderRadius: '4px',
+  textTransform: 'none',
 
   '&:focus': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   '&:hover': {
-    backgroundColor: '#f0f3f9'
+    backgroundColor: '$bgBaseHover',
+    color: '$labelTitle'
   },
 
   variants: {
     active: {
       true: {
-        color: '#282A30'
+        color: '$labelTitle'
       },
       false: {
-        color: '#6b6f76'
+        color: '$labelMuted'
       }
     },
     indent: {
@@ -220,7 +231,7 @@ const LinkItem = styled(Link, {
       active: true,
       indent: true,
       css: {
-        backgroundColor: '#F5F5F5'
+        backgroundColor: '$bgBaseHover'
       }
     }
   ]
@@ -437,7 +448,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <HeaderContainer>
           <WorkspaceContainer>
             <LogoContainer src={currentAccount?.workspace?.logo || formValues?.logo?.preview} />
-            <WorkspaceTitle fontSize={13}>
+            <WorkspaceTitle color={colors.labelTitle} fontSize={13}>
               {currentAccount?.workspace?.name || formValues?.name}
             </WorkspaceTitle>
           </WorkspaceContainer>
