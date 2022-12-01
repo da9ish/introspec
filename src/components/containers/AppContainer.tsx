@@ -1,18 +1,5 @@
-import { Outlet, Route, Routes } from 'react-router'
+import PublicContainer from 'components/containers/PublicContainer'
 
-import ExternalLayout from 'layouts/ExternalLayout'
-import NotFoundPage from 'pages/NotFoundPage'
-import Landing from 'pages/Landing'
-
-const AppContainer: React.FC = () => (
-  <ExternalLayout>
-    <Routes>
-      <Route path="/" element={<Landing />} />
-
-      <Route element={<NotFoundPage />} />
-    </Routes>
-    <Outlet />
-  </ExternalLayout>
-)
+const AppContainer: React.FC = () => (<PublicContainer />)
 
 export default AppContainer

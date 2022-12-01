@@ -3,11 +3,17 @@ import { BrowserRouter } from 'react-router-dom'
 
 import AppLoader from 'components/AppLoader'
 import ClientProvider from 'providers/ClientProvider'
-import CurrentAccountProvider from 'contexts/CurrentAccountContext'
+import CurrentAccountProvider, { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import GlobalProvider from 'providers/GlobalProvider'
 import WorkspaceContainer from 'components/containers/WorkspaceContainer'
 import AppContainer from 'components/containers/AppContainer'
-import { hasWorkspaceHostname } from 'libs/hostname'
+
+const AppRoot = () => {
+  const currentAccount = useCurrentAccountContext()
+  const isLoggedIn = currentAccount && currentAccount.onBoardingCompleted
+  if (isLoggedIn) return <WorkspaceContainer />
+  return <AppContainer />
+}
 
 const Root: React.FC = () => (
   <ClientProvider>
@@ -21,7 +27,7 @@ const Root: React.FC = () => (
           <GlobalProvider>
             <CurrentAccountProvider>
               <BrowserRouter>
-                {hasWorkspaceHostname ? <WorkspaceContainer /> : <AppContainer />}
+                <AppRoot />
               </BrowserRouter>
             </CurrentAccountProvider>
           </GlobalProvider>

@@ -15,6 +15,7 @@ import LandingBg from 'assets/landing-bg.png'
 import FeatureBg from 'assets/feature-bg.png'
 import AuthImg from 'assets/auth-gfx.png'
 import AvatarImg from 'assets/avatars/avatar-1.png'
+import { InputContainer, StyledInput } from 'components/Input'
 
 const Container = styled(Box, {
   width: '100vw',
@@ -130,6 +131,23 @@ const FeatureImage = styled('img', {
   borderRadius: 30
 })
 
+const CallToActionContainer = styled(Flex, {
+  width: '70%',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+
+  [`& > ${InputContainer}`]: {
+    width: '100%',
+
+    [`& > ${StyledInput}`]: {
+      flexGrow: 1
+    },
+    [`& > ${ActionButton}`]: {
+      width: 280
+    }
+  }
+})
+
 const SiteContent = styled(Grid, {})
 
 const Landing: React.FC = () => {
@@ -141,7 +159,12 @@ const Landing: React.FC = () => {
         <HeroSection>
           <Text type="display" align="center" color={colors.landingLabelTitle}>GraphQL backend for your next project</Text>
           <Text type="title1" align="center" color={colors.landingLabelTitle}>Authentication, Database, Storage all in one GraphQL endpoint</Text>
-          <ActionButton kind="primary" size="large" onClick={() => navigate('/signup')}>Get Started</ActionButton>
+          <CallToActionContainer>
+            <InputContainer size="large" kind="website">
+              <StyledInput name="email" type="email" placeholder="Enter your email here" />
+              <ActionButton kind="primary" size="large" onClick={() => navigate('/signup')}>Get early access</ActionButton>
+            </InputContainer>
+          </CallToActionContainer>
         </HeroSection>
         <LandingImage loading="eager" src={LandingBg} alt="landing-bg" />
         <SiteContent columns={12}>

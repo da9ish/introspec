@@ -59,7 +59,7 @@ const PreviewContainer = styled(Flex, {
 
 const moveToRight = keyframes({
   '0%': { left: '10%' },
-  '100%': { left: '-100%' }
+  '100%': { left: '-160%' }
 })
 
 const moveToLeft = keyframes({
@@ -97,7 +97,7 @@ const AppContainer = styled(Box, {
       },
       true: {
         animation: `${moveToRight} 500ms ease-out`,
-        left: '-100%'
+        left: '-160%'
       },
       false: {
         animation: `${moveToLeft} 500ms ease-out`,
@@ -231,7 +231,7 @@ const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
   const [ sidebarSetupMode, setSidebarSetupMode ] = useState(false)
   const [ topbarSetupMode, setTopbarSetupMode ] = useState(false)
-  const [ step, setStep ] = useState<'none' | 'true' | 'false'>(currentAccount?.workspace ? 'true' : 'none')
+  const [ step, setStep ] = useState<'none' | 'true' | 'false'>('true') // currentAccount?.workspace ? 'true' : 'none')
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
   const [ createWorkspace ] = useCreateWorkspaceMutation({
     onCompleted: (data) => {
@@ -290,7 +290,7 @@ const Onboard: React.FC = () => {
                   setupMode={sidebarSetupMode}
                   formValues={values}
                 />
-                <Box css={{ width: '100%', height: '100%', backgroundColor: colors.bgBase }}>
+                <Box css={{ width: '100%', height: '100%', backgroundColor: colors.bgBase, borderRadius: 16 }}>
                   <Flex direction="column" css={{ flexGrow: 1 }}>
                     <Topbar
                       setupMode={topbarSetupMode}

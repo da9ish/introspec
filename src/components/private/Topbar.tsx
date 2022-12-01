@@ -18,7 +18,8 @@ const StyledTopbar = styled('header', {
   alignItems: 'center',
   justifyContent: 'space-between',
   backgroundColor: '$bgBase',
-  borderBottom: '1px solid $bgBorder'
+  borderBottom: '1px solid $bgBorder',
+  borderTopRightRadius: 15
 })
 
 const ApiContainer = styled(Flex, {

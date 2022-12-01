@@ -163,4 +163,6 @@ const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size
   </InputContainer>
 )
 
+export { InputContainer, StyledInput }
+
 export default Input

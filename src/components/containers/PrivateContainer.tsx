@@ -20,7 +20,7 @@ const PrivateContainer: React.FC = () => (
         <Route path="/database/data" element={<Data />} />
       </Route>
 
-      <Route element={<NotFoundPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
     <Outlet />
   </InternalLayout>
