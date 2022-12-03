@@ -216,6 +216,7 @@ const EnvironmentForm = ({ setTopbarSetupMode }: any) => {
         className={classes.button()}
         icon="check"
         iconPlacement="left"
+        disabled
         onMouseEnter={() => setTopbarSetupMode(true)}
         onMouseLeave={() => setTopbarSetupMode(false)}
       >Live
@@ -231,7 +232,7 @@ const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
   const [ sidebarSetupMode, setSidebarSetupMode ] = useState(false)
   const [ topbarSetupMode, setTopbarSetupMode ] = useState(false)
-  const [ step, setStep ] = useState<'none' | 'true' | 'false'>('true') // currentAccount?.workspace ? 'true' : 'none')
+  const [ step, setStep ] = useState<'none' | 'true' | 'false'>(currentAccount?.workspace ? 'true' : 'none')
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
   const [ createWorkspace ] = useCreateWorkspaceMutation({
     onCompleted: (data) => {

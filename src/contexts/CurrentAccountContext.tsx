@@ -44,4 +44,5 @@ const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
 }
 
 export { useCurrentAccountContext }
+export type { CurrentAccountContextType }
 export default CurrentAccountProvider

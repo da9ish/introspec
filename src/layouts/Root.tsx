@@ -12,7 +12,7 @@ const AppRoot = () => {
   const currentAccount = useCurrentAccountContext()
   const isLoggedIn = currentAccount && currentAccount.onBoardingCompleted
   if (isLoggedIn) return <WorkspaceContainer />
-  return <AppContainer />
+  return <AppContainer currentAccount={currentAccount} />
 }
 
 const Root: React.FC = () => (
