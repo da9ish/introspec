@@ -1,17 +1,26 @@
 import {
-  gray,
-  red,
+  amber,
+  amberDark,
+  blackA,
   green,
-  yellow,
+  greenDark,
   indigo,
   indigoDark,
-  yellowDark,
-  grayDark,
+  mauve,
+  mauveDark,
+  red,
   redDark,
-  greenDark
+  sand,
+  sandDark,
+  slate,
+  slateDark,
+  tomato,
+  tomatoDark,
+  yellow,
+  yellowDark
 } from '@radix-ui/colors'
 
-import { createStitches } from '@stitches/react'
+import { createStitches, createTheme } from '@stitches/react'
 
 import { colors } from 'colors'
 
@@ -24,15 +33,15 @@ const { styled, css, keyframes, theme } = createStitches({
       background: '#FCFBF4',
       border: '#eee',
       ...colors,
-      // ...gray,
-      ...grayDark,
-      // ...indigo,
+      ...blackA,
+      ...amberDark,
+      ...slateDark,
+      ...mauveDark,
+      ...sandDark,
       ...indigoDark,
-      // ...red,
       ...redDark,
-      // ...green,
+      ...tomatoDark,
       ...greenDark,
-      // ...yellow,
       ...yellowDark
     },
     fonts: {
@@ -67,6 +76,27 @@ const { styled, css, keyframes, theme } = createStitches({
       paddingTop: value,
       paddingBottom: value
     })
+  }
+})
+
+export const darkTheme = createTheme('dark-theme', {
+  colors: {
+    secondary: '#64FFDA',
+    danger: '#EE5459',
+    dangetHighlight: '#DB4340',
+    background: '#FCFBF4',
+    border: '#eee',
+    ...colors,
+    ...blackA,
+    ...amber,
+    ...slate,
+    ...mauve,
+    ...sand,
+    ...indigo,
+    ...red,
+    ...tomato,
+    ...green,
+    ...yellow
   }
 })
 

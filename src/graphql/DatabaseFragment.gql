@@ -1,0 +1,5 @@
+fragment DatabaseFragment on Database {
+  id
+  name
+  identifier
+}

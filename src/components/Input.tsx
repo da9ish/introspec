@@ -43,6 +43,8 @@ const StyledInput = styled('input', {
   fontSize: 13,
   color: '$inputColor',
   padding: '0 12px',
+  borderTopRightRadius: 0,
+  borderBottomRightRadius: 0,
 
   '::placeholder': {
     color: '$inputPlaceholder'
@@ -154,8 +156,8 @@ const InputContainer = styled(Flex, {
   }
 })
 
-const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size = 'small', kind, prefix, ...props }) => (
-  <InputContainer size={size} kind={kind}>
+const Input: React.FC<InputProps> = ({ icon = null, iconPlacement = 'left', size = 'small', kind, prefix, style, ...props }) => (
+  <InputContainer size={size} kind={kind} style={style}>
     {icon && iconPlacement === 'left' && <StyledIconLeft name={icon} />}
     {prefix && <Prefix type="body" color="muted">{prefix}</Prefix>}
     <StyledInput prefix={Boolean(prefix)} icon={Boolean(icon)} {...props} />

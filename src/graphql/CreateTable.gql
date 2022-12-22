@@ -1,0 +1,5 @@
+mutation CreateTable($input: createTableInput!) {
+  createTable(input: $input) {
+    ...TableFragment
+  }
+}

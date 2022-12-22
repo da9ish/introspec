@@ -1,0 +1,5 @@
+mutation UpdateTable($input: updateTableInput!) {
+  updateTable(input: $input) {
+    ...TableFragment
+  }
+}

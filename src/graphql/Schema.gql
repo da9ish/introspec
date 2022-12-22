@@ -2,20 +2,10 @@ query Schema {
   schema {
     id
     database {
-      name
-      identifier
+      ...DatabaseFragment
     }
     tables {
-      name
-      identifier
-      indexes
-      contraints
-      columns {
-        name
-        identifier
-        dataType
-        contraints
-      }
+      ...TableFragment
     }
   }
 }

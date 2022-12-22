@@ -44,11 +44,13 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   fontSize: 13,
   lineHeight: 1,
   backgroundColor: '$inputBg',
-  color: '$inputLabel',
-  border: '1px solid transparent',
-  boxShadow: 'rgb(49 53 56) 0px 0px 0px 1px',
+  color: '$inputColor',
+  border: '1px solid $inputBorder',
+  boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
 
-  '&[data-placeholder]': { color: '$inputLabelFaint' },
+  '& > [data-placeholder]': {
+    color: '$inputLabelFaint'
+  },
 
   '&:hover:not(:disabled)': {
     transition: 'none 0s ease 0s',
@@ -98,7 +100,7 @@ const StyledContent = styled(SelectPrimitive.Content, {
 })
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
-  padding: 0,
+  padding: 5,
   backgroundColor: '$inputBgSubtle'
 })
 
@@ -123,13 +125,13 @@ const StyledItem = styled(SelectPrimitive.Item, {
   position: 'relative',
   userSelect: 'none',
 
-  '&[data-disabled]': {
+  '& [data-disabled]': {
     color: '$inputLabelMuted',
     pointerEvents: 'none'
   },
 
-  '&[data-highlighted]': {
-    backgroundColor: '$controlSelectedBg',
+  '& [data-highlighted]': {
+    backgroundColor: '$bgBaseHover',
     color: '$inputLabel'
   },
 
@@ -142,7 +144,7 @@ const StyledItem = styled(SelectPrimitive.Item, {
         height: 32
       },
       large: {
-        height: 35
+        height: 44
       }
     }
   }
@@ -175,7 +177,7 @@ const scrollButtonStyles = {
   alignItems: 'center',
   justifyContent: 'center',
   height: 25,
-  backgroundColor: 'white',
+  backgroundColor: '$bgBase',
   color: '$inputLabel',
   cursor: 'default'
 }
@@ -207,9 +209,14 @@ const Select: React.FC<SelectProps> = ({
   options,
   labelKey = 'label',
   valueKey = 'value',
-  size = 'normal'
+  size = 'normal',
+  ...props
 }) => (
-  <StyledSelect value={value} name={name}>
+  <StyledSelect
+    value={value}
+    name={name}
+    onValueChange={(value) => props.onChange?.({ target: { value } } as any)}
+  >
     <SelectTrigger size={size} aria-label={label} value={value}>
       {icon && (
         <SelectIcon>
@@ -221,24 +228,26 @@ const Select: React.FC<SelectProps> = ({
         <Icon name="chevron-down" />
       </DropdownIcon>
     </SelectTrigger>
-    <SelectContent>
-      <SelectScrollUpButton>
-        <Icon name="chevron-up" />
-      </SelectScrollUpButton>
-      <SelectViewport>
-        {options.map((opt: any) => (
-          <SelectItem size={size} value={opt[valueKey]}>
-            <SelectItemText>{opt[labelKey]}</SelectItemText>
-            <SelectItemIndicator>
-              <Icon name="check" />
-            </SelectItemIndicator>
-          </SelectItem>
-        ))}
-      </SelectViewport>
-      <SelectScrollDownButton>
-        <Icon name="chevron-down" />
-      </SelectScrollDownButton>
-    </SelectContent>
+    <SelectPrimitive.SelectPortal>
+      <SelectContent>
+        <SelectScrollUpButton>
+          <Icon name="chevron-up" />
+        </SelectScrollUpButton>
+        <SelectViewport>
+          {options.map((opt: any) => (
+            <SelectItem size={size} value={opt[valueKey]}>
+              <SelectItemText>{opt[labelKey]}</SelectItemText>
+              <SelectItemIndicator>
+                <Icon name="check" />
+              </SelectItemIndicator>
+            </SelectItem>
+          ))}
+        </SelectViewport>
+        <SelectScrollDownButton>
+          <Icon name="chevron-down" />
+        </SelectScrollDownButton>
+      </SelectContent>
+    </SelectPrimitive.SelectPortal>
   </StyledSelect>
 )
 

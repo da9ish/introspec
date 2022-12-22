@@ -58,6 +58,15 @@ const StyledButton = styled('button', {
           boxShadow: 'rgb(201 203 205) 0px 0px 0px 1px'
         }
       },
+      warning: {
+        backgroundColor: '$yellow2',
+        color: '$yellow12',
+        boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
+
+        '&:hover': {
+          color: '$yellow12'
+        }
+      },
       dangerous: {
         backgroundColor: '$danger',
         color: '$bgBase',
@@ -71,11 +80,11 @@ const StyledButton = styled('button', {
     size: {
       small: {
         height: 28,
-        fontSize: '12px'
+        fontSize: '11px'
       },
       normal: {
         height: 32,
-        fontSize: '13px'
+        fontSize: '12px'
       },
       large: {
         height: 44,

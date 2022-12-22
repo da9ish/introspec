@@ -63,6 +63,7 @@ const HeaderContainer = styled(Flex, {
 const WorkspaceContainer = styled('button', {
   boxSizing: 'border-box',
   borderRadius: '4px',
+  flexGrow: 1,
   display: 'flex',
   alignItems: 'center',
   padding: '6px 9px',

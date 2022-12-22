@@ -1,4 +1,3 @@
-import { slate, slateDark } from '@radix-ui/colors'
 import { styled, VariantProps } from '@stitches/react'
 import type { PropsWithChildren } from 'react'
 
@@ -81,10 +80,10 @@ const StyledText = styled('span', {
     },
     kind: {
       primary: {
-        color: slateDark.slate12
+        color: '$slate12'
       },
       muted: {
-        color: slateDark.slate11
+        color: '$slate11'
       }
     }
   },

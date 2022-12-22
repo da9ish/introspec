@@ -1,12 +1,11 @@
 import { styled } from '@stitches/react'
 
-import { colors } from 'colors'
-
 import Clickable from 'components/Clickable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
 import Select from 'components/Select'
+import { colors } from 'colors'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
 const StyledTopbar = styled('header', {
@@ -86,7 +85,7 @@ const Topbar: React.FC<TopbarProps> = ({
           <ApiBar>{`${currentAccount?.workspace?.identifier || formValues?.identifier}.introspec.app/graphql`}</ApiBar>
           <Icon color={colors.labelMuted} name="copy" />
         </Clickable>
-        <IconButton name="book" onClick={() => {}} />
+        <IconButton name="book" />
       </ApiContainer>
       <EnvironmentContainer setupMode={setupMode}>
         <Select

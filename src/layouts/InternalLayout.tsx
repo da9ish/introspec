@@ -7,6 +7,7 @@ import Flex from 'components/Flex'
 import Sidebar from 'components/private/Sidebar'
 import Topbar from 'components/private/Topbar'
 import { colors } from 'colors'
+import ViewStack from 'components/view/ViewStack'
 
 const Container = styled(Flex, {
   width: '100%',
@@ -22,6 +23,7 @@ const InternalLayout: React.FC<PropsWithChildren> = ({ children }) => (
         <Topbar />
         <Box as="main">
           {children}
+          <ViewStack />
         </Box>
       </Flex>
     </Container>

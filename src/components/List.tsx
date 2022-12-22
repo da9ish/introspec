@@ -16,18 +16,18 @@ interface Content {
   icon?: IconProps['name']
 }
 
-interface Action {
+interface Action<T = any> {
   name: string,
   icon: string,
-  onClick: () => void
+  onClick?: (record: T, e: React.FormEvent<any>) => void
 }
 
-interface Props {
+interface Props<T> {
   data: any,
   loading: boolean,
   error?: ApolloError,
   contents: Content,
-  actions?: Action[]
+  actions?: Action<T>[]
 }
 
 const ListItem = styled(Flex, {
@@ -58,34 +58,41 @@ const ActionContainer = styled(Flex, {
   alignSelf: 'stretch'
 })
 
-const List = ({ data = [], loading, error, contents, actions = [] }: Props) => (
-  <Flex direction="column">
-    {loading && <Text>Loading...</Text>}
-    {error && <Text>Error: {error.message}</Text>}
-    {data.map((d: any) => {
-      const title = get(d, contents.title)
-      const subtitle = get(d, contents?.subtitle || '')
-      const icon = get(d, contents?.icon || '')
-      return (
-        <ListItem key={title}>
-          <ListContent>
-            {icon && <Icon name={icon} />}
-            <ListTitle fontWeight={500}>{title}</ListTitle>
-            <Separator decorative orientation="vertical" />
-            <ListTitle>{subtitle}</ListTitle>
-          </ListContent>
-          {actions.length > 0 && (
+function List<T>({ data = [], loading, error, contents, actions = [] }: Props<T>) {
+  return (
+    <Flex direction="column">
+      {loading && <Text>Loading...</Text>}
+      {error && <Text>Error: {error.message}</Text>}
+      {data.length === 0 && <Text>No Records</Text>}
+      {data.map((d: any) => {
+        const title = get(d, contents.title)
+        const subtitle = get(d, contents?.subtitle || '')
+        const icon = get(d, contents?.icon || '')
+        return (
+          <ListItem key={title}>
+            <ListContent>
+              {icon && <Icon name={icon} />}
+              <ListTitle fontWeight={500}>{title}</ListTitle>
+              <Separator decorative orientation="vertical" />
+              <ListTitle>{subtitle}</ListTitle>
+            </ListContent>
+            {actions.length > 0 && (
             <ActionContainer>
               <Separator decorative orientation="vertical" />
                 {actions.map((action) => (
-                  <IconButton key={action.name} name={action.icon} onClick={action.onClick} />
+                  <IconButton
+                    key={action.name}
+                    name={action.icon}
+                    onClick={(e) => action.onClick?.(d, e)}
+                  />
                 ))}
             </ActionContainer>
-          )}
-        </ListItem>
-      )
-    })}
-  </Flex>
-)
+            )}
+          </ListItem>
+        )
+      })}
+    </Flex>
+  )
+}
 
 export default List

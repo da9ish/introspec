@@ -5,8 +5,8 @@ interface Props {
   currentAccount?: CurrentAccountContextType
 }
 
-const AppContainer: React.FC<Props> = ({ currentAccount }) => (
+const PortalContainer: React.FC<Props> = ({ currentAccount }) => (
   <PublicContainer currentAccount={currentAccount} />
 )
 
-export default AppContainer
+export default PortalContainer

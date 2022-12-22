@@ -35,6 +35,7 @@ const authLink = setContext(async (_gqlContext, { headers }) => {
       modifiedHeaders.expiry = session.expiry
       modifiedHeaders['token-type'] = session.tokenType
       modifiedHeaders['workspace-id'] = session.workspace?.id
+      modifiedHeaders['environment-id'] = (session.workspace?.environments || [])[0]?.id
     }
   }
 
@@ -77,8 +78,8 @@ const client = new ApolloClient({
   defaultOptions: {
     watchQuery: {
       errorPolicy: 'all',
-      fetchPolicy: 'cache-and-network',
-      nextFetchPolicy: 'cache-first'
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'network-only'
     },
     query: {
       errorPolicy: 'all'

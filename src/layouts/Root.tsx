@@ -5,14 +5,17 @@ import AppLoader from 'components/AppLoader'
 import ClientProvider from 'providers/ClientProvider'
 import CurrentAccountProvider, { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import GlobalProvider from 'providers/GlobalProvider'
+import PortalContainer from 'components/containers/PortalContainer'
 import WorkspaceContainer from 'components/containers/WorkspaceContainer'
-import AppContainer from 'components/containers/AppContainer'
+import ThemeProvider from 'providers/ThemeProvider'
+import ToastProvider from 'providers/ToastProvider'
+import ViewProvider from 'providers/ViewProvider'
 
 const AppRoot = () => {
   const currentAccount = useCurrentAccountContext()
   const isLoggedIn = currentAccount && currentAccount.onBoardingCompleted
   if (isLoggedIn) return <WorkspaceContainer />
-  return <AppContainer currentAccount={currentAccount} />
+  return <PortalContainer currentAccount={currentAccount} />
 }
 
 const Root: React.FC = () => (
@@ -24,13 +27,19 @@ const Root: React.FC = () => (
 
       return (
         <ApolloProvider client={apolloClient}>
-          <GlobalProvider>
-            <CurrentAccountProvider>
-              <BrowserRouter>
-                <AppRoot />
-              </BrowserRouter>
-            </CurrentAccountProvider>
-          </GlobalProvider>
+          <ThemeProvider>
+            <ToastProvider>
+              <GlobalProvider>
+                <CurrentAccountProvider>
+                  <ViewProvider>
+                    <BrowserRouter>
+                      <AppRoot />
+                    </BrowserRouter>
+                  </ViewProvider>
+                </CurrentAccountProvider>
+              </GlobalProvider>
+            </ToastProvider>
+          </ThemeProvider>
         </ApolloProvider>
       )
     }}

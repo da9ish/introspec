@@ -1,23 +1,33 @@
-import { useNavigate } from 'react-router'
 import { styled } from '@stitches/react'
-
 import { indigoDark } from '@radix-ui/colors'
+import { Field, Form } from 'react-final-form'
+import { useContext, useState } from 'react'
+import type { ApolloError } from '@apollo/client'
 
-import Box from 'components/Box'
-import Flex from 'components/Flex'
-import Navbar from 'components/public/Navbar'
-import Text from 'components/Text'
-import { colors } from 'colors'
-import { ActionButton } from 'components/ActionButton'
-import Grid from 'components/Grid'
-
-import LandingBg from 'assets/landing-bg.png'
-import FeatureBg from 'assets/feature-bg.png'
 import AuthImg from 'assets/auth-gfx.png'
 import AvatarImg from 'assets/avatars/avatar-1.png'
+import Box from 'components/Box'
+import FeatureBg from 'assets/feature-bg.png'
+import Flex from 'components/Flex'
+import Grid from 'components/Grid'
+import LandingBg from 'assets/landing-bg.png'
+import Navbar from 'components/public/Navbar'
+import Text from 'components/Text'
+import Toast from 'components/Toast'
+import ToastContext from 'contexts/ToastContext'
+import { colors } from 'colors'
+import { ActionButton } from 'components/ActionButton'
 import { InputContainer, StyledInput } from 'components/Input'
 
+interface ResponseObject {
+  message: string,
+  data: any,
+  errors: ApolloError[],
+  status: string
+}
+
 const Container = styled(Box, {
+  position: 'relative',
   width: '100vw',
   height: '100vh',
   overflow: 'auto',
@@ -151,19 +161,58 @@ const CallToActionContainer = styled(Flex, {
 const SiteContent = styled(Grid, {})
 
 const Landing: React.FC = () => {
-  const navigate = useNavigate()
+  const { setOpen } = useContext(ToastContext)!
+  const { REACT_APP_API_BASE_URL } = process.env
+  const [ response, setResponse ] = useState<ResponseObject>()
+  const onEarlyAccess = (values: any) => {
+    const apiUrl = `${REACT_APP_API_BASE_URL}/early-access`
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(async (res) => {
+      setOpen(true)
+      setResponse(await res.json() as any as ResponseObject)
+    })
+  }
   return (
     <Container>
+      <Toast
+        title="Failed"
+        description="Something went wrong"
+        actionProps={{
+          altText: 'Close',
+          children: 'Close',
+          size: 'small',
+          kind: 'secondary',
+          onClick: () => setOpen(false)
+        }}
+      />
       <Navbar />
       <Content as="main">
         <HeroSection>
           <Text type="display" align="center" color={colors.landingLabelTitle}>GraphQL backend for your next project</Text>
           <Text type="title1" align="center" color={colors.landingLabelTitle}>Authentication, Database, Storage all in one GraphQL endpoint</Text>
           <CallToActionContainer>
-            <InputContainer size="large" kind="website">
-              <StyledInput name="email" type="email" placeholder="Enter your email here" />
-              <ActionButton kind="primary" size="large" onClick={() => navigate('/signup')}>Get early access</ActionButton>
-            </InputContainer>
+            <Form
+              onSubmit={onEarlyAccess}
+              validate={() => ({})}
+              render={({ handleSubmit }) => (
+                <InputContainer size="large" kind="website">
+                  <Field name="email">
+                    {({ input, meta }) => (
+                      <>
+                        <StyledInput type="email" placeholder="Enter your email here" {...input} />
+                        {meta.error && meta.touched && <span>{meta.error}</span>}
+                      </>
+                    )}
+                  </Field>
+                  <ActionButton kind="primary" size="normal" onClick={handleSubmit}>Get early access</ActionButton>
+                </InputContainer>
+              )}
+            />
           </CallToActionContainer>
         </HeroSection>
         <LandingImage loading="eager" src={LandingBg} alt="landing-bg" />
