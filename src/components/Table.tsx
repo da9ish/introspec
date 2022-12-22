@@ -1,110 +1,113 @@
-import type { ApolloError } from '@apollo/client'
 import { styled } from '@stitches/react'
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
-import Error from 'components/Error'
-import Loader from 'components/Loader'
+export const Caption = styled('caption', {
+  textAlign: 'start',
+  marginBottom: 25
+})
 
-interface Props<T> {
-  data: any,
-  loading: boolean,
-  error?: ApolloError,
-  columns: ColumnDef<T, string>[]
-}
+export const Tbody = styled('tbody', {
+  width: '100%',
+  color: '$labelBase'
+})
 
-const StyledTable = styled('table', {
+export const Tfoot = styled('tfoot', {
+  color: '$labelBase'
+})
+
+export const Tr = styled('tr', {})
+
+export const Th = styled('th', {
+  fontWeight: 'unset',
+  textAlign: 'start',
+  fontSize: 13,
+  padding: '10px 0 10px 10px',
+  borderBottom: '1px solid $slate4',
+  variants: {
+    align: {
+      start: {
+        textAlign: 'start'
+      },
+      center: {
+        textAlign: 'center'
+      },
+      end: {
+        textAlign: 'end'
+      }
+    },
+    border: {
+      solid: {
+        borderBottom: '1px solid $slate4'
+      },
+      dashed: {
+        borderBottom: '1px dashed $slate8'
+      }
+    }
+  },
+  defaultVariants: {
+    align: 'start',
+    border: 'solid'
+  }
+})
+
+export const Td = styled('td', {
+  padding: '10px 0',
+  borderBottom: '1px solid $slate4',
+  fontSize: 13,
+  variants: {
+    align: {
+      start: {
+        textAlign: 'start'
+      },
+      center: {
+        textAlign: 'center'
+      },
+      end: {
+        textAlign: 'end'
+      }
+    },
+    border: {
+      solid: {
+        borderBottom: '1px solid $slate4'
+      },
+      dashed: {
+        borderBottom: '1px dashed $slate8'
+      }
+    }
+  },
+  defaultVariants: {
+    align: 'start',
+    border: 'solid'
+  }
+})
+
+export const Thead = styled('thead', {
+  [`& ${Th}`]: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: '$slate12'
+  },
+  [`& ${Td}`]: {
+    fontSize: 12,
+    fontWeight: 500,
+    color: '$slate12'
+  }
+})
+
+export const Table = styled('table', {
+  width: '100%',
+  tableLayout: 'fixed',
   borderSpacing: 0,
-  boxSizing: 'border-box',
-  width: '100%'
-})
-
-const THead = styled('thead', {
-  height: 36
-})
-
-const TBody = styled('tbody', {
-  tr: {
-    height: 48,
-
-    '&:hover': {
-      backgroundColor: '$bgBaseHover'
+  variants: {
+    striped: {
+      true: {
+        [`& ${Tbody}`]: {
+          [`& ${Tr}`]: {
+            '&:nth-child(odd)': {
+              bc: '$slate2'
+            }
+          }
+        }
+      }
     }
   }
 })
-
-const TRow = styled('tr', {
-  boxSizing: 'content-box',
-  fontSize: 12,
-  color: '$labelMuted',
-  fontWeight: 'normal',
-  textAlign: 'left',
-  borderBottom: '0.5px solid $bgBorderSolid',
-
-  '& > :nth-child(1)': {
-    paddingLeft: '36px'
-  },
-
-  '& > :last-child': {
-    paddingRight: '22px'
-  }
-})
-
-const TH = styled('th', {
-  boxSizing: 'content-box',
-  fontSize: 12,
-  color: '$labelMuted',
-  fontWeight: 'normal',
-  textAlign: 'left'
-})
-
-const TD = styled('td', {
-  fontSize: 13,
-  color: '$labelBase',
-  fontWeight: 'normal',
-  textAlign: 'left'
-})
-
-function Table<T>({ data = [], loading, error, columns }: Props<T>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel()
-  })
-
-  if (loading) return <Loader />
-  if (error) return <Error error={error} />
-
-  return (
-    <StyledTable>
-      <THead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <TRow key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <TH key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-              </TH>
-            ))}
-          </TRow>
-        ))}
-      </THead>
-      <TBody>
-        {table.getRowModel().rows.map((row) => (
-          <TRow key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <TD key={cell.id} style={{ width: cell.column.getSize() }}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </TD>
-            ))}
-          </TRow>
-        ))}
-      </TBody>
-    </StyledTable>
-  )
-}
-
-export default Table

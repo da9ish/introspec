@@ -1,60 +1,105 @@
+import React from 'react'
 import * as SwitchPrimitive from '@radix-ui/react-switch'
-import { blackA } from '@radix-ui/colors'
-import { styled } from '@stitches/react'
+import { styled, VariantProps, CSS } from '@stitches/react'
 
-import Flex from 'components/Flex'
-import Label from 'components/Label'
+const StyledThumb = styled(SwitchPrimitive.Thumb, {
+  position: 'absolute',
+  left: 0,
+  width: 13,
+  height: 13,
+  backgroundColor: '$bgBase',
+  borderRadius: '50%',
+  boxShadow: 'rgba(0, 0, 0, 0.3) 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 1px 2px;',
+  transition: 'transform 100ms cubic-bezier(0.22, 1, 0.36, 1)',
+  transform: 'translateX(1px)',
+  willChange: 'transform',
 
-interface SwitchProps {
-  name: string,
-  label: string,
-  value: boolean,
-  onChange: (checked: boolean) => void
-}
+  '&[data-state="checked"]': {
+    transform: 'translateX(11px)'
+  }
+})
 
 const StyledSwitch = styled(SwitchPrimitive.Root, {
   all: 'unset',
-  width: 42,
-  height: 25,
-  backgroundColor: '$blackA9',
+  boxSizing: 'border-box',
+  userSelect: 'none',
+  '&::before': {
+    boxSizing: 'border-box'
+  },
+  '&::after': {
+    boxSizing: 'border-box'
+  },
+
+  // Reset
+  alignItems: 'center',
+  display: 'inline-flex',
+  justifyContent: 'center',
+  lineHeight: '1',
+  margin: '0',
+  outline: 'none',
+  WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+
+  backgroundColor: '$slate5',
   borderRadius: '9999px',
   position: 'relative',
-  boxShadow: '0 2px 10px $blackA7',
-  WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   '&:focus': {
-    boxShadow: '0 0 0 2px black'
+    boxShadow: '0 0 0 2px $slate8'
   },
+
   '&[data-state="checked"]': {
-    backgroundColor: 'black'
+    backgroundColor: '$indigo9',
+    '&:focus': {
+      boxShadow: '0 0 0 2px $indigo8'
+    }
+  },
+
+  variants: {
+    size: {
+      small: {
+        width: 25,
+        height: 13
+      },
+      normal: {
+        width: 36,
+        height: 20,
+        [`& ${StyledThumb}`]: {
+          width: 18,
+          height: 18,
+          transform: 'translateX(2px)',
+          '&[data-state="checked"]': {
+            transform: 'translateX(16px)'
+          }
+        }
+      },
+      large: {
+        width: 45,
+        height: 25,
+        [`& ${StyledThumb}`]: {
+          width: 21,
+          height: 21,
+          transform: 'translateX(2px)',
+          '&[data-state="checked"]': {
+            transform: 'translateX(22px)'
+          }
+        }
+      }
+    }
+  },
+  defaultVariants: {
+    size: 'normal'
   }
 })
 
-const StyledThumb = styled(SwitchPrimitive.Thumb, {
-  display: 'block',
-  width: 21,
-  height: 21,
-  backgroundColor: 'white',
-  borderRadius: '9999px',
-  boxShadow: '0 2px 2px $blackA7',
-  transition: 'transform 100ms',
-  transform: 'translateX(2px)',
-  willChange: 'transform',
-  '&[data-state="checked"]': {
-    transform: 'translateX(19px)'
-  }
-})
+type SwitchVariants = VariantProps<typeof StyledSwitch>;
+type SwitchPrimitiveProps = React.ComponentProps<typeof SwitchPrimitive.Root>;
+type SwitchProps = SwitchPrimitiveProps & SwitchVariants & { css?: CSS };
 
-const SwitchThumb = StyledThumb
-
-const Switch: React.FC<SwitchProps> = ({ name, label, value, onChange }) => (
-  <Flex alignItems="center" justifyContent="space-between">
-    <Label htmlFor={name}>
-      {label}
-    </Label>
-    <StyledSwitch id={name} onCheckedChange={onChange} checked={value}>
-      <SwitchThumb />
+const Switch = React.forwardRef<React.ElementRef<typeof StyledSwitch>, SwitchProps>(
+  (props, forwardedRef) => (
+    <StyledSwitch {...props} ref={forwardedRef}>
+      <StyledThumb />
     </StyledSwitch>
-  </Flex>
+  )
 )
 
 export default Switch

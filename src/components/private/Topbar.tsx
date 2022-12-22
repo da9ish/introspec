@@ -1,5 +1,8 @@
 import { styled } from '@stitches/react'
+// import { useContext } from 'react'
 
+// import Toast from 'components/Toast'
+// import ToastContext from 'contexts/ToastContext'
 import Clickable from 'components/Clickable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
@@ -75,17 +78,34 @@ interface TopbarProps {
 const Topbar: React.FC<TopbarProps> = ({
   setupMode = false, formValues
 }) => {
+  // const { setOpen } = useContext(ToastContext)!
   const currentAccount = useCurrentAccountContext()
   const environments = currentAccount?.workspace?.environments || []
 
   return (
     <StyledTopbar>
+      {/* <Toast
+        title="Alert heading"
+        description="
+        A modal dialog that interrupts the user with important content and expects a response.
+        "
+        kind="error"
+        actionProps={{
+          altText: 'Close',
+          children: 'Close',
+          size: 'small',
+          onClick: () => setOpen(false)
+        }}
+      /> */}
       <ApiContainer setupMode={setupMode}>
         <Clickable size="small">
           <ApiBar>{`${currentAccount?.workspace?.identifier || formValues?.identifier}.introspec.app/graphql`}</ApiBar>
           <Icon color={colors.labelMuted} name="copy" />
         </Clickable>
-        <IconButton name="book" />
+        <IconButton
+          name="book"
+          // onClick={() => setOpen(true)}
+        />
       </ApiContainer>
       <EnvironmentContainer setupMode={setupMode}>
         <Select

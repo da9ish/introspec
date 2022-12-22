@@ -160,14 +160,14 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                   <Text fontSize={12}>Indexing</Text>
                   <Field name="isIndexed">
                     {({ input, meta }) => (
-                      <>
+                      <Label css={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+                        Add index on this column
                         <Switch
-                          label="Add index on this column"
-                          type="checkbox"
+                          type={'button' as any}
                           {...input}
                         />
                         {meta.error && meta.touched && <span>{meta.error}</span>}
-                      </>
+                      </Label>
                     )}
                   </Field>
                 </Flex>

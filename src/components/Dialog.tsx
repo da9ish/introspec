@@ -1,6 +1,5 @@
 import React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { blackA } from '@radix-ui/colors'
 import { CSS, keyframes, styled, VariantProps } from '@stitches/react'
 
 import Box from 'components/Box'

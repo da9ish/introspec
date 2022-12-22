@@ -1,11 +1,12 @@
 import { useLocation } from 'react-router'
 import { useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import Box from 'components/Box'
 import Clickable from 'components/Clickable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
-import Link from 'components/Link'
 import Text from 'components/Text'
 import { css, styled } from 'stiches.config'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'

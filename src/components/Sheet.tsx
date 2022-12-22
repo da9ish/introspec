@@ -29,7 +29,7 @@ const overlayShow = keyframes({
 })
 
 const SheetOverlay = styled(DialogPrimitive.Overlay, {
-  backdropFilter: 'blur(1px)',
+  backdropFilter: 'blur(10px) saturate(190%) contrast(100%) brightness(130%)',
   backgroundColor: '$blackA9',
   position: 'fixed',
   inset: 0,
@@ -46,9 +46,9 @@ const StyledContent = styled(DialogPrimitive.Content, {
   width: 400,
   willChange: 'transform',
 
-  // '&:focus': {
-  //   outline: 'none',
-  // },
+  '&:focus': {
+    outline: 'none'
+  },
 
   '&[data-state="open"]': {
     animation: `${slideIn} 150ms cubic-bezier(0.22, 1, 0.36, 1)`

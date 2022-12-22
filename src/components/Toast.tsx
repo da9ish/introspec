@@ -14,11 +14,13 @@ interface ToastProps extends VariantProps<typeof ToastRoot> {
   actionProps: ToastPrimitive.ToastActionProps & ButtonProps
 }
 
-type ToastType = 'info' | 'warning' | 'error'
+type ToastType = 'default' | 'info' | 'success' |'warning' | 'error'
 
 const VIEWPORT_PADDING = 25
 const TOAST_ICON_MAP: Record<ToastType, string> = {
+  default: 'info',
   info: 'info',
+  success: 'check-circle',
   warning: 'alert-circle',
   error: 'x-octagon'
 }
@@ -76,7 +78,7 @@ const ToastHeader = styled(Flex, {
 })
 
 const ToastTitle = styled(ToastPrimitive.Title, {
-  color: '$slate12',
+  color: 'inherit',
   fontWeight: 500,
   fontSize: 15
 })
@@ -94,9 +96,10 @@ const ToastAction = styled(ToastPrimitive.Action, {
 })
 
 const ToastRoot = styled(ToastPrimitive.Root, {
-  backgroundColor: '$bgSubtle',
+  // backgroundColor: '$bgSubtle',
   borderRadius: 6,
   boxShadow: 'rgb(0 0 0 / 10%) 0px 2px 4px',
+  border: '1px solid',
   padding: 15,
   display: 'grid',
   gridTemplateAreas: '\'title action\' \'description action\'',
@@ -137,28 +140,59 @@ const ToastRoot = styled(ToastPrimitive.Root, {
 
   variants: {
     kind: {
-      info: {
-        [`& > ${ToastHeader} > [data-icon]`]: {
-          color: '$indigo9'
+      default: {
+        backgroundColor: '$slate1',
+        borderColor: '$slate6',
+
+        [`& > ${ToastHeader} > [data-icon], ${ToastTitle}`]: {
+          color: '$slate11'
         },
         [`& > ${ToastDescription}`]: {
-          color: '$slate11'
+          color: '$slate8'
+        }
+      },
+      info: {
+        backgroundColor: '$indigo2',
+        borderColor: '$indigo6',
+
+        [`& > ${ToastHeader} > [data-icon], ${ToastTitle}`]: {
+          color: '$indigo11'
+        },
+        [`& > ${ToastDescription}`]: {
+          color: '$indigo8'
+        }
+      },
+      success: {
+        backgroundColor: '$green2',
+        borderColor: '$green6',
+
+        [`& > ${ToastHeader} > [data-icon], ${ToastTitle}`]: {
+          color: '$green11'
+        },
+        [`& > ${ToastDescription}`]: {
+          color: '$green8'
         }
       },
       warning: {
-        [`& > ${ToastHeader} > [data-icon]`]: {
-          color: '$amber9'
+        backgroundColor: '$amber2',
+        borderColor: '$amber6',
+
+        [`& > ${ToastHeader} > [data-icon], ${ToastTitle}`]: {
+          color: '$amber11'
         },
         [`& > ${ToastDescription}`]: {
-          color: '$sand11'
+          color: '$amber8'
         }
       },
       error: {
-        [`& > ${ToastHeader} > [data-icon]`]: {
-          color: '$tomato9'
+        backgroundColor: '$red2',
+        borderColor: '$red6',
+
+        [`& > ${ToastHeader} > [data-icon], ${ToastTitle}`]: {
+          color: '$red11'
         },
         [`& > ${ToastDescription}`]: {
-          color: '$mauve11'
+          color: '$red8'
         }
       }
     }
@@ -177,7 +211,7 @@ const Toast: React.FC<ToastProps> = ({ title, description, actionProps, kind = '
         </ToastHeader>
         <ToastDescription>{description}</ToastDescription>
         <ToastAction asChild altText={altText}>
-          <Button {...buttonProps} />
+          <Button {...buttonProps} kind={kind as ButtonProps['kind']} />
         </ToastAction>
       </ToastRoot>
       <ToastViewport />
