@@ -7,20 +7,30 @@ export const Caption = styled('caption', {
 
 export const Tbody = styled('tbody', {
   width: '100%',
-  color: '$labelBase'
+  color: '$labelTitle'
 })
 
 export const Tfoot = styled('tfoot', {
   color: '$labelBase'
 })
 
-export const Tr = styled('tr', {})
+export const Tr = styled('tr', {
+  '& > :first-child': {
+    padding: '10px 0 10px 10px'
+  },
+  '& > :last-child': {
+    padding: '10px 10px 10px 0'
+  }
+})
 
 export const Th = styled('th', {
+  truncate: true,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
   fontWeight: 'unset',
   textAlign: 'start',
   fontSize: 13,
-  padding: '10px 0 10px 10px',
   borderBottom: '1px solid $slate4',
   variants: {
     align: {
@@ -50,7 +60,11 @@ export const Th = styled('th', {
 })
 
 export const Td = styled('td', {
-  padding: '10px 0',
+  truncate: true,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  padding: '10px 8px',
   borderBottom: '1px solid $slate4',
   fontSize: 13,
   variants: {
@@ -84,12 +98,12 @@ export const Thead = styled('thead', {
   [`& ${Th}`]: {
     fontSize: 12,
     fontWeight: 500,
-    color: '$slate12'
+    color: '$labelBase'
   },
   [`& ${Td}`]: {
     fontSize: 12,
     fontWeight: 500,
-    color: '$slate12'
+    color: '$labelBase'
   }
 })
 

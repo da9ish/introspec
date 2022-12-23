@@ -1,11 +1,12 @@
 import { Outlet, Route, Routes } from 'react-router'
 
-import InternalLayout from 'layouts/InternalLayout'
-import Schema from 'pages/Database/Schema'
-import Overview from 'pages/Overview'
 import Data from 'pages/Database/Data'
-import Users from 'pages/Authentication/Users'
+import Files from 'pages/Storage/Files'
+import InternalLayout from 'layouts/InternalLayout'
 import NotFoundPage from 'pages/NotFoundPage'
+import Overview from 'pages/Overview'
+import Schema from 'pages/Database/Schema'
+import Users from 'pages/Authentication/Users'
 
 const PrivateContainer: React.FC = () => (
   <InternalLayout>
@@ -18,6 +19,10 @@ const PrivateContainer: React.FC = () => (
       <Route path="/database">
         <Route path="/database/schema" element={<Schema />} />
         <Route path="/database/data" element={<Data />} />
+      </Route>
+      <Route path="/storage">
+        <Route path="/storage/files" element={<Files />} />
+        {/* <Route path="/storage/data" element={<Data />} /> */}
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />

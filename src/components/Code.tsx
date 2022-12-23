@@ -5,6 +5,7 @@ export const Code = styled('code', {
   fontSize: 'max(12px, 85%)',
   whiteSpace: 'nowrap',
   padding: '0 3px 2px 3px',
+  borderRadius: 2,
 
   variants: {
     variant: {
@@ -19,6 +20,6 @@ export const Code = styled('code', {
     }
   },
   defaultVariants: {
-    variant: 'primary'
+    variant: 'gray'
   }
 })

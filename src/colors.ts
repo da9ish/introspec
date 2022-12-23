@@ -12,7 +12,7 @@ export const colors = {
   bgSelectedBorder: '#CAD2FF',
 
   labelTitle: '$slate12',
-  labelBase: '#989cac',
+  labelBase: '$slate11',
   labelMuted: '#6B7076',
   labelFaint: '#90949D',
   labelLink: '#90949D',

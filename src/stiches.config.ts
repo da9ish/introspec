@@ -75,7 +75,12 @@ const { styled, css, keyframes, theme } = createStitches({
     paddingY: () => (value: number | string) => ({
       paddingTop: value,
       paddingBottom: value
-    })
+    }),
+    truncate: (value: boolean) => (value ? ({
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    }) : {})
   }
 })
 
