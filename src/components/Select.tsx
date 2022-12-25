@@ -38,7 +38,7 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   boxSizing: 'border-box',
   display: 'inline-flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'start',
   padding: '0 15px',
   borderRadius: 4,
   fontSize: 13,
@@ -69,18 +69,18 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
     size: {
       small: {
         height: 28,
-        padding: '1px 40px 1px 28px',
+        padding: '0px 40px 0px 12px',
         fontSize: '12px'
       },
       normal: {
         height: 32,
-        padding: '1px 48px 1px 30px',
+        padding: '0px 48px 0px 12px',
         fontSize: '13px'
       },
       large: {
-        height: 35,
+        height: 44,
         padding: 12,
-        fontSize: '1px 52px 1px 32px'
+        fontSize: '0px 52px 0px 12px'
       }
     }
   },

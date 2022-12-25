@@ -4,8 +4,8 @@ import Searchbar from 'components/Searchbar'
 import Text from 'components/Text'
 import Titlebar from 'components/Titlebar'
 import Flex from 'components/Flex'
-import Separator from 'components/Seperator'
-import { UpdateTableInput, Table, useSchemaQuery, Column, UpdateColumnInput } from 'generated/schema'
+import Separator from 'components/Separator'
+import { UpdateTableInput, Table, Column, UpdateColumnInput, useDatabaseSchemaQuery } from 'generated/schema'
 import List from 'components/List'
 import { colors } from 'colors'
 import AddTableView from 'components/views/AddTableView'
@@ -18,13 +18,13 @@ const Schema: React.FC = () => {
   const [ selectedTable, setSelectedTable ] = useState<Table>()
   const [ tableSearch, setTableSearch ] = useState('')
   const [ columnSearch, setColumnSearch ] = useState('')
-  const { data, loading, error } = useSchemaQuery()
+  const { data, loading, error } = useDatabaseSchemaQuery()
   // const { selectedTable, setSelectedTable } = useState()
 
   const onAddTable = () => openView({
     component: AddTableView,
     params: {
-      initialValues: { databaseId: data?.schema?.database.id || '', name: '', identifier: '' }
+      initialValues: { databaseId: data?.databaseSchema?.database.id || '', name: '', identifier: '' }
     },
     style: 'PANEL'
   })
@@ -40,7 +40,8 @@ const Schema: React.FC = () => {
   const onAddColumn = () => openView({
     component: AddColumnView,
     params: {
-      initialValues: { tableId: selectedTable?.id || '', name: '', identifier: '', dataType: 'TEXT', isIndexed: false, constraints: [] }
+      initialValues: { tableId: selectedTable?.id || '', name: '', identifier: '', dataType: 'TEXT', isIndexed: false, constraints: [] },
+      table: selectedTable!
     },
     style: 'PANEL'
   })
@@ -48,13 +49,14 @@ const Schema: React.FC = () => {
   const onEditColumn = (column: Column) => openView({
     component: AddColumnView,
     params: {
-      initialValues: column as UpdateColumnInput
+      initialValues: column as UpdateColumnInput,
+      table: selectedTable!
     },
     style: 'PANEL'
   })
 
   useEffect(() => {
-    setSelectedTable(data?.schema?.tables[1])
+    setSelectedTable(data?.databaseSchema?.tables[0])
   }, [ data ])
 
   return (
@@ -66,13 +68,13 @@ const Schema: React.FC = () => {
             <Text type="title4">Tables</Text>
             <Flex gap="md" alignSelf="stretch">
               <Searchbar value={tableSearch} onChange={(value) => setTableSearch(value)} />
-              <Separator decorative orientation="vertical" />
+              <Separator orientation="vertical" />
               <IconButton name="plus" onClick={onAddTable} />
             </Flex>
           </Flex>
           <Flex direction="column">
             <List
-              data={data?.schema?.tables}
+              data={data?.databaseSchema?.tables}
               loading={loading}
               error={error}
               contents={{ title: 'name', subtitle: 'identifier' }}
@@ -88,13 +90,13 @@ const Schema: React.FC = () => {
             <Text type="title4">Columns</Text>
             <Flex gap="md" alignSelf="stretch">
               <Searchbar value={columnSearch} onChange={(value) => setColumnSearch(value)} />
-              <Separator decorative orientation="vertical" />
+              <Separator orientation="vertical" />
               <IconButton name="plus" onClick={onAddColumn} />
             </Flex>
           </Flex>
           <Flex direction="column" grow={1}>
             <List
-              data={data?.schema?.tables[1]?.columns}
+              data={data?.databaseSchema?.tables[0]?.columns}
               loading={loading}
               error={error}
               contents={{ title: 'name', subtitle: 'identifier' }}

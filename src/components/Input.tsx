@@ -51,7 +51,8 @@ const StyledInput = styled('input', {
   },
 
   '&:-webkit-autofill': {
-    backgroundColor: `${indigoDark.indigo9} !important`
+    backgroundColor: `${indigoDark.indigo9} !important`,
+    borderRadius: '4px'
   },
 
   variants: {

@@ -3,7 +3,7 @@ import type React from 'react'
 
 import Flex from 'components/Flex'
 import IconButton from 'components/IconButton'
-import Separator from 'components/Seperator'
+import Separator from 'components/Separator'
 import Text from 'components/Text'
 
 import Searchbar from 'components/Searchbar'
@@ -42,7 +42,7 @@ const Titlebar: React.FC<Props> = ({
   <Container alignItems="center">
     <PrimaryContent gap="md">
       <Text type="title2">{title}</Text>
-      <Separator decorative orientation="vertical" />
+      <Separator orientation="vertical" />
       <IconButton name={actionIcon} onClick={onAction} />
       {canSearch && onSearch && (
         <Searchbar value="" onChange={onSearch} />

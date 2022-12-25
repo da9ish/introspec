@@ -43,7 +43,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   position: 'fixed',
   top: 0,
   bottom: 0,
-  width: 400,
+  width: '50%',
   willChange: 'transform',
 
   '&:focus': {
@@ -59,6 +59,17 @@ const StyledContent = styled(DialogPrimitive.Content, {
   },
 
   variants: {
+    size: {
+      small: {
+        width: 200
+      },
+      normal: {
+        width: 400
+      },
+      large: {
+        width: '50%'
+      }
+    },
     side: {
       top: {
         $$transformValue: 'translate3d(0,-100%,0)',
@@ -85,6 +96,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   },
 
   defaultVariants: {
+    size: 'normal',
     side: 'right'
   }
 })

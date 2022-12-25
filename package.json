@@ -12,6 +12,7 @@
     "@radix-ui/react-separator": "^1.0.0",
     "@radix-ui/react-switch": "^0.1.0",
     "@radix-ui/react-toast": "^1.1.2",
+    "@radix-ui/react-toolbar": "^1.0.1",
     "@stitches/react": "^1.2.8",
     "@tanstack/react-table": "^8.5.15",
     "@testing-library/jest-dom": "^5.11.4",

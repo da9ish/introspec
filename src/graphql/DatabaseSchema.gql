@@ -1,5 +1,5 @@
-query Schema {
-  schema {
+query DatabaseSchema {
+  databaseSchema {
     id
     database {
       ...DatabaseFragment

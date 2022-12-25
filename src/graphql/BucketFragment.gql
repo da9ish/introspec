@@ -1,0 +1,5 @@
+fragment BucketFragment on Bucket {
+  id
+  name
+  identifier
+}

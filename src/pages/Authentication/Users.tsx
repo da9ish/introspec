@@ -4,7 +4,7 @@ import Button from 'components/Button'
 import DataTable from 'components/DataTable'
 import Flex from 'components/Flex'
 import IconButton from 'components/IconButton'
-import Separator from 'components/Seperator'
+import Separator from 'components/Separator'
 import Titlebar from 'components/Titlebar'
 import { User, useUsersListQuery } from 'generated/schema'
 
@@ -15,7 +15,6 @@ const columns = [
   { name: 'Provider', identifier: 'provider' },
   { name: 'Last Sign In', identifier: 'lastSignIn' },
   { name: 'Created', identifier: 'createdAt' }
-
 ]
 
 const Users: React.FC = () => {
@@ -29,7 +28,7 @@ const Users: React.FC = () => {
   const toolbarActions = (
     <>
       <IconButton name="filter" onClick={() => {}} />
-      <Separator decorative orientation="vertical" />
+      <Separator orientation="vertical" />
       <Button kind="secondary" icon="plus">New User</Button>
     </>
   )

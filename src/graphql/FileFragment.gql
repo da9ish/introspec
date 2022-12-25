@@ -1,0 +1,9 @@
+fragment FileFragment on File {
+  id
+  bucketId
+  name
+  identifier
+  relativePath
+  size
+  fileType
+}

@@ -16,10 +16,10 @@ export const Tfoot = styled('tfoot', {
 
 export const Tr = styled('tr', {
   '& > :first-child': {
-    padding: '10px 0 10px 10px'
+    padding: '10px 8px 10px 10px'
   },
   '& > :last-child': {
-    padding: '10px 10px 10px 0'
+    padding: '10px 10px 10px 8px'
   }
 })
 

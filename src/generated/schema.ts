@@ -110,11 +110,17 @@ export type ApplicationMutationUserUpdatePasswordWithTokenArgs = {
 export type ApplicationQuery = {
   readonly __typename?: 'ApplicationQuery';
   readonly currentAccount?: Maybe<User>;
-  readonly schema?: Maybe<Schema>;
+  readonly databaseSchema?: Maybe<Schema>;
+  readonly storageDirectory?: Maybe<Directories>;
   readonly testField: Scalars['String'];
   readonly testFieldWithArgs: Scalars['String'];
   readonly testFieldWithArgsAndSelector: Test;
   readonly usersList?: Maybe<ReadonlyArray<User>>;
+};
+
+
+export type ApplicationQueryStorageDirectoryArgs = {
+  path: Scalars['String'];
 };
 
 
@@ -125,6 +131,13 @@ export type ApplicationQueryTestFieldWithArgsArgs = {
 
 export type ApplicationQueryTestFieldWithArgsAndSelectorArgs = {
   testParam: Scalars['String'];
+};
+
+export type Bucket = {
+  readonly __typename?: 'Bucket';
+  readonly id: Scalars['ID'];
+  readonly identifier: Scalars['String'];
+  readonly name: Scalars['String'];
 };
 
 export type Column = {
@@ -178,6 +191,14 @@ export type Database = {
   readonly name: Scalars['String'];
 };
 
+export type Directories = {
+  readonly __typename?: 'Directories';
+  readonly bucket: Bucket;
+  readonly files: ReadonlyArray<File>;
+  readonly folders: ReadonlyArray<Folder>;
+  readonly path: Scalars['String'];
+};
+
 export type Environment = {
   readonly __typename?: 'Environment';
   readonly id: Scalars['ID'];
@@ -188,6 +209,26 @@ export type Environment = {
 export type EnvironmentsInput = {
   readonly identifier: Scalars['String'];
   readonly name: Scalars['String'];
+};
+
+export type File = {
+  readonly __typename?: 'File';
+  readonly bucketId: Scalars['ID'];
+  readonly fileType: Scalars['String'];
+  readonly id: Scalars['ID'];
+  readonly identifier: Scalars['String'];
+  readonly name: Scalars['String'];
+  readonly relativePath: Scalars['String'];
+  readonly size: Scalars['String'];
+};
+
+export type Folder = {
+  readonly __typename?: 'Folder';
+  readonly bucketId: Scalars['ID'];
+  readonly id: Scalars['ID'];
+  readonly identifier: Scalars['String'];
+  readonly name: Scalars['String'];
+  readonly relativePath: Scalars['String'];
 };
 
 export type RoleEnum =
@@ -344,6 +385,8 @@ export type UserRegisterPayload = {
   readonly credentials?: Maybe<Credential>;
 };
 
+export type BucketFragmentFragment = { readonly __typename?: 'Bucket', readonly id: string, readonly name: string, readonly identifier: string };
+
 export type ColumnFragmentFragment = { readonly __typename?: 'Column', readonly id: string, readonly tableId: string, readonly name: string, readonly identifier: string, readonly dataType?: string, readonly constraints?: ReadonlyArray<string> };
 
 export type CreateColumnMutationVariables = Exact<{
@@ -383,12 +426,23 @@ export type CurrentAccountQuery = { readonly __typename?: 'ApplicationQuery', re
 
 export type DatabaseFragmentFragment = { readonly __typename?: 'Database', readonly id: string, readonly name: string, readonly identifier: string };
 
+export type DatabaseSchemaQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DatabaseSchemaQuery = { readonly __typename?: 'ApplicationQuery', readonly databaseSchema?: { readonly __typename?: 'Schema', readonly id: string, readonly database: { readonly __typename?: 'Database', readonly id: string, readonly name: string, readonly identifier: string }, readonly tables: ReadonlyArray<{ readonly __typename?: 'Table', readonly id: string, readonly name: string, readonly identifier: string, readonly columns?: ReadonlyArray<{ readonly __typename?: 'Column', readonly id: string, readonly tableId: string, readonly name: string, readonly identifier: string, readonly dataType?: string, readonly constraints?: ReadonlyArray<string> }> }> } };
+
 export type EnvironmentFragmentFragment = { readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string };
 
-export type SchemaQueryVariables = Exact<{ [key: string]: never; }>;
+export type FileFragmentFragment = { readonly __typename?: 'File', readonly id: string, readonly bucketId: string, readonly name: string, readonly identifier: string, readonly relativePath: string, readonly size: string, readonly fileType: string };
+
+export type FolderFragmentFragment = { readonly __typename?: 'Folder', readonly id: string, readonly bucketId: string, readonly name: string, readonly identifier: string, readonly relativePath: string };
+
+export type StorageDirectoryQueryVariables = Exact<{
+  path: Scalars['String'];
+}>;
 
 
-export type SchemaQuery = { readonly __typename?: 'ApplicationQuery', readonly schema?: { readonly __typename?: 'Schema', readonly id: string, readonly database: { readonly __typename?: 'Database', readonly id: string, readonly name: string, readonly identifier: string }, readonly tables: ReadonlyArray<{ readonly __typename?: 'Table', readonly id: string, readonly name: string, readonly identifier: string, readonly columns?: ReadonlyArray<{ readonly __typename?: 'Column', readonly id: string, readonly tableId: string, readonly name: string, readonly identifier: string, readonly dataType?: string, readonly constraints?: ReadonlyArray<string> }> }> } };
+export type StorageDirectoryQuery = { readonly __typename?: 'ApplicationQuery', readonly storageDirectory?: { readonly __typename?: 'Directories', readonly path: string, readonly bucket: { readonly __typename?: 'Bucket', readonly id: string, readonly name: string, readonly identifier: string }, readonly folders: ReadonlyArray<{ readonly __typename?: 'Folder', readonly id: string, readonly bucketId: string, readonly name: string, readonly identifier: string, readonly relativePath: string }>, readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly bucketId: string, readonly name: string, readonly identifier: string, readonly relativePath: string, readonly size: string, readonly fileType: string }> } };
 
 export type TableFragmentFragment = { readonly __typename?: 'Table', readonly id: string, readonly name: string, readonly identifier: string, readonly columns?: ReadonlyArray<{ readonly __typename?: 'Column', readonly id: string, readonly tableId: string, readonly name: string, readonly identifier: string, readonly dataType?: string, readonly constraints?: ReadonlyArray<string> }> };
 
@@ -474,6 +528,13 @@ export type UsersListQuery = { readonly __typename?: 'ApplicationQuery', readonl
 
 export type WorkspaceFragmentFragment = { readonly __typename?: 'Workspace', readonly id: string, readonly name: string, readonly identifier: string, readonly logo: string, readonly environments?: ReadonlyArray<{ readonly __typename?: 'Environment', readonly id: string, readonly name: string, readonly identifier: string }> };
 
+export const BucketFragmentFragmentDoc = gql`
+    fragment BucketFragment on Bucket {
+  id
+  name
+  identifier
+}
+    `;
 export const CredentialFragmentFragmentDoc = gql`
     fragment CredentialFragment on Credential {
   accessToken
@@ -488,6 +549,26 @@ export const DatabaseFragmentFragmentDoc = gql`
   id
   name
   identifier
+}
+    `;
+export const FileFragmentFragmentDoc = gql`
+    fragment FileFragment on File {
+  id
+  bucketId
+  name
+  identifier
+  relativePath
+  size
+  fileType
+}
+    `;
+export const FolderFragmentFragmentDoc = gql`
+    fragment FolderFragment on Folder {
+  id
+  bucketId
+  name
+  identifier
+  relativePath
 }
     `;
 export const ColumnFragmentFragmentDoc = gql`
@@ -696,9 +777,9 @@ export function useCurrentAccountLazyQuery(baseOptions?: ApolloReactHooks.LazyQu
         }
 export type CurrentAccountQueryHookResult = ReturnType<typeof useCurrentAccountQuery>;
 export type CurrentAccountLazyQueryHookResult = ReturnType<typeof useCurrentAccountLazyQuery>;
-export const SchemaDocument = gql`
-    query Schema {
-  schema {
+export const DatabaseSchemaDocument = gql`
+    query DatabaseSchema {
+  databaseSchema {
     id
     database {
       ...DatabaseFragment
@@ -712,30 +793,75 @@ export const SchemaDocument = gql`
 ${TableFragmentFragmentDoc}`;
 
 /**
- * __useSchemaQuery__
+ * __useDatabaseSchemaQuery__
  *
- * To run a query within a React component, call `useSchemaQuery` and pass it any options that fit your needs.
- * When your component renders, `useSchemaQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useDatabaseSchemaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDatabaseSchemaQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useSchemaQuery({
+ * const { data, loading, error } = useDatabaseSchemaQuery({
  *   variables: {
  *   },
  * });
  */
-export function useSchemaQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SchemaQuery, SchemaQueryVariables>) {
+export function useDatabaseSchemaQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<DatabaseSchemaQuery, DatabaseSchemaQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return ApolloReactHooks.useQuery<SchemaQuery, SchemaQueryVariables>(SchemaDocument, options);
+        return ApolloReactHooks.useQuery<DatabaseSchemaQuery, DatabaseSchemaQueryVariables>(DatabaseSchemaDocument, options);
       }
-export function useSchemaLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SchemaQuery, SchemaQueryVariables>) {
+export function useDatabaseSchemaLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<DatabaseSchemaQuery, DatabaseSchemaQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return ApolloReactHooks.useLazyQuery<SchemaQuery, SchemaQueryVariables>(SchemaDocument, options);
+          return ApolloReactHooks.useLazyQuery<DatabaseSchemaQuery, DatabaseSchemaQueryVariables>(DatabaseSchemaDocument, options);
         }
-export type SchemaQueryHookResult = ReturnType<typeof useSchemaQuery>;
-export type SchemaLazyQueryHookResult = ReturnType<typeof useSchemaLazyQuery>;
+export type DatabaseSchemaQueryHookResult = ReturnType<typeof useDatabaseSchemaQuery>;
+export type DatabaseSchemaLazyQueryHookResult = ReturnType<typeof useDatabaseSchemaLazyQuery>;
+export const StorageDirectoryDocument = gql`
+    query StorageDirectory($path: String!) {
+  storageDirectory(path: $path) {
+    path
+    bucket {
+      ...BucketFragment
+    }
+    folders {
+      ...FolderFragment
+    }
+    files {
+      ...FileFragment
+    }
+  }
+}
+    ${BucketFragmentFragmentDoc}
+${FolderFragmentFragmentDoc}
+${FileFragmentFragmentDoc}`;
+
+/**
+ * __useStorageDirectoryQuery__
+ *
+ * To run a query within a React component, call `useStorageDirectoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStorageDirectoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStorageDirectoryQuery({
+ *   variables: {
+ *      path: // value for 'path'
+ *   },
+ * });
+ */
+export function useStorageDirectoryQuery(baseOptions: ApolloReactHooks.QueryHookOptions<StorageDirectoryQuery, StorageDirectoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<StorageDirectoryQuery, StorageDirectoryQueryVariables>(StorageDirectoryDocument, options);
+      }
+export function useStorageDirectoryLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<StorageDirectoryQuery, StorageDirectoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<StorageDirectoryQuery, StorageDirectoryQueryVariables>(StorageDirectoryDocument, options);
+        }
+export type StorageDirectoryQueryHookResult = ReturnType<typeof useStorageDirectoryQuery>;
+export type StorageDirectoryLazyQueryHookResult = ReturnType<typeof useStorageDirectoryLazyQuery>;
 export const UpdateColumnDocument = gql`
     mutation UpdateColumn($input: updateColumnInput!) {
   updateColumn(input: $input) {

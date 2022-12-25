@@ -1,0 +1,7 @@
+fragment FolderFragment on Folder {
+  id
+  bucketId
+  name
+  identifier
+  relativePath
+}

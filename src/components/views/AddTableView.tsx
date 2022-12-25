@@ -1,14 +1,17 @@
 import { Field, Form, FormProps } from 'react-final-form'
+import { styled } from '@stitches/react'
 import type { FormApi } from 'final-form'
 
 import Button from 'components/Button'
+import Code from 'components/Code'
 import Flex from 'components/Flex'
+import Grid from 'components/Grid'
 import Input from 'components/Input'
 import Label from 'components/Label'
 import Sheet, { SheetBody, SheetContent, SheetFooter, SheetHeader, SheetTitle } from 'components/Sheet'
 import Text from 'components/Text'
 import useSubmitHandler from 'hooks/useSubmitHandler'
-import { CreateTableInput, SchemaDocument, UpdateTableInput, useCreateTableMutation, useUpdateTableMutation } from 'generated/schema'
+import { CreateTableInput, DatabaseSchemaDocument, UpdateTableInput, useCreateTableMutation, useUpdateTableMutation } from 'generated/schema'
 import type { ViewProps } from 'components/views'
 
 type FormValues = CreateTableInput | UpdateTableInput
@@ -16,6 +19,21 @@ type FormValues = CreateTableInput | UpdateTableInput
 interface Props {
   initialValues: FormValues
 }
+
+const FieldGrid = styled(Grid, {
+  padding: 24,
+  boxSizing: 'border-box'
+})
+
+const FieldLabel = styled(Text, {
+  gridColumnStart: 1,
+  gridColumnEnd: 1
+})
+
+const FieldContainer = styled(Flex, {
+  gridColumnStart: 2,
+  gridColumnEnd: 5
+})
 
 function AddTableView({
   params: { initialValues },
@@ -25,12 +43,14 @@ function AddTableView({
   defaultOpen
 }: ViewProps<Props>) {
   const isUpdating = 'id' in initialValues
-  const title = isUpdating ? 'Update Table' : 'Create Table'
+  const title = isUpdating
+    ? <>Edit table <Code>{initialValues.identifier}</Code></>
+    : <>Add a new table under <Code>public</Code></>
 
   const [ createTable ] = useCreateTableMutation({
     onCompleted: () => onOpenChange?.(false),
     refetchQueries: [
-      { query: SchemaDocument }
+      { query: DatabaseSchemaDocument }
     ]
   })
 
@@ -41,7 +61,7 @@ function AddTableView({
   const [ updateTable ] = useUpdateTableMutation({
     onCompleted: () => onOpenChange?.(false),
     refetchQueries: [
-      { query: SchemaDocument }
+      { query: DatabaseSchemaDocument }
     ]
   })
 
@@ -59,10 +79,9 @@ function AddTableView({
 
   return (
     <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={modal}>
-      <SheetContent>
+      <SheetContent size="large">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
-          {/* <SheetDescription>Create a new table</SheetDescription> */}
         </SheetHeader>
         <Form
           initialValues={initialValues}
@@ -72,37 +91,44 @@ function AddTableView({
             <>
               <SheetBody>
                 <Flex css={{ width: '100%' }} direction="column" gap="lg" as="form" onSubmit={handleSubmit}>
-                  <Text fontSize={12}>Properties</Text>
-                  <Field name="name">
-                    {({ input, meta }) => (
-                      <Label css={{ width: '100%', display: 'flex', alignItems: 'center', gap: 16 }}>
-                        Name
-                        <Input
-                          placeholder="Name"
-                          type="text"
-                          size="normal"
-                          style={{ flexGrow: 1 }}
-                          {...input}
-                        />
-                        {meta.error && meta.touched && <span>{meta.error}</span>}
-                      </Label>
-                    )}
-                  </Field>
-                  <Field name="identifier">
-                    {({ input, meta }) => (
-                      <Label css={{ width: '100%', display: 'flex', alignItems: 'center', gap: 16 }}>
-                        Identifier
-                        <Input
-                          placeholder="Identifier"
-                          type="text"
-                          size="normal"
-                          style={{ flexGrow: 1 }}
-                          {...input}
-                        />
-                        {meta.error && meta.touched && <span>{meta.error}</span>}
-                      </Label>
-                    )}
-                  </Field>
+                  <FieldGrid columns={4} columnGap={16}>
+                    <FieldLabel fontSize={12}>Properties</FieldLabel>
+                    <FieldContainer direction="column" gap="lg">
+                      <Field name="name">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            Name
+                            <Input
+                              placeholder="Name"
+                              type="text"
+                              size="normal"
+                              style={{ flexGrow: 1 }}
+                              {...input}
+                            />
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
+                      <Field name="identifier">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            Identifier
+                            <Input
+                              placeholder="Identifier"
+                              type="text"
+                              size="normal"
+                              style={{ flexGrow: 1 }}
+                              {...input}
+                            />
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
+                    </FieldContainer>
+                  </FieldGrid>
+                  <FieldGrid columns={1}>
+                    <FieldLabel fontSize={12}>Columns</FieldLabel>
+                  </FieldGrid>
                 </Flex>
               </SheetBody>
               <SheetFooter>

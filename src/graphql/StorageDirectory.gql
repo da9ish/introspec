@@ -1,0 +1,14 @@
+query StorageDirectory($path: String!) {
+  storageDirectory(path: $path) {
+    path
+    bucket {
+      ...BucketFragment
+    }
+    folders {
+      ...FolderFragment
+    }
+    files {
+      ...FileFragment
+    }
+  }
+}

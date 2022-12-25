@@ -1,11 +1,11 @@
 import { styled } from '@stitches/react'
 
-export const Code = styled('code', {
-  fontFamily: '$mono',
+const Code = styled('code', {
+  fontFamily: '$code',
   fontSize: 'max(12px, 85%)',
   whiteSpace: 'nowrap',
-  padding: '0 3px 2px 3px',
-  borderRadius: 2,
+  padding: '4px 8px',
+  borderRadius: 4,
 
   variants: {
     variant: {
@@ -23,3 +23,5 @@ export const Code = styled('code', {
     variant: 'gray'
   }
 })
+
+export default Code

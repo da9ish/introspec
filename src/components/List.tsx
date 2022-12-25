@@ -6,7 +6,7 @@ import get from 'lodash/get'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
-import Separator from 'components/Seperator'
+import Separator from 'components/Separator'
 import Text from 'components/Text'
 import type { IconProps } from 'components/Icon'
 
@@ -73,12 +73,12 @@ function List<T>({ data = [], loading, error, contents, actions = [] }: Props<T>
             <ListContent>
               {icon && <Icon name={icon} />}
               <ListTitle fontWeight={500}>{title}</ListTitle>
-              <Separator decorative orientation="vertical" />
+              <Separator orientation="vertical" />
               <ListTitle>{subtitle}</ListTitle>
             </ListContent>
             {actions.length > 0 && (
             <ActionContainer>
-              <Separator decorative orientation="vertical" />
+              <Separator orientation="vertical" />
                 {actions.map((action) => (
                   <IconButton
                     key={action.name}
