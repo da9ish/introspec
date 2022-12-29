@@ -67,7 +67,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
         width: 400
       },
       large: {
-        width: '50%'
+        width: '46%'
       }
     },
     side: {
@@ -102,13 +102,18 @@ const StyledContent = styled(DialogPrimitive.Content, {
 })
 
 const SheetHeader = styled(Flex, {
+  width: '100%',
   height: 60,
   boxSizing: 'border-box',
   flexDirection: 'column',
+  position: 'sticky',
+  top: 0,
   gap: 4,
   padding: '0 24px',
   justifyContent: 'center',
-  borderBottom: '1px solid $bgBorder'
+  backgroundColor: '$bgBase',
+  borderBottom: '1px solid $bgBorder',
+  zIndex: 99
 })
 
 const SheetTitle = styled(DialogPrimitive.Title, {
@@ -126,16 +131,24 @@ const SheetDescription = styled(DialogPrimitive.Description, {
 })
 
 const SheetBody = styled(Flex, {
+  // height: '100%',
   direction: 'column',
-  padding: 24
+  overflow: 'auto'
 })
 
-const SheetFooter = styled(Box, {
+const SheetFooter = styled(Flex, {
+  position: 'sticky',
+  height: 60,
+  bottom: 0,
   display: 'flex',
-  marginTop: 25,
+  // marginTop: 25,
+  alignItems: 'center',
   justifyContent: 'flex-end',
-  padding: 24,
-  borderTop: '1px solid $bgBorder'
+  gap: 8,
+  padding: '0 24px',
+  backgroundColor: '$bgBase',
+  borderTop: '1px solid $bgBorder',
+  zIndex: 99
 })
 
 type SheetContentVariants = VariantProps<typeof StyledContent>;

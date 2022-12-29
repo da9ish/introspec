@@ -24,11 +24,12 @@ interface Props<P extends any> {
   columns: Column[],
   data: P[],
   loading: boolean,
-  error?: ApolloError
+  error?: ApolloError,
+  onRowClick?: (record: P, e: React.FormEvent<any>) => void
 }
 
 function DataTable<P extends any>({
-  actions = [], columns, data, loading, error
+  actions = [], columns, data, loading, error, onRowClick
 }:Props<P>) {
   return (
     <Table>
@@ -45,7 +46,7 @@ function DataTable<P extends any>({
                 </Th>
               )
             }
-            return <Td key={col.identifier} align="start">{col.name}</Td>
+            return <Th key={col.identifier} align="start">{col.name}</Th>
           })}
           {actions.length > 0 && <Td css={{ width: 100 }} align="end" />}
         </Tr>
@@ -60,7 +61,7 @@ function DataTable<P extends any>({
             return <Td key={get(d, col.identifier)} align="start">{get(d, col.identifier) || '--'}</Td>
           }
           return (
-            <Tr>
+            <Tr onClick={(e) => onRowClick?.(d, e)}>
               {columns.map((col, idx) => getCellData(col, idx))}
               {actions.length > 0 && (
                 <Td css={{ width: 100 }} align="end">

@@ -7,7 +7,12 @@ export const Caption = styled('caption', {
 
 export const Tbody = styled('tbody', {
   width: '100%',
-  color: '$labelTitle'
+  color: '$labelTitle',
+
+  '& tr:hover': {
+    cursor: 'pointer',
+    backgroundColor: '$slate2'
+  }
 })
 
 export const Tfoot = styled('tfoot', {
@@ -31,7 +36,7 @@ export const Th = styled('th', {
   fontWeight: 'unset',
   textAlign: 'start',
   fontSize: 13,
-  borderBottom: '1px solid $slate4',
+  padding: '10px 8px',
   variants: {
     align: {
       start: {
@@ -45,6 +50,9 @@ export const Th = styled('th', {
       }
     },
     border: {
+      none: {
+        borderBottom: 'none'
+      },
       solid: {
         borderBottom: '1px solid $slate4'
       },
@@ -65,7 +73,6 @@ export const Td = styled('td', {
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   padding: '10px 8px',
-  borderBottom: '1px solid $slate4',
   fontSize: 13,
   variants: {
     align: {
@@ -80,6 +87,9 @@ export const Td = styled('td', {
       }
     },
     border: {
+      none: {
+        borderBottom: 'none'
+      },
       solid: {
         borderBottom: '1px solid $slate4'
       },
@@ -117,7 +127,7 @@ export const Table = styled('table', {
         [`& ${Tbody}`]: {
           [`& ${Tr}`]: {
             '&:nth-child(odd)': {
-              bc: '$slate2'
+              backgroundColor: '$slate2'
             }
           }
         }

@@ -4,6 +4,7 @@ import type { FormApi } from 'final-form'
 
 import Button from 'components/Button'
 import Code from 'components/Code'
+import Checkbox from 'components/Checkbox'
 import Flex from 'components/Flex'
 import Grid from 'components/Grid'
 import Input from 'components/Input'
@@ -92,9 +93,9 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
           initialValues={initialValues}
           render={({ handleSubmit }) => (
             <>
-              <SheetBody css={{ padding: 0 }}>
+              <SheetBody>
                 <Flex css={{ width: '100%' }} direction="column" gap="lg" as="form" onSubmit={handleSubmit}>
-                  <FieldGrid columns={4} columnGap={16}>
+                  <FieldGrid columns={3} columnGap={16}>
                     <FieldLabel fontSize={12}>Properties</FieldLabel>
                     <FieldContainer direction="column" gap="lg">
                       <Field name="name">
@@ -132,15 +133,29 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                           </Label>
                         )}
                       </Field>
+                    </FieldContainer>
+                  </FieldGrid>
+                  <Separator orientation="horizontal" />
+                  <FieldGrid columns={3} columnGap={16}>
+                    <FieldLabel fontSize={12}>Foreign Key Relation</FieldLabel>
+                    <FieldContainer direction="column" gap="lg">
+                      <Button kind="outlined">Add foriegn key relation</Button>
+                    </FieldContainer>
+                  </FieldGrid>
+                  <Separator orientation="horizontal" />
+                  <FieldGrid columns={3} columnGap={16}>
+                    <FieldLabel fontSize={12}>Data Type</FieldLabel>
+                    <FieldContainer direction="column" gap="lg">
                       <Field name="dataType">
                         {({ input, meta }) => (
                           <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                             Data type
                             <Select
-                              label="Data type"
-                              placeholder="Data type"
+                              label="Type"
+                              placeholder="Select a type..."
                               size="normal"
                               options={[
+                                { label: '---', value: '---' },
                                 { label: 'BOOLEAN', value: 'BOOLEAN' },
                                 { label: 'CHAR', value: 'CHAR' },
                                 { label: 'VARCHAR', value: 'VARCHAR' },
@@ -162,10 +177,125 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                           </Label>
                         )}
                       </Field>
+                      <Button kind="outlined" icon="external-link">Learn more about data types</Button>
+                      <Field name="isArray">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <Flex gap="lg">
+                              <Flex direction="column" gap="md">
+                                <Text fontSize={12} color="$slate12">Defined as Array</Text>
+                                <Text fontSize={10} color="$slate11">
+                                  Allow column to be defined as
+                                  variable-length multidimensional arrays
+                                </Text>
+                              </Flex>
+                              <Checkbox
+                                type={'button' as any}
+                                size="small"
+                                {...input}
+                              />
+                            </Flex>
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
+                      <Field name="defaultValue">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            Default Value
+                            <Flex direction="column" alignItems="start" gap="md">
+                              <Input
+                                placeholder="NULL"
+                                type="text"
+                                size="normal"
+                                style={{ width: '100%' }}
+                                {...input}
+                              />
+                              <Text fontSize={10} color="$slate10">
+                                Can either be a literal or an
+                                expression (e.g uuid_generate_v4())
+                              </Text>
+                            </Flex>
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
                     </FieldContainer>
                   </FieldGrid>
                   <Separator orientation="horizontal" />
-                  <FieldGrid columns={4} columnGap={16}>
+                  <FieldGrid columns={3} columnGap={16}>
+                    <FieldLabel fontSize={12}>Configuration</FieldLabel>
+                    <FieldContainer direction="column" gap="lg">
+                      <Field name="isPrimary">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <Flex alignItems="start" gap="lg">
+                              <Flex direction="column" gap="md" grow={1}>
+                                <Text fontSize={12} color="$slate12">Is Primary Key</Text>
+                                <Text fontSize={10} color="$slate11">
+                                  A primary key indicates that a column or group
+                                  of columns can be used as a unique
+                                  identifier for rows in the table
+                                </Text>
+                              </Flex>
+                              <Flex>
+                                <Switch
+                                  type={'button' as any}
+                                  {...input}
+                                />
+                              </Flex>
+                            </Flex>
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
+                      <Field name="isNullable">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <Flex alignItems="start" gap="lg">
+                              <Flex direction="column" gap="md" grow={1}>
+                                <Text fontSize={12} color="$slate12">Allow Nullable</Text>
+                                <Text fontSize={10} color="$slate11">
+                                  Allow the column to assume a NULL
+                                  value if no value is provided
+                                </Text>
+                              </Flex>
+                              <Flex>
+                                <Switch
+                                  type={'button' as any}
+                                  {...input}
+                                />
+                              </Flex>
+                            </Flex>
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
+                      <Field name="isUnique">
+                        {({ input, meta }) => (
+                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <Flex alignItems="start" gap="lg">
+                              <Flex direction="column" gap="md" grow={1}>
+                                <Text fontSize={12} color="$slate12">Is Unique</Text>
+                                <Text fontSize={10} color="$slate11">
+                                  Enforce values in the column to be unique across rows
+                                </Text>
+                              </Flex>
+                              <Flex>
+                                <Switch
+                                  type={'button' as any}
+                                  {...input}
+                                />
+                              </Flex>
+                            </Flex>
+                            {meta.error && meta.touched && <span>{meta.error}</span>}
+                          </Label>
+                        )}
+                      </Field>
+                    </FieldContainer>
+                  </FieldGrid>
+                  <Separator orientation="horizontal" />
+                  <FieldGrid columns={3} columnGap={16}>
                     <FieldLabel fontSize={12}>Constraints</FieldLabel>
                     <FieldContainer direction="column" gap="lg">
                       <Field name="constraints">
@@ -193,7 +323,7 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                     </FieldContainer>
                   </FieldGrid>
                   <Separator orientation="horizontal" />
-                  <FieldGrid columns={4} columnGap={16}>
+                  <FieldGrid columns={3} columnGap={16}>
                     <FieldLabel fontSize={12}>Indexing</FieldLabel>
                     <FieldContainer direction="column" gap="lg">
                       <Field name="isIndexed">
@@ -213,6 +343,7 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                 </Flex>
               </SheetBody>
               <SheetFooter>
+                <Button size="normal" kind="secondary">Cancel</Button>
                 <Button type="submit" size="normal" kind="primary" onClick={handleSubmit}>Save</Button>
               </SheetFooter>
             </>

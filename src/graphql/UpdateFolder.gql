@@ -1,0 +1,5 @@
+mutation UpdateFolder($input: updateFolderInput!) {
+  updateFolder(input: $input) {
+    ...FolderFragment
+  }
+}
