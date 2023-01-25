@@ -3,6 +3,7 @@ fragment WorkspaceFragment on Workspace {
   name
   identifier
   logo
+  publicApiKey
 
   environments {
     ...EnvironmentFragment

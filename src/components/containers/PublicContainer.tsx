@@ -1,11 +1,11 @@
 import { Outlet, Route, Routes } from 'react-router'
 
+import ExternalLayout from 'layouts/ExternalLayout'
 import Landing from 'pages/Landing'
 import Login from 'pages/Login'
-import SignUp from 'pages/Signup'
-import ExternalLayout from 'layouts/ExternalLayout'
 import NotFoundPage from 'pages/NotFoundPage'
-import Onboard from 'pages/Onboard'
+import Onboard from 'pages/Onboard/Onboard'
+import SignUp from 'pages/Signup'
 import type { User } from 'generated/schema'
 
 interface Props {

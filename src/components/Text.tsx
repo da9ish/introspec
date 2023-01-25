@@ -25,6 +25,9 @@ const StyledText = styled('span', {
       500: {
         fontWeight: 500
       },
+      600: {
+        fontWeight: 600
+      },
       700: {
         fontWeight: 700
       },
@@ -54,18 +57,18 @@ const StyledText = styled('span', {
       title1: {
         fontFamily: '$body',
         fontSize: '24px',
-        fontWeight: 500,
+        fontWeight: 700,
         lineHeight: '32px'
       },
       title2: {
         fontFamily: '$body',
         fontSize: '20px',
-        fontWeight: 500
+        fontWeight: 600
       },
       title3: {
         fontFamily: '$body',
         fontSize: '18px',
-        fontWeight: 500
+        fontWeight: 600
       },
       title4: {
         fontFamily: '$body',
@@ -76,6 +79,11 @@ const StyledText = styled('span', {
         fontFamily: '$body',
         fontSize: '12px',
         fontWeight: 400
+      }
+    },
+    truncate: {
+      true: {
+        truncate: true
       }
     },
     kind: {

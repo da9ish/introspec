@@ -1,3 +1,4 @@
+import arrayMutators from 'final-form-arrays'
 import { Field, Form, FormProps } from 'react-final-form'
 import { styled } from '@stitches/react'
 import type { FormApi } from 'final-form'
@@ -5,16 +6,16 @@ import type { FormApi } from 'final-form'
 import Button from 'components/Button'
 import Code from 'components/Code'
 import Flex from 'components/Flex'
+import FormTable from 'components/FormTable'
 import Grid from 'components/Grid'
 import Input from 'components/Input'
 import Label from 'components/Label'
+import Separator from 'components/Separator'
 import Sheet, { SheetBody, SheetContent, SheetFooter, SheetHeader, SheetTitle } from 'components/Sheet'
 import Text from 'components/Text'
 import useSubmitHandler from 'hooks/useSubmitHandler'
 import { CreateTableInput, DatabaseSchemaDocument, UpdateTableInput, useCreateTableMutation, useUpdateTableMutation } from 'generated/schema'
 import type { ViewProps } from 'components/views'
-import FormTable from 'components/FormTable'
-import Separator from 'components/Separator'
 
 type FormValues = CreateTableInput | UpdateTableInput
 
@@ -41,7 +42,6 @@ function AddTableView({
   params: { initialValues },
   open,
   onOpenChange,
-  modal,
   defaultOpen
 }: ViewProps<Props>) {
   const isUpdating = 'id' in initialValues
@@ -80,7 +80,7 @@ function AddTableView({
   }
 
   return (
-    <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={modal}>
+    <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={false}>
       <SheetContent size="large">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
@@ -88,6 +88,7 @@ function AddTableView({
         <Form
           initialValues={initialValues}
           onSubmit={onSubmit as any}
+          mutators={{ ...arrayMutators }}
           validate={() => ({})}
           render={({ handleSubmit }) => (
             <>

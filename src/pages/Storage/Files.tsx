@@ -1,11 +1,11 @@
+import get from 'lodash/get'
 import compact from 'lodash/compact'
 import { useState } from 'react'
 import { styled } from '@stitches/react'
 
 import AddFolderView from 'components/views/AddFolderView'
 import Button from 'components/Button'
-import Code from 'components/Code'
-import DataTable from 'components/DataTable'
+import DataTable, { Column } from 'components/DataTable'
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
@@ -15,13 +15,26 @@ import { File, Folder, UpdateFolderInput, useStorageDirectoryQuery } from 'gener
 import { useViewDispatch } from 'hooks/useViewContext'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import Clickable from 'components/Clickable'
+import Text from 'components/Text'
 
-const columns = [
-  { name: 'Name', identifier: 'name', style: { width: '30%' } },
+const columns: Column<File>[] = [
+  { name: 'Name',
+    identifier: 'name',
+    style: { width: '30%' },
+    renderer: ({ rowData, identifier }) => {
+      const type = get(rowData, 'fileType')
+      const iconName = type === '-' ? 'folder' : type
+      return (
+        <Flex gap="md" alignItems="center">
+          <Icon feather name={iconName} size={14} />
+          <Text fontSize={13}>{get(rowData, identifier)}</Text>
+        </Flex>
+      )
+    } },
   { name: 'Size', identifier: 'size' },
-  { name: 'Type', identifier: 'type' },
-  { name: 'Created at', identifier: 'createAt' },
-  { name: 'Last modified at', identifier: 'lastModifiedAt' }
+  { name: 'Type', identifier: 'fileType' },
+  { name: 'Created at', identifier: 'createdAt' },
+  { name: 'Last modified at', identifier: 'updatedAt' }
 ]
 
 const FileToolbar = styled(Flex, {
@@ -88,8 +101,10 @@ const Files: React.FC = () => {
       name: folder.name,
       identifier: folder.identifier,
       relativePath: folder.relativePath,
-      size: '',
-      fileType: 'folder'
+      size: folder.size,
+      fileType: '-',
+      createdAt: folder.createdAt,
+      updatedAt: folder.updatedAt
     })).concat(data?.storageDirectory?.files || [])
 
   const onAddFolder = () => openView({

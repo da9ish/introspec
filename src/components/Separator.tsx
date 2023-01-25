@@ -6,10 +6,17 @@ const Separator = styled(SeparatorPrimitive.Root, {
   border: 'none',
   margin: 0,
   flexShrink: 0,
-  backgroundColor: '$slate6',
   cursor: 'default',
 
   variants: {
+    kind: {
+      app: {
+        background: '$slate6'
+      },
+      website: {
+        background: 'linear-gradient(90deg, #5A71DF, rgba(90, 113, 223, 0.1))'
+      }
+    },
     size: {
       1: {
         '&[data-orientation="horizontal"]': {
@@ -36,7 +43,8 @@ const Separator = styled(SeparatorPrimitive.Root, {
     }
   },
   defaultVariants: {
-    size: '1'
+    size: '1',
+    kind: 'app'
   }
 })
 

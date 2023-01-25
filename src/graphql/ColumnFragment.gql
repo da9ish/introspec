@@ -4,5 +4,10 @@ fragment ColumnFragment on Column {
   name
   identifier
   dataType
-  constraints
+  defaultValue
+  isArray
+  isIndexed
+  isPrimary
+  isUnique
+  isNullable
 }

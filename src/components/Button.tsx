@@ -23,7 +23,7 @@ const StyledButton = styled('button', {
   padding: '0 8px',
   borderRadius: '4px',
   fontFamily: '$body',
-  fontWeight: 500,
+  fontWeight: 600,
 
   variants: {
     kind: {
@@ -131,14 +131,17 @@ const StyledButton = styled('button', {
     },
     size: {
       small: {
+        minWidth: 28,
         height: 28,
         fontSize: '11px'
       },
       normal: {
+        minWidth: 32,
         height: 32,
         fontSize: '12px'
       },
       large: {
+        minWidth: 44,
         height: 44,
         fontSize: '13px'
       }

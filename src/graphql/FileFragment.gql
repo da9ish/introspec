@@ -6,4 +6,6 @@ fragment FileFragment on File {
   relativePath
   size
   fileType
+  createdAt
+  updatedAt
 }

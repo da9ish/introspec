@@ -44,7 +44,6 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
   params: { initialValues, table },
   open,
   onOpenChange,
-  modal,
   defaultOpen
 }) => {
   const isUpdating = 'id' in initialValues
@@ -82,7 +81,7 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
   }
 
   return (
-    <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={modal}>
+    <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={false}>
       <SheetContent size="large">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
@@ -94,7 +93,7 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
           render={({ handleSubmit }) => (
             <>
               <SheetBody>
-                <Flex css={{ width: '100%' }} direction="column" gap="lg" as="form" onSubmit={handleSubmit}>
+                <Flex css={{ width: '100%', height: '100%' }} direction="column" gap="lg" as="form" onSubmit={handleSubmit}>
                   <FieldGrid columns={3} columnGap={16}>
                     <FieldLabel fontSize={12}>Properties</FieldLabel>
                     <FieldContainer direction="column" gap="lg">
@@ -151,25 +150,30 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                           <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
                             Data type
                             <Select
-                              label="Type"
-                              placeholder="Select a type..."
-                              size="normal"
+                              label="Data Type"
+                              placeholder="Select"
+                              metaKey="description"
+                              onValueChange={input.onChange}
                               options={[
-                                { label: '---', value: '---' },
-                                { label: 'BOOLEAN', value: 'BOOLEAN' },
-                                { label: 'CHAR', value: 'CHAR' },
-                                { label: 'VARCHAR', value: 'VARCHAR' },
-                                { label: 'TEXT', value: 'TEXT' },
-                                { label: 'NUMERIC', value: 'NUMERIC' },
-                                { label: 'INTEGER', value: 'INTEGER' },
-                                { label: 'SERIAL', value: 'SERIAL' },
-                                { label: 'DATE', value: 'DATE' },
-                                { label: 'TIMESTAMP', value: 'TIMESTAMP' },
-                                { label: 'INTERVAL', value: 'INTERVAL' },
-                                { label: 'TIME', value: 'TIME' },
-                                { label: 'UUID', value: 'UUID' },
-                                { label: 'JSON', value: 'JSON' },
-                                { label: 'ARRAY', value: 'ARRAY' }
+                                { description: '', label: '---', value: null },
+                                { description: '', label: 'PostgreSQL Data Types', value: '--', disabled: true },
+                                { icon: 'hash', description: 'Signed two-byte integer', label: 'int2', value: 'int2' },
+                                { icon: 'hash', description: 'Signed four-byte integer', label: 'int4', value: 'int4' },
+                                { icon: 'hash', description: 'Signed eight-byte integer', label: 'int8', value: 'int8' },
+                                { icon: 'hash', description: 'Single precision floating-point number (4 bytes)', label: 'float4', value: 'float4' },
+                                { icon: 'hash', description: 'Double precision floating-point number (8 bytes)', label: 'float8', value: 'float8' },
+                                { icon: 'hash', description: 'Exact numeric of selectable precision', label: 'numeric', value: 'numeric' },
+                                { icon: 'code', description: 'Textual JSON data', label: 'json', value: 'json' },
+                                { icon: 'code', description: 'Binary JSON data, decomposed', label: 'jsonb', value: 'jsonb' },
+                                { icon: 'type', description: 'Variable-length character string', label: 'text', value: 'text' },
+                                { icon: 'type', description: 'Variable-length character string', label: 'varchar', value: 'varchar' },
+                                { icon: 'type', description: 'Universally unique identifier', label: 'uuid', value: 'uuid' },
+                                { icon: 'calendar', description: 'Calendar date (year, month, day)', label: 'date', value: 'date' },
+                                { icon: 'calendar', description: 'Time of day (no time zone)', label: 'time', value: 'time' },
+                                { icon: 'calendar', description: 'Time of day, including time zone', label: 'timetz', value: 'timetz' },
+                                { icon: 'calendar', description: 'Date and time (no time zone)', label: 'timestamp', value: 'timestamp' },
+                                { icon: 'calendar', description: 'Date and time, including time zone', label: 'timestamptz', value: 'timestamptz' },
+                                { icon: 'toggle-right', description: 'Logical boolean (true/false)', label: 'bool', value: 'bool' }
                               ]}
                               {...input}
                             />
@@ -288,34 +292,6 @@ const AddColumnView: React.FC<ViewProps<Props>> = ({
                                 />
                               </Flex>
                             </Flex>
-                            {meta.error && meta.touched && <span>{meta.error}</span>}
-                          </Label>
-                        )}
-                      </Field>
-                    </FieldContainer>
-                  </FieldGrid>
-                  <Separator orientation="horizontal" />
-                  <FieldGrid columns={3} columnGap={16}>
-                    <FieldLabel fontSize={12}>Constraints</FieldLabel>
-                    <FieldContainer direction="column" gap="lg">
-                      <Field name="constraints">
-                        {({ input, meta }) => (
-                          <Label css={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            Constraints
-                            <Select
-                              label="Constraints"
-                              placeholder="Constraints"
-                              size="normal"
-                              options={[
-                                { label: 'NOT NULL', value: 'NOT_NULL' },
-                                { label: 'UNIQUE', value: 'UNIQUE' },
-                                { label: 'PRIMARY', value: 'PRIMARY' },
-                                { label: 'FOREIGN', value: 'FOREIGN' },
-                                { label: 'CHECK', value: 'CHECK' },
-                                { label: 'EXCLUSION', value: 'EXCLUSION' }
-                              ]}
-                              {...input}
-                            />
                             {meta.error && meta.touched && <span>{meta.error}</span>}
                           </Label>
                         )}

@@ -56,13 +56,13 @@ const StyledCheckbox = styled(CheckboxPrimitive.Root, {
         borderRadius: 4
       },
       normal: {
-        width: 25,
-        height: 25,
-        borderRadius: 8
+        width: 20,
+        height: 20,
+        borderRadius: 6
       },
       large: {
-        width: 30,
-        height: 30,
+        width: 25,
+        height: 25,
         borderRadius: 10
       }
     }
@@ -88,7 +88,7 @@ type CheckboxSize = 'small' | 'normal' | 'large'
 
 const ICON_SIZE_MAP: Record<CheckboxSize, number> = {
   small: 10,
-  normal: 12,
+  normal: 13,
   large: 16
 }
 

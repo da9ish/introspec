@@ -42,7 +42,6 @@ function AddFolderView({
   params: { currentPath, initialValues, queryVariables },
   open,
   onOpenChange,
-  modal,
   defaultOpen
 }: ViewProps<Props>) {
   const isUpdating = 'id' in initialValues
@@ -87,7 +86,7 @@ function AddFolderView({
   }
 
   return (
-    <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={modal}>
+    <Sheet defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange} modal={false}>
       <SheetContent size="large">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>

@@ -9,9 +9,18 @@ export const Tbody = styled('tbody', {
   width: '100%',
   color: '$labelTitle',
 
-  '& tr:hover': {
-    cursor: 'pointer',
-    backgroundColor: '$slate2'
+  variants: {
+    actionable: {
+      true: {
+        '& tr:hover': {
+          cursor: 'pointer',
+          backgroundColor: '$slate2'
+        }
+      }
+    }
+  },
+  defaultVariants: {
+    actionable: false
   }
 })
 

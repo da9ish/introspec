@@ -7,7 +7,8 @@ const Badge = styled('span', {
   boxSizing: 'border-box',
   display: 'inline-flex',
   flexShrink: 0,
-  fontFamily: 'inherit',
+  fontFamily: '$body',
+  fontWeight: 600,
   justifyContent: 'center',
   lineHeight: '1',
   verticalAlign: 'middle',
@@ -16,6 +17,7 @@ const Badge = styled('span', {
   textDecoration: 'none',
   userSelect: 'none',
   WebkitTapHighlightColor: 'rgba(0,0,0,0)',
+
   '&:disabled': {
     backgroundColor: '$slate3',
     pointerEvents: 'none',
@@ -40,14 +42,14 @@ const Badge = styled('span', {
   variants: {
     size: {
       small: {
-        height: 28,
+        height: 22,
         padding: '0 10px',
-        fontSize: 12
+        fontSize: 11
       },
       normal: {
         height: 32,
         padding: '0 15px',
-        fontSize: 13
+        fontSize: 12
       },
       large: {
         height: 44,

@@ -7,7 +7,7 @@ export const colors = {
   bgShade: '#F8F9FB',
   bgBorder: '$slate5',
   bgBorderSolid: '#E0E1E5',
-  bgSelected: '#F0F4FF',
+  bgSelected: '#slate4',
   bgSelectedHover: '#E4EBFE',
   bgSelectedBorder: '#CAD2FF',
 

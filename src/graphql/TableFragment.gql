@@ -2,7 +2,8 @@ fragment TableFragment on Table {
   id
   name
   identifier
-  columns {
+
+  cols {
     ...ColumnFragment
   }
 }

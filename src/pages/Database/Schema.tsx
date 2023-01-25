@@ -24,7 +24,24 @@ const Schema: React.FC = () => {
   const onAddTable = () => openView({
     component: AddTableView,
     params: {
-      initialValues: { databaseId: data?.databaseSchema?.database.id || '', name: '', identifier: '' }
+      initialValues: {
+        databaseId: data?.databaseSchema?.database.id || '',
+        name: '',
+        identifier: '',
+        columns: [
+          {
+            name: 'Id',
+            identifier: 'id',
+            dataType: 'uuid',
+            isArray: false,
+            defaultValue: '',
+            isIndexed: true,
+            isPrimary: true,
+            isUnique: true,
+            isNullable: false
+          }
+        ]
+      }
     },
     style: 'PANEL'
   })
@@ -40,7 +57,18 @@ const Schema: React.FC = () => {
   const onAddColumn = () => openView({
     component: AddColumnView,
     params: {
-      initialValues: { tableId: selectedTable?.id || '', name: '', identifier: '', dataType: 'TEXT', isIndexed: false, constraints: [] },
+      initialValues: {
+        tableId: selectedTable?.id || '',
+        name: '',
+        identifier: '',
+        dataType: 'int2',
+        defaultValue: '',
+        isArray: false,
+        isPrimary: false,
+        isUnique: false,
+        isIndexed: false,
+        isNullable: true
+      },
       table: selectedTable!
     },
     style: 'PANEL'
@@ -56,7 +84,7 @@ const Schema: React.FC = () => {
   })
 
   useEffect(() => {
-    setSelectedTable(data?.databaseSchema?.tables[0])
+    setSelectedTable(data?.databaseSchema?.database.tables?.[0])
   }, [ data ])
 
   return (
@@ -74,7 +102,7 @@ const Schema: React.FC = () => {
           </Flex>
           <Flex direction="column">
             <List
-              data={data?.databaseSchema?.tables}
+              data={data?.databaseSchema?.database.tables}
               loading={loading}
               error={error}
               contents={{ title: 'name', subtitle: 'identifier' }}
@@ -90,13 +118,17 @@ const Schema: React.FC = () => {
             <Text type="title4">Columns</Text>
             <Flex gap="md" alignSelf="stretch">
               <Searchbar value={columnSearch} onChange={(value) => setColumnSearch(value)} />
-              <Separator orientation="vertical" />
-              <IconButton name="plus" onClick={onAddColumn} />
+              {!!data?.databaseSchema?.database.tables?.length && (
+                <>
+                  <Separator orientation="vertical" />
+                  <IconButton name="plus" onClick={onAddColumn} />
+                </>
+              )}
             </Flex>
           </Flex>
           <Flex direction="column" grow={1}>
             <List
-              data={data?.databaseSchema?.tables[0]?.columns}
+              data={data?.databaseSchema?.database?.tables?.[0]?.cols}
               loading={loading}
               error={error}
               contents={{ title: 'name', subtitle: 'identifier' }}
