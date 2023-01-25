@@ -1,25 +1,40 @@
+import get from 'lodash/get'
+import compact from 'lodash/compact'
 import { useState } from 'react'
-
 import { styled } from '@stitches/react'
 
-import compact from 'lodash/compact'
-
-import DataTable from 'components/DataTable'
-import Flex from 'components/Flex'
-import Titlebar from 'components/Titlebar'
-import Icon from 'components/Icon'
+import AddFolderView from 'components/views/AddFolderView'
 import Button from 'components/Button'
+import DataTable, { Column } from 'components/DataTable'
+import Flex from 'components/Flex'
+import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
 import Separator from 'components/Separator'
-import Code from 'components/Code'
-import { File, useStorageDirectoryQuery } from 'generated/schema'
+import Titlebar from 'components/Titlebar'
+import { File, Folder, UpdateFolderInput, useStorageDirectoryQuery } from 'generated/schema'
+import { useViewDispatch } from 'hooks/useViewContext'
+import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
+import Clickable from 'components/Clickable'
+import Text from 'components/Text'
 
-const columns = [
-  { name: 'Name', identifier: 'name', style: { width: '30%' } },
+const columns: Column<File>[] = [
+  { name: 'Name',
+    identifier: 'name',
+    style: { width: '30%' },
+    renderer: ({ rowData, identifier }) => {
+      const type = get(rowData, 'fileType')
+      const iconName = type === '-' ? 'folder' : type
+      return (
+        <Flex gap="md" alignItems="center">
+          <Icon feather name={iconName} size={14} />
+          <Text fontSize={13}>{get(rowData, identifier)}</Text>
+        </Flex>
+      )
+    } },
   { name: 'Size', identifier: 'size' },
-  { name: 'Type', identifier: 'type' },
-  { name: 'Created at', identifier: 'createAt' },
-  { name: 'Last modified at', identifier: 'lastModifiedAt' }
+  { name: 'Type', identifier: 'fileType' },
+  { name: 'Created at', identifier: 'createdAt' },
+  { name: 'Last modified at', identifier: 'updatedAt' }
 ]
 
 const FileToolbar = styled(Flex, {
@@ -33,13 +48,22 @@ const PathContainer = styled(Flex, {
   color: '$labelMuted'
 })
 
-const StyledPath = styled(Code, {
+const StyledPath = styled(Clickable, {
   display: 'flex',
   alignItems: 'center',
-  gap: 8
+  gap: 8,
+  fontFamily: '$code',
+  fontSize: 'max(12px, 85%)',
+  whiteSpace: 'nowrap',
+  backgroundColor: '$slate3',
+  color: '$slate11'
 })
 
-const Path = ({ path }: {path: string}) => {
+const Path = ({
+  path, setPath
+}: {
+  path: string, setPath: React.Dispatch<React.SetStateAction<string>>
+}) => {
   const pathTokens = compact(path.split('/'))
   return (
     <PathContainer alignItems="center" gap="md">
@@ -47,10 +71,12 @@ const Path = ({ path }: {path: string}) => {
         const isLastToken = idx !== pathTokens.length - 1
 
         return token && (
-          <StyledPath variant="gray">
-            {token}
+          <>
+            <StyledPath onClick={() => setPath(pathTokens.slice(0, idx + 1).join('/'))}>
+              {token}
+            </StyledPath>
             {isLastToken && <Icon name="chevron-right" size={12} />}
-          </StyledPath>
+          </>
         )
       })}
     </PathContainer>
@@ -58,21 +84,53 @@ const Path = ({ path }: {path: string}) => {
 }
 
 const Files: React.FC = () => {
-  const [ currentPath, setCurrentPath ] = useState('/')
+  const { openView } = useViewDispatch()
+  const currentAccount = useCurrentAccountContext()
+  const [ currentPath, setCurrentPath ] = useState(currentAccount?.workspace?.identifier || '/')
+  const queryVariables = {
+    path: currentPath
+  }
   const { data, loading, error } = useStorageDirectoryQuery({
-    variables: {
-      path: currentPath
-    }
+    variables: queryVariables
   })
-  const directoryData = (data?.storageDirectory?.folders || []).map((folder) => ({
-    id: folder.id,
-    bucketId: folder.bucketId,
-    name: folder.name,
-    identifier: folder.identifier,
-    relativePath: folder.relativePath,
-    size: '',
-    fileType: 'folder'
-  })).concat(data?.storageDirectory?.files || [])
+  const directoryData = (data?.storageDirectory?.folders || [])
+    .filter((folder) => folder.relativePath === `${currentPath}/${folder.identifier}`)
+    .map((folder) => ({
+      id: folder.id,
+      bucketId: folder.bucketId,
+      name: folder.name,
+      identifier: folder.identifier,
+      relativePath: folder.relativePath,
+      size: folder.size,
+      fileType: '-',
+      createdAt: folder.createdAt,
+      updatedAt: folder.updatedAt
+    })).concat(data?.storageDirectory?.files || [])
+
+  const onAddFolder = () => openView({
+    component: AddFolderView,
+    params: {
+      initialValues: {
+        bucketId: data?.storageDirectory?.bucket.id || '',
+        folderId: data?.storageDirectory?.folders.find((folder) => folder.relativePath === currentPath)?.id || '',
+        name: '',
+        identifier: '',
+        relativePath: currentPath
+      },
+      currentPath: currentPath.split('/')[currentPath.split('/').length - 1],
+      queryVariables
+    },
+    style: 'PANEL'
+  })
+
+  const onEditFolder = (folder: Folder) => openView({
+    component: AddFolderView,
+    params: {
+      initialValues: folder as UpdateFolderInput,
+      queryVariables
+    },
+    style: 'PANEL'
+  })
 
   return (
     <Flex direction="column" css={{ width: '100%', height: 'calc(100vh - 60px)' }}>
@@ -81,18 +139,26 @@ const Files: React.FC = () => {
         <Flex direction="column" grow={1}>
           <FileToolbar role="toolbar" gap="lg">
             <Flex alignItems="center" gap="md">
-              <IconButton name="chevron-left" size={16} />
-              <Path path={data?.storageDirectory?.path || '/'} />
+              <IconButton
+                name="chevron-left"
+                size={16}
+                onClick={() => setCurrentPath((prev) => {
+                  if (prev === '/') return '/'
+                  const pathTokens = compact(prev.split('/'))
+                  return pathTokens.slice(0, pathTokens.length - 1).join('/')
+                })}
+              />
+              <Path path={data?.storageDirectory?.path || '/'} setPath={setCurrentPath} />
             </Flex>
             <Flex alignSelf="stretch" gap="lg">
               <Flex role="group" alignItems="center" gap="sm">
-                <IconButton name="align-left" size={16} />
-                <IconButton name="align-right" size={16} />
+                <IconButton name="chevrons-down" size={16} />
+                <IconButton name="chevrons-up" size={16} />
               </Flex>
               <Separator orientation="vertical" />
               <Flex role="group" alignItems="center" gap="md">
                 <Button size="small" kind="secondary" icon="upload" iconPlacement="left">Upload Files</Button>
-                <Button size="small" kind="secondary" icon="folder-plus" iconPlacement="left">Create Folder</Button>
+                <Button size="small" kind="secondary" icon="folder-plus" iconPlacement="left" onClick={onAddFolder}>Create Folder</Button>
               </Flex>
             </Flex>
           </FileToolbar>
@@ -103,6 +169,7 @@ const Files: React.FC = () => {
               data={directoryData as File[]}
               loading={loading}
               error={error}
+              onRowClick={(r) => setCurrentPath(r.relativePath)}
             />
           </Flex>
         </Flex>

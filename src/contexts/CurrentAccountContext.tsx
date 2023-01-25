@@ -12,7 +12,7 @@ const useCurrentAccountContext = () => useContext(currentAccountContext)
 
 const CurrentAccountProvider = ({ children }: PropsWithChildren<{}>) => {
   const {
-    data: { session: { accessToken, workspace, onBoardingCompleted, user } }
+    data: { session: { accessToken, onBoardingCompleted, user, workspace } }
   } = useClientQuery<SessionQuery>(SESSION_QUERY)
 
   const skip = Boolean(accessToken && workspace)

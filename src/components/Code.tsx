@@ -2,7 +2,7 @@ import { styled } from '@stitches/react'
 
 const Code = styled('code', {
   fontFamily: '$code',
-  fontSize: 'max(12px, 85%)',
+  fontSize: 12,
   whiteSpace: 'nowrap',
   padding: '4px 8px',
   borderRadius: 4,

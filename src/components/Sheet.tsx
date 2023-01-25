@@ -3,7 +3,6 @@ import { styled, keyframes, VariantProps, CSS } from '@stitches/react'
 
 import React from 'react'
 
-import Box from 'components/Box'
 import Flex from 'components/Flex'
 
 const Sheet: React.FunctionComponent<DialogPrimitive.DialogProps> = DialogPrimitive.Root
@@ -28,7 +27,8 @@ const overlayShow = keyframes({
   }
 })
 
-const SheetOverlay = styled(DialogPrimitive.Overlay, {
+const SheetOverlay = styled('div', {
+  zIndex: 999,
   backdropFilter: 'blur(10px) saturate(190%) contrast(100%) brightness(130%)',
   backgroundColor: '$blackA9',
   position: 'fixed',
@@ -37,14 +37,16 @@ const SheetOverlay = styled(DialogPrimitive.Overlay, {
 })
 
 const StyledContent = styled(DialogPrimitive.Content, {
+  display: 'flex',
+  flexDirection: 'column',
   backgroundColor: '$bgBase',
   boxShadow: 'rgb(0 0 0 / 25%) 0px 8px 16px',
   borderLeft: '1px solid $bgBorder',
   position: 'fixed',
   top: 0,
   bottom: 0,
-  width: '50%',
   willChange: 'transform',
+  zIndex: 1000,
 
   '&:focus': {
     outline: 'none'
@@ -67,7 +69,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
         width: 400
       },
       large: {
-        width: '50%'
+        width: '46%'
       }
     },
     side: {
@@ -102,13 +104,18 @@ const StyledContent = styled(DialogPrimitive.Content, {
 })
 
 const SheetHeader = styled(Flex, {
+  width: '100%',
   height: 60,
   boxSizing: 'border-box',
   flexDirection: 'column',
+  position: 'fixed',
+  top: 0,
   gap: 4,
   padding: '0 24px',
   justifyContent: 'center',
-  borderBottom: '1px solid $bgBorder'
+  backgroundColor: '$bgBase',
+  borderBottom: '1px solid $bgBorder',
+  zIndex: 99
 })
 
 const SheetTitle = styled(DialogPrimitive.Title, {
@@ -126,16 +133,23 @@ const SheetDescription = styled(DialogPrimitive.Description, {
 })
 
 const SheetBody = styled(Flex, {
+  margin: '60px 0',
   direction: 'column',
-  padding: 24
+  overflow: 'auto'
 })
 
-const SheetFooter = styled(Box, {
-  display: 'flex',
-  marginTop: 25,
+const SheetFooter = styled(Flex, {
+  position: 'fixed',
+  width: '-webkit-fill-available',
+  height: 60,
+  bottom: 0,
+  alignItems: 'center',
   justifyContent: 'flex-end',
-  padding: 24,
-  borderTop: '1px solid $bgBorder'
+  gap: 8,
+  padding: '0 24px',
+  backgroundColor: '$bgBase',
+  borderTop: '1px solid $bgBorder',
+  zIndex: 99
 })
 
 type SheetContentVariants = VariantProps<typeof StyledContent>;

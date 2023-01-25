@@ -1,5 +1,6 @@
 import Clickable from 'components/Clickable'
 import Icon, { IconProps } from 'components/Icon'
+
 import type { ButtonProps } from './Button'
 
 const IconButton: React.FC<IconProps> = ({ onClick, ...props }) => (

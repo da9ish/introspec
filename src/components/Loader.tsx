@@ -5,8 +5,9 @@ import type { ErrorResponse } from '@apollo/client/link/error'
 
 import { styled } from '@stitches/react'
 
-import loaderImage from 'assets/logo-animated.svg'
 import Flex from 'components/Flex'
+
+import loaderImage from 'assets/logo-animated.svg'
 import Box from './Box'
 
 type LoaderEmptyType = {

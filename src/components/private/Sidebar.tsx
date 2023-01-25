@@ -11,6 +11,7 @@ import Text from 'components/Text'
 import { css, styled } from 'stiches.config'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import { colors } from 'colors'
+import type { SetupMode } from 'pages/Onboard/Onboard'
 
 const StyledSidebar = styled(Box, {
   transition: 'all 0.1s ease',
@@ -176,6 +177,16 @@ const NavItem = styled(Box, {
       false: {
         marginTop: '8px',
         paddingLeft: '8px'
+      }
+    },
+    setupMode: {
+      true: {
+        backgroundColor: '$bgBase',
+        border: '1px solid transparent',
+        transform: 'scale(110%)',
+        transformOrigin: 'center',
+        borderRadius: '8px',
+        boxShadow: 'rgb(62 99 221 / 90%) 0px 0px 0px 3px, rgb(0 0 0 / 7%) 0px 0px 20px 2px'
       }
     }
   }
@@ -385,68 +396,71 @@ const useStyles = (count: number) => ({
   })()
 })
 
-const MenuItem: React.FC<LinkType & { indent?: boolean, tabIndex: number }> = ({
-  name, path, icon, submenus, tabIndex, indent = false
-}) => {
-  const location = useLocation()
-  const [ open, setOpen ] = useState(false)
-  const className = useStyles(open ? submenus?.length || 0 : 0)
+const MenuItem: React.FC<LinkType & {
+  tabIndex: number,
+  indent?: boolean
+ }> = ({
+   name, path, icon, submenus, tabIndex, indent = false
+ }) => {
+   const location = useLocation()
+   const [ open, setOpen ] = useState(false)
+   const className = useStyles(open ? submenus?.length || 0 : 0)
 
-  if (!path) {
-    return (
-      <>
-        <NavItem as="button" role="button" tabIndex={tabIndex} indent={indent} active={open} onClick={() => setOpen(!open)}>
-          {icon && <NavIcon name={icon} />}
-          <NavTitle>{name}</NavTitle>
-          {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
-        </NavItem>
-        <SubMenuItemContainer open={open} className={className.submenu}>
-          {submenus?.map((menu, idx) => (
-            <MenuItem key={menu.id} tabIndex={tabIndex + idx + 1} {...menu} indent />
-          ))}
-        </SubMenuItemContainer>
-      </>
-    )
-  }
+   if (!path) {
+     return (
+       <>
+         <NavItem as="button" role="button" tabIndex={tabIndex} indent={indent} active={open} onClick={() => setOpen(!open)}>
+           {icon && <NavIcon name={icon} />}
+           <NavTitle>{name}</NavTitle>
+           {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
+         </NavItem>
+         <SubMenuItemContainer open={open} className={className.submenu}>
+           {submenus?.map((menu, idx) => (
+             <MenuItem key={menu.id} tabIndex={tabIndex + idx + 1} {...menu} indent />
+           ))}
+         </SubMenuItemContainer>
+       </>
+     )
+   }
 
-  const active = location.pathname.includes(path)
+   const active = location.pathname.includes(path)
 
-  return (
-    <>
-      <LinkItem
-        tabIndex={tabIndex}
-        active={active}
-        indent={indent}
-        to={path}
-        onClick={() => setOpen(!open)}
-      >
-        {icon && <NavIcon name={icon} />}
-        <NavTitle>{name}</NavTitle>
-        {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
-      </LinkItem>
-      <SubMenuItemContainer open={open} className={className.submenu}>
-        {submenus?.map((menu, idx) => (
-          <MenuItem key={menu.id} {...menu} tabIndex={tabIndex + idx + 1} indent />
-        ))}
-      </SubMenuItemContainer>
-    </>
-  )
-}
+   return (
+     <>
+       <LinkItem
+         tabIndex={tabIndex}
+         active={active}
+         indent={indent}
+         to={path}
+         onClick={() => setOpen(!open)}
+       >
+         {icon && <NavIcon name={icon} />}
+         <NavTitle>{name}</NavTitle>
+         {!!submenus?.length && <NavIcon open={open} name={open ? 'chevron-up' : 'chevron-down'} />}
+       </LinkItem>
+       <SubMenuItemContainer open={open} className={className.submenu}>
+         {submenus?.map((menu, idx) => (
+           <MenuItem key={menu.id} {...menu} tabIndex={tabIndex + idx + 1} indent />
+         ))}
+       </SubMenuItemContainer>
+     </>
+   )
+ }
 
 interface SidebarProps {
-  setupMode?: boolean,
+  setupMode?: SetupMode,
   formValues?: Record<string, any>
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
-  setupMode = false,
+  setupMode,
   formValues
 }) => {
   const currentAccount = useCurrentAccountContext()
 
   return (
     <StyledSidebar>
-      <Header setupMode={setupMode}>
+      <Header setupMode={setupMode === 'workspace'}>
         <HeaderContainer>
           <WorkspaceContainer>
             <LogoContainer src={currentAccount?.workspace?.logo || formValues?.logo?.preview} />

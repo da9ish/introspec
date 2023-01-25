@@ -4,20 +4,21 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 
 import Icon, { IconProps } from 'components/Icon'
 
-interface SelectProps extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'>,
-VariantProps<typeof StyledTrigger> {
+interface SelectProps extends VariantProps<typeof StyledTrigger>,
+SelectPrimitive.SelectProps, Pick<SelectPrimitive.SelectValueProps, 'placeholder'> {
   label: string,
-  value: string,
   labelKey?: string,
   valueKey?: string,
+  metaKey?: string,
   iconKey?: string,
   icon?: IconProps['name'],
   options: Record<string, any>
 }
 
-const StyledSelect = styled(SelectPrimitive.Root, {
-  position: 'relative'
-})
+const SelectItemText = SelectPrimitive.ItemText
+const SelectItemMeta = SelectPrimitive.ItemText
+
+const StyledSelect = styled(SelectPrimitive.Root, {})
 
 const DropdownIcon = styled(SelectPrimitive.SelectIcon, {
   position: 'absolute',
@@ -32,6 +33,7 @@ const StyledIcon = styled(SelectPrimitive.SelectIcon, {
 })
 
 const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
+  width: '100%',
   position: 'relative !important',
   all: 'unset',
   gap: 5,
@@ -48,7 +50,13 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
   border: '1px solid $inputBorder',
   boxShadow: 'rgb(0 0 0 / 7%) 0px 1px 1px',
 
-  '& > [data-placeholder]': {
+  '& > span': {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  },
+
+  '&[data-placeholder]': {
     color: '$inputLabelFaint'
   },
 
@@ -90,9 +98,9 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 })
 
 const StyledContent = styled(SelectPrimitive.Content, {
-  width: 'min-content',
+  // width: 'min-content',
+  zIndex: 1001,
   borderRadius: 4,
-  padding: 0,
   backgroundColor: '$inputBgSubtle',
   border: '1px solid $inputBgBorder',
   boxShadow: 'rgb(0 0 0 / 6%) 0px 7px 24px',
@@ -116,23 +124,50 @@ const StyledItem = styled(SelectPrimitive.Item, {
   all: 'unset',
   fontSize: 13,
   lineHeight: 1,
-  color: '$labelBase',
+  color: '$slate12',
   borderRadius: 3,
   display: 'flex',
+  gap: 8,
   alignItems: 'center',
   height: 32,
-  padding: '0px 35px 0px 25px',
+  padding: '0px 25px 0px 12px',
   position: 'relative',
   userSelect: 'none',
 
-  '& [data-disabled]': {
+  '&[data-disabled]': {
     color: '$inputLabelMuted',
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+
+    '& > [data-icon]': {
+      color: '$inputLabelMuted'
+    },
+
+    '& > [data-description]': {
+      color: '$inputLabelMuted'
+    }
+
   },
 
-  '& [data-highlighted]': {
-    backgroundColor: '$bgBaseHover',
-    color: '$inputLabel'
+  '&[data-state="checked"]': {
+    backgroundColor: '$indigo3'
+  },
+
+  '&[data-highlighted]': {
+    outline: 'none',
+    backgroundColor: '$indigo3',
+    color: '$slate12'
+  },
+
+  '& > [data-icon]': {
+    color: '$slate12'
+  },
+
+  '& > [data-description]': {
+    color: '$slate11'
+  },
+
+  [`& > ${SelectItemText}`]: {
+    color: 'inherit'
   },
 
   variants: {
@@ -157,6 +192,12 @@ const StyledLabel = styled(SelectPrimitive.Label, {
   color: '$inputLabel'
 })
 
+const StyledValue = styled(SelectPrimitive.Value, {
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap'
+})
+
 const StyledSeparator = styled(SelectPrimitive.Separator, {
   height: 1,
   backgroundColor: '$bgBorder',
@@ -165,11 +206,15 @@ const StyledSeparator = styled(SelectPrimitive.Separator, {
 
 const StyledItemIndicator = styled(SelectPrimitive.ItemIndicator, {
   position: 'absolute',
-  left: 0,
+  right: 0,
   width: 25,
   display: 'inline-flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+
+  '& > [data-check]': {
+    color: '$primary'
+  }
 })
 
 const scrollButtonStyles = {
@@ -177,28 +222,47 @@ const scrollButtonStyles = {
   alignItems: 'center',
   justifyContent: 'center',
   height: 25,
-  backgroundColor: '$bgBase',
-  color: '$inputLabel',
+  backgroundColor: '$slate6',
+  color: '$indigo11',
   cursor: 'default'
 }
 
-const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButtonStyles)
+const SelectScrollUpButton = styled(
+  SelectPrimitive.ScrollUpButton,
+  scrollButtonStyles
+)
 
-const StyledScrollDownButton = styled(SelectPrimitive.ScrollDownButton, scrollButtonStyles)
+const SelectScrollDownButton = styled(
+  SelectPrimitive.ScrollDownButton,
+  scrollButtonStyles
+)
+
+const StyledInput = styled('input', {
+  background: 'transparent',
+  border: 'none',
+  outline: 'none',
+  color: '$inputColor',
+  width: '100%',
+
+  variants: {
+    icon: {
+      true: {
+        paddingLeft: 24
+      }
+    }
+  }
+})
 
 const SelectTrigger = StyledTrigger
-const SelectValue = SelectPrimitive.Value
+const SelectValue = StyledValue
 const SelectIcon = StyledIcon
 const SelectContent = Content
 const SelectViewport = StyledViewport
 const SelectGroup = SelectPrimitive.Group
 const SelectItem = StyledItem
-const SelectItemText = SelectPrimitive.ItemText
 const SelectItemIndicator = StyledItemIndicator
 const SelectLabel = StyledLabel
 const SelectSeparator = StyledSeparator
-const SelectScrollUpButton = StyledScrollUpButton
-const SelectScrollDownButton = StyledScrollDownButton
 
 const Select: React.FC<SelectProps> = ({
   name,
@@ -209,41 +273,48 @@ const Select: React.FC<SelectProps> = ({
   options,
   labelKey = 'label',
   valueKey = 'value',
+  metaKey = 'meta',
+  iconKey = 'icon',
   size = 'normal',
   ...props
 }) => (
-  <StyledSelect
-    value={value}
-    name={name}
-    onValueChange={(value) => props.onChange?.({ target: { value } } as any)}
-  >
+  <StyledSelect value={value} name={name} {...props}>
     <SelectTrigger size={size} aria-label={label} value={value}>
       {icon && (
         <SelectIcon>
           <Icon name={icon} />
         </SelectIcon>
       )}
-      <SelectValue placeholder={placeholder} />
+      <SelectValue aria-label={value}>
+        <StyledInput icon={Boolean(icon)} placeholder={placeholder as string} value={value} />
+      </SelectValue>
       <DropdownIcon>
         <Icon name="chevron-down" />
       </DropdownIcon>
     </SelectTrigger>
     <SelectPrimitive.SelectPortal>
       <SelectContent>
-        <SelectScrollUpButton>
+        <SelectScrollUpButton className="SelectScrollButton">
           <Icon name="chevron-up" />
         </SelectScrollUpButton>
         <SelectViewport>
-          {options.map((opt: any) => (
-            <SelectItem size={size} value={opt[valueKey]}>
-              <SelectItemText>{opt[labelKey]}</SelectItemText>
-              <SelectItemIndicator>
-                <Icon name="check" />
-              </SelectItemIndicator>
-            </SelectItem>
-          ))}
+          <SelectGroup>
+            {options.map((opt: any, idx: number) => (
+              <SelectItem
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${opt[valueKey]}-${idx}`}
+                disabled={opt.disabled}
+                size={size}
+                value={opt[valueKey]}
+              >
+                {opt[iconKey] && <Icon data-icon name={opt[iconKey]} size={12} feather />}
+                <SelectItemText>{opt[labelKey]}</SelectItemText>
+                <SelectItemMeta data-description>{opt[metaKey]}</SelectItemMeta>
+              </SelectItem>
+            ))}
+          </SelectGroup>
         </SelectViewport>
-        <SelectScrollDownButton>
+        <SelectScrollDownButton className="SelectScrollButton">
           <Icon name="chevron-down" />
         </SelectScrollDownButton>
       </SelectContent>

@@ -1,13 +1,14 @@
-import type { ApolloError } from '@apollo/client'
-import { styled } from '@stitches/react'
-
 import get from 'lodash/get'
+import { styled } from '@stitches/react'
+import type { ApolloError } from '@apollo/client'
 
 import Flex from 'components/Flex'
 import Icon from 'components/Icon'
 import IconButton from 'components/IconButton'
 import Separator from 'components/Separator'
 import Text from 'components/Text'
+import Skeleton from 'components/Skeleton'
+import BlankState from 'components/BlankState'
 import type { IconProps } from 'components/Icon'
 
 interface Content {
@@ -38,7 +39,9 @@ const ListItem = styled(Flex, {
   borderBottom: '1px solid $bgBorder',
   alignItems: 'center',
   justifyContent: 'space-between',
+  alignSelf: 'stretch',
   padding: '8px 24px 8px 36px',
+  flexGrow: 1,
 
   '&:hover': {
     backgroundColor: '$bgBorderHover'
@@ -46,10 +49,12 @@ const ListItem = styled(Flex, {
 })
 
 const ListTitle = styled(Text, {
-
+  alignItems: 'center',
+  alignSelf: 'stretch'
 })
 
 const ListContent = styled(Flex, {
+  flexGrow: 1,
   gap: 8
 })
 
@@ -61,10 +66,19 @@ const ActionContainer = styled(Flex, {
 function List<T>({ data = [], loading, error, contents, actions = [] }: Props<T>) {
   return (
     <Flex direction="column">
-      {loading && <Text>Loading...</Text>}
+      {loading && Array.from(Array(5)).map((el, idx) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <ListItem key={`${el}-${idx}`}>
+          <ListContent>
+            <ListTitle><Skeleton css={{ width: 50 }} /></ListTitle>
+            <Separator orientation="vertical" />
+            <ListTitle><Skeleton css={{ width: 50 }} /></ListTitle>
+          </ListContent>
+        </ListItem>
+      ))}
       {error && <Text>Error: {error.message}</Text>}
-      {data.length === 0 && <Text>No Records</Text>}
-      {data.map((d: any) => {
+      {data?.length === 0 && <BlankState heading="No records" />}
+      {data?.map((d: any) => {
         const title = get(d, contents.title)
         const subtitle = get(d, contents?.subtitle || '')
         const icon = get(d, contents?.icon || '')

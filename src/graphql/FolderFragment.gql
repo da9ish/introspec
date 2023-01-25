@@ -4,4 +4,7 @@ fragment FolderFragment on Folder {
   name
   identifier
   relativePath
+  size
+  createdAt
+  updatedAt
 }

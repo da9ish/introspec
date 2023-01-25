@@ -45,8 +45,8 @@ const { styled, css, keyframes, theme } = createStitches({
       ...yellowDark
     },
     fonts: {
-      body: 'Poppins, sans-serif',
-      code: "'Fira Code', monospace;"
+      body: 'Fractul, sans-serif',
+      code: "'Fira Code', monospace"
     },
     fontSizes: {
       body: '13px',

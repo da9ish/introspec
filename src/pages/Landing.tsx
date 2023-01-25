@@ -4,13 +4,11 @@ import { Field, Form } from 'react-final-form'
 import { useContext, useState } from 'react'
 import type { ApolloError } from '@apollo/client'
 
-import AuthImg from 'assets/auth-gfx.png'
-import AvatarImg from 'assets/avatars/avatar-1.png'
 import Box from 'components/Box'
-import FeatureBg from 'assets/feature-bg.png'
+
 import Flex from 'components/Flex'
 import Grid from 'components/Grid'
-import LandingBg from 'assets/landing-bg.png'
+
 import Navbar from 'components/public/Navbar'
 import Text from 'components/Text'
 import Toast from 'components/Toast'
@@ -18,6 +16,11 @@ import ToastContext from 'contexts/ToastContext'
 import { colors } from 'colors'
 import { ActionButton } from 'components/ActionButton'
 import { InputContainer, StyledInput } from 'components/Input'
+
+import LandingBg from 'assets/landing-bg.png'
+import FeatureBg from 'assets/feature-bg.png'
+import AvatarImg from 'assets/avatars/avatar-1.png'
+import AuthImg from 'assets/auth-gfx.png'
 
 interface ResponseObject {
   message: string,

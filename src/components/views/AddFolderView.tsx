@@ -1,4 +1,3 @@
-import arrayMutators from 'final-form-arrays'
 import { Field, Form, FormProps } from 'react-final-form'
 import { styled } from '@stitches/react'
 import type { FormApi } from 'final-form'
@@ -6,21 +5,22 @@ import type { FormApi } from 'final-form'
 import Button from 'components/Button'
 import Code from 'components/Code'
 import Flex from 'components/Flex'
-import FormTable from 'components/FormTable'
 import Grid from 'components/Grid'
 import Input from 'components/Input'
 import Label from 'components/Label'
-import Separator from 'components/Separator'
 import Sheet, { SheetBody, SheetContent, SheetFooter, SheetHeader, SheetTitle } from 'components/Sheet'
 import Text from 'components/Text'
 import useSubmitHandler from 'hooks/useSubmitHandler'
-import { CreateTableInput, DatabaseSchemaDocument, UpdateTableInput, useCreateTableMutation, useUpdateTableMutation } from 'generated/schema'
+import { CreateFolderInput, StorageDirectoryDocument, StorageDirectoryQueryVariables, UpdateFolderInput, useCreateFolderMutation, useUpdateFolderMutation } from 'generated/schema'
 import type { ViewProps } from 'components/views'
+import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 
-type FormValues = CreateTableInput | UpdateTableInput
+type FormValues = CreateFolderInput | UpdateFolderInput
 
 interface Props {
-  initialValues: FormValues
+  initialValues: FormValues,
+  currentPath?: string,
+  queryVariables: StorageDirectoryQueryVariables
 }
 
 const FieldGrid = styled(Grid, {
@@ -38,45 +38,51 @@ const FieldContainer = styled(Flex, {
   gridColumnEnd: 5
 })
 
-function AddTableView({
-  params: { initialValues },
+function AddFolderView({
+  params: { currentPath, initialValues, queryVariables },
   open,
   onOpenChange,
   defaultOpen
 }: ViewProps<Props>) {
   const isUpdating = 'id' in initialValues
+  const currentAccount = useCurrentAccountContext()
+
   const title = isUpdating
-    ? <>Edit table <Code>{initialValues.identifier}</Code></>
-    : <>Add a new table under <Code>public</Code></>
+    ? <>Edit Folder <Code>{initialValues.identifier}</Code></>
+    : (
+      <>
+        Add a new folder under <Code>{currentPath || currentAccount?.workspace?.identifier}</Code>
+      </>
+    )
 
-  const [ createTable ] = useCreateTableMutation({
+  const [ createFolder ] = useCreateFolderMutation({
     onCompleted: () => onOpenChange?.(false),
     refetchQueries: [
-      { query: DatabaseSchemaDocument }
+      { query: StorageDirectoryDocument, variables: queryVariables }
     ]
   })
 
-  const handleCreateTable = useSubmitHandler(createTable, {
-    successAlert: { message: 'Table created.' }
+  const handleCreateFolder = useSubmitHandler(createFolder, {
+    successAlert: { message: 'Folder created.' }
   })
 
-  const [ updateTable ] = useUpdateTableMutation({
+  const [ updateFolder ] = useUpdateFolderMutation({
     onCompleted: () => onOpenChange?.(false),
     refetchQueries: [
-      { query: DatabaseSchemaDocument }
+      { query: StorageDirectoryDocument, variables: queryVariables }
     ]
   })
 
-  const handleUpdateTable = useSubmitHandler(updateTable, {
-    successAlert: { message: 'Table updated.' }
+  const handleUpdateFolder = useSubmitHandler(updateFolder, {
+    successAlert: { message: 'Folder updated.' }
   })
 
   const onSubmit = (values: FormValues, form: FormProps<FormValues>['form']) => {
     if (isUpdating) {
-      return handleUpdateTable(values as UpdateTableInput, form as FormApi<UpdateTableInput>)
+      return handleUpdateFolder(values as UpdateFolderInput, form as FormApi<UpdateFolderInput>)
     }
 
-    return handleCreateTable(values as CreateTableInput)
+    return handleCreateFolder(values as CreateFolderInput)
   }
 
   return (
@@ -88,7 +94,6 @@ function AddTableView({
         <Form
           initialValues={initialValues}
           onSubmit={onSubmit as any}
-          mutators={{ ...arrayMutators }}
           validate={() => ({})}
           render={({ handleSubmit }) => (
             <>
@@ -129,11 +134,6 @@ function AddTableView({
                       </Field>
                     </FieldContainer>
                   </FieldGrid>
-                  <Separator orientation="horizontal" />
-                  <Flex direction="column" gap="lg" css={{ padding: 24 }}>
-                    <Text fontSize={12}>Columns</Text>
-                    <FormTable />
-                  </Flex>
                 </Flex>
               </SheetBody>
               <SheetFooter>
@@ -148,4 +148,4 @@ function AddTableView({
   )
 }
 
-export default AddTableView
+export default AddFolderView

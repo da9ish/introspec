@@ -2,4 +2,8 @@ fragment DatabaseFragment on Database {
   id
   name
   identifier
+
+  tables {
+    ...TableFragment
+  }
 }

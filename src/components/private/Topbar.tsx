@@ -10,6 +10,7 @@ import IconButton from 'components/IconButton'
 import Select from 'components/Select'
 import { colors } from 'colors'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
+import type { SetupMode } from 'pages/Onboard/Onboard'
 
 const StyledTopbar = styled('header', {
   boxSizing: 'border-box',
@@ -71,7 +72,7 @@ const ApiBar = styled(Flex, {
 })
 
 interface TopbarProps {
-  setupMode?: boolean,
+  setupMode?: SetupMode,
   formValues?: Record<string, any>
 }
 
@@ -97,7 +98,7 @@ const Topbar: React.FC<TopbarProps> = ({
           onClick: () => setOpen(false)
         }}
       /> */}
-      <ApiContainer setupMode={setupMode}>
+      <ApiContainer setupMode={setupMode === 'api'}>
         <Clickable size="small">
           <ApiBar>{`${currentAccount?.workspace?.identifier || formValues?.identifier}.introspec.app/graphql`}</ApiBar>
           <Icon color={colors.labelMuted} name="copy" />
@@ -107,14 +108,16 @@ const Topbar: React.FC<TopbarProps> = ({
           // onClick={() => setOpen(true)}
         />
       </ApiContainer>
-      <EnvironmentContainer setupMode={setupMode}>
+      <EnvironmentContainer setupMode={setupMode === 'environment'}>
         <Select
-          label="Live"
-          value="live"
+          label="Environment"
+          // defaultValue="live"
+          value="Live"
+          placeholder="Environment"
           icon="layers"
           labelKey="name"
           valueKey="identifier"
-          size="small"
+          size="normal"
           options={formValues?.environments || environments}
         />
       </EnvironmentContainer>

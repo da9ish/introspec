@@ -3,12 +3,13 @@ import { useDropzone } from 'react-dropzone'
 import { styled } from '@stitches/react'
 import type { FieldInputProps, FieldRenderProps } from 'react-final-form'
 
-import Avatar from 'assets/avatars/avatar-1.png'
 import Box from 'components/Box'
 import Button, { ButtonProps } from 'components/Button'
 import Flex from 'components/Flex'
 import Text from 'components/Text'
 import { colors } from 'colors'
+
+import Avatar from 'assets/avatars/avatar-1.png'
 
 interface Props extends Pick<ButtonProps, 'size'>, Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>, FieldRenderProps<any, HTMLInputElement> {
   label?: string,
@@ -57,9 +58,10 @@ const AvatarInput: React.FC<Props> = ({ input, meta, label = 'Upload', size }) =
 
   return (
     <Flex alignItems="center" gap="lg">
-      <WorkspaceLogo src={input.value ? input.value?.preview : Avatar} alt="workspace-logo" />
+      {/* eslint-disable-next-line no-nested-ternary */}
+      <WorkspaceLogo src={input.value ? input.value?.preview ? input.value?.preview : input.value : Avatar} alt="workspace-logo" />
       <Flex grow={1} direction="column" gap="md">
-        <Text color={colors.inputLabel} type="body">Workspace Logo</Text>
+        <Text color="$slate11" type="body">Workspace Logo</Text>
         <Box {...getRootProps()}>
           <StyledInput {...getInputProps()} />
           <Button
@@ -73,7 +75,7 @@ const AvatarInput: React.FC<Props> = ({ input, meta, label = 'Upload', size }) =
             {label}
           </Button>
         </Box>
-        <Text type="label" color="muted">*.png, *jpeg files upto 10MB</Text>
+        <Text type="label" color="$slate9">*.png, *jpeg files upto 10MB at least 400px by 400px</Text>
       </Flex>
       <input
         style={{ display: 'none' }}

@@ -4,8 +4,5 @@ query DatabaseSchema {
     database {
       ...DatabaseFragment
     }
-    tables {
-      ...TableFragment
-    }
   }
 }
