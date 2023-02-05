@@ -2,16 +2,19 @@ import { keyframes, styled } from '@stitches/react'
 import { Field, Form } from 'react-final-form'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Root } from '@radix-ui/react-radio-group'
 
 import AvatarInput from 'components/AvatarInput'
+import Badge from 'components/Badge'
 import Box from 'components/Box'
 import Button from 'components/Button'
 import Flex from 'components/Flex'
 import Grid from 'components/Grid'
+import GridBg from 'assets/grid.png'
 import Input from 'components/Input'
 import Label from 'components/Label'
+import OptionCard from 'components/OptionCard'
 import Sidebar from 'components/private/Sidebar'
 import Text from 'components/Text'
 import Topbar from 'components/private/Topbar'
@@ -20,11 +23,7 @@ import { CreateWorkspaceInput, useCreateWorkspaceMutation } from 'generated/sche
 import { SessionQuery, SESSION_QUERY, SET_SESSION_MUTATION } from 'client/state/session'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import { colors } from 'colors'
-
-import OptionCard from 'components/OptionCard'
-import Badge from 'components/Badge'
-
-import GridBg from 'assets/grid.png'
+import DiscoButton from 'components/DiscoCard'
 
 type SetupMode = 'workspace' | 'api' | 'environment' | 'configuration'
 
@@ -67,9 +66,25 @@ const moveToEnvironment = keyframes({
   '100%': { left: '-160%' }
 })
 
+const moveFromEnvironment = keyframes({
+  '0%': { left: '-160%' },
+  '100%': { left: '10%' }
+})
+
 const moveToConfiguration = keyframes({
   '0%': { left: '-160%', top: '20%' },
   '100%': { left: '-30%', top: '60%' }
+})
+
+const moveFromConfiguration = keyframes({
+  '0%': { left: '-30%', top: '60%' },
+  '110%': { left: '-160%', top: '20%' }
+})
+
+const ConfigContainer = styled(Flex, {
+  position: 'absolute',
+  top: '20%',
+  gap: '64px'
 })
 
 const AppContainer = styled(Box, {
@@ -97,17 +112,23 @@ const AppContainer = styled(Box, {
 
   variants: {
     step: {
-      workspace: {
+      'workspace-environment': {
+        animation: `${moveFromEnvironment} 500ms ease-out`,
         left: '10%'
       },
-      environment: {
+      'environment-configuration': {
         animation: `${moveToEnvironment} 500ms ease-out`,
         left: '-160%'
       },
-      configuration: {
+      'configuration-environment': {
         animation: `${moveToConfiguration} 500ms ease-out`,
         top: '60%',
         left: '-30%'
+      },
+      'environment-workspace': {
+        animation: `${moveFromConfiguration} 500ms ease-out`,
+        top: '60',
+        left: '-160%'
       }
     }
   }
@@ -187,7 +208,7 @@ const WorkspaceForm = ({
             size="normal"
             onClick={() => {
               setSetupMode('environment')
-              setStep('environment')
+              setStep('workspace-environment')
             }}
           >
             Next
@@ -230,12 +251,12 @@ const EnvironmentForm = ({ setSetupMode, setStep }: any) => {
           onMouseLeave={() => setSetupMode(undefined)}
         >
           <Text data-title fontWeight={600} type="title4">Live</Text>
-          <Text data-description>Let Introspec manage database</Text>
+          <Text data-description>This is where all you data will be</Text>
         </OptionCard>
       </Radio>
       <Flex justifyContent="space-between" css={{ width: '100%' }}>
-        <Button size="normal" icon="chevron-left" kind="secondary" onClick={() => setStep('workspace')} />
-        <Button size="normal" onClick={() => setStep('configuration')}>Continue</Button>
+        <Button size="normal" icon="chevron-left" kind="secondary" onClick={() => setStep('workspace-environment')} />
+        <Button size="normal" onClick={() => setStep('configuration-environment')}>Continue</Button>
       </Flex>
     </Flex>
   )
@@ -377,7 +398,7 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
           icon="chevron-left"
           onClick={() => {
             setSetupMode('environment')
-            setStep('environment')
+            setStep('environment-workspace')
           }}
         />
         <Button type="submit" size="normal" onClick={completeOnboarding}>Next</Button>
@@ -389,9 +410,9 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
 const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
   const [ setupMode, setSetupMode ] = useState<SetupMode>('workspace')
-  const [ step, setStep ] = useState<'workspace' | 'environment' | 'configuration'>(
-    currentAccount?.workspace ? 'environment' : 'workspace'
-    // 'configuration'
+  const [ step, setStep ] = useState<'workspace-environment' | 'environment-configuration' | 'configuration-environment' | 'environment-workspace'>(
+    // currentAccount?.workspace ? 'environment' : 'workspace'
+    'workspace-environment'
   )
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
   const [ createWorkspace ] = useCreateWorkspaceMutation({
@@ -402,7 +423,7 @@ const Onboard: React.FC = () => {
           ...session,
           workspace: data.createWorkspace
         } })
-          .then(() => setStep('environment'))
+          .then(() => setStep('environment-configuration'))
       }
     }
   })
@@ -435,13 +456,24 @@ const Onboard: React.FC = () => {
             </AccountContext>
             <Container css={{ gap: 16 }}>
               <Flex css={{ width: '50%' }} direction="column" alignItems="start" justifyContent="center" gap="lg" as="form" onSubmit={handleSubmit}>
-                {step === 'workspace' && <WorkspaceForm setSetupMode={setSetupMode} setStep={setStep} />}
-                {step === 'environment' && <EnvironmentForm setSetupMode={setSetupMode} setStep={setStep} />}
-                {step === 'configuration' && <ConfigurationForm setSetupMode={setSetupMode} setStep={setStep} />}
+                {step === 'workspace-environment' && <WorkspaceForm setSetupMode={setSetupMode} setStep={setStep} />}
+                {(step === 'environment-configuration' || step === 'environment-workspace') && <EnvironmentForm setSetupMode={setSetupMode} setStep={setStep} />}
+                {step === 'configuration-environment' && <ConfigurationForm setSetupMode={setSetupMode} setStep={setStep} />}
               </Flex>
             </Container>
           </FormContainer>
           <PreviewContainer alignItems="center" justifyContent="center">
+            <ConfigContainer direction="column">
+              <DiscoButton>
+                <Text data-title fontWeight={700} type="title4">Client app</Text>
+              </DiscoButton>
+              <DiscoButton>
+                <Text data-title fontWeight={700} type="title4">Introspec</Text>
+                <Text data-description type="body" color="$labelBase">&#8226; Auto Scaling</Text>
+                <Text data-description type="body" color="$labelBase">&#8226; Managed Authentication, Database and Storage</Text>
+                <Text data-description type="body" color="$labelBase">&#8226; GraphQL API Key Management</Text>
+              </DiscoButton>
+            </ConfigContainer>
             <AppContainer step={step}>
               <AppWindow>
                 <Sidebar

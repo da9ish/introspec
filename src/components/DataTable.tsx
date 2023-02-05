@@ -1,7 +1,6 @@
 import get from 'lodash/get'
 import type { ApolloError } from '@apollo/client'
 import type { CSSProperties } from '@stitches/react'
-
 import type { ReactNode } from 'react'
 
 import Flex from 'components/Flex'

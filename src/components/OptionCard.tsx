@@ -20,7 +20,7 @@ const OptionCard = styled(RadioGroupItem, {
 
   '&[data-disabled]': {
     cursor: 'not-allowed',
-    background: 'linear-gradient(270deg, var(--colors-landingBg), var(--colors-landingSubtleBg)) padding-box, linear-gradient(to right, $primary, var(--colors-landingSubtleBg)) border-box',
+    background: 'linear-gradient(270deg, var(--colors-landingBg), var(--colors-landingSubtleBg)) padding-box, linear-gradient(to right, var(--colors-primary), var(--colors-landingSubtleBg)) border-box',
 
     '& [data-title]': {
       color: '$labelTitle'
