@@ -2,7 +2,7 @@ import { keyframes, styled } from '@stitches/react'
 import { Field, Form } from 'react-final-form'
 import { useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { Root } from '@radix-ui/react-radio-group'
 
 import AvatarInput from 'components/AvatarInput'
@@ -18,12 +18,12 @@ import OptionCard from 'components/OptionCard'
 import Sidebar from 'components/private/Sidebar'
 import Text from 'components/Text'
 import Topbar from 'components/private/Topbar'
+import DiscoCard from 'components/DiscoCard'
 import { cache } from 'client'
 import { CreateWorkspaceInput, useCreateWorkspaceMutation } from 'generated/schema'
 import { SessionQuery, SESSION_QUERY, SET_SESSION_MUTATION } from 'client/state/session'
 import { useCurrentAccountContext } from 'contexts/CurrentAccountContext'
 import { colors } from 'colors'
-import DiscoButton from 'components/DiscoCard'
 
 type SetupMode = 'workspace' | 'api' | 'environment' | 'configuration'
 
@@ -61,6 +61,16 @@ const PreviewContainer = styled(Flex, {
   backgroundSize: 'cover'
 })
 
+const fadeIn = keyframes({
+  from: { opacity: 0, transform: 'scale(0.8)' },
+  to: { opacity: 1, transform: 'scale(1)' }
+})
+
+const fadeOut = keyframes({
+  from: { opacity: 1, transform: 'scale(1)' },
+  to: { opacity: 0, transform: 'scale(0.8)' }
+})
+
 const moveToEnvironment = keyframes({
   '0%': { left: '10%' },
   '100%': { left: '-160%' }
@@ -84,7 +94,28 @@ const moveFromConfiguration = keyframes({
 const ConfigContainer = styled(Flex, {
   position: 'absolute',
   top: '20%',
-  gap: '64px'
+  alignItems: 'center',
+  gap: '124px',
+
+  variants: {
+    setupMode: {
+      true: {
+        animation: `${fadeIn} 200ms ease-out`,
+        opacity: 1,
+        visibility: 'visible',
+        transform: 'scale(1)'
+      },
+      false: {
+        animation: `${fadeOut} 200ms ease-out`,
+        opacity: 0,
+        visibility: 'hidden',
+        transform: 'scale(0.8)'
+      }
+    }
+  },
+  defaultVariants: {
+    setupMode: false
+  }
 })
 
 const AppContainer = styled(Box, {
@@ -113,20 +144,20 @@ const AppContainer = styled(Box, {
   variants: {
     step: {
       'workspace-environment': {
-        animation: `${moveFromEnvironment} 500ms ease-out`,
+        animation: `${moveFromEnvironment} 500ms cubic-bezier(0.4, 0, 0.2, 1)`,
         left: '10%'
       },
       'environment-configuration': {
-        animation: `${moveToEnvironment} 500ms ease-out`,
+        animation: `${moveToEnvironment} 500ms cubic-bezier(0.4, 0, 0.2, 1)`,
         left: '-160%'
       },
       'configuration-environment': {
-        animation: `${moveToConfiguration} 500ms ease-out`,
+        animation: `${moveToConfiguration} 500ms cubic-bezier(0.4, 0, 0.2, 1)`,
         top: '60%',
         left: '-30%'
       },
       'environment-workspace': {
-        animation: `${moveFromConfiguration} 500ms ease-out`,
+        animation: `${moveFromConfiguration} 500ms cubic-bezier(0.4, 0, 0.2, 1)`,
         top: '60',
         left: '-160%'
       }
@@ -255,17 +286,31 @@ const EnvironmentForm = ({ setSetupMode, setStep }: any) => {
         </OptionCard>
       </Radio>
       <Flex justifyContent="space-between" css={{ width: '100%' }}>
-        <Button size="normal" icon="chevron-left" kind="secondary" onClick={() => setStep('workspace-environment')} />
-        <Button size="normal" onClick={() => setStep('configuration-environment')}>Continue</Button>
+        <Button
+          size="normal"
+          icon="chevron-left"
+          kind="secondary"
+          onClick={() => {
+            setStep('workspace-environment')
+            setSetupMode('workspace')
+          }}
+        />
+        <Button
+          size="normal"
+          onClick={() => {
+            setStep('configuration-environment')
+            setSetupMode('configuration')
+          }}
+        >Continue
+        </Button>
       </Flex>
     </Flex>
   )
 }
 
-const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
+const ConfigurationForm = ({ setSetupMode, setStep, config, setConfig }: any) => {
   const navigate = useNavigate()
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
-  const [ config, setConfig ] = useState('introspec')
   const completeOnboarding = () => {
     const { session } = cache.readQuery({ query: SESSION_QUERY }) as SessionQuery
     setSession({ variables: {
@@ -287,7 +332,7 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
           <Text data-title fontWeight={600} type="title4">Introspec</Text>
           <Text data-description>Let Introspec manage database</Text>
         </OptionCard>
-        <OptionCard disabled value="custom" css={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <OptionCard value="custom" css={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Flex direction="column" gap="md" alignItems="start">
             <Text data-title fontWeight={600} type="title4">Custom config</Text>
             <Text data-description>Connect your own database</Text>
@@ -313,8 +358,8 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
                       placeholder="localhost"
                       size="normal"
                       kind="website"
-                      onFocus={() => setSetupMode('database')}
-                      onBlur={() => setSetupMode(undefined)}
+                      // onFocus={() => setSetupMode('conf')}
+                      // onBlur={() => setSetupMode(undefined)}
                     />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </Label>
@@ -330,8 +375,8 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
                         placeholder="5432"
                         size="normal"
                         kind="website"
-                        onFocus={() => setSetupMode('database')}
-                        onBlur={() => setSetupMode(undefined)}
+                        // onFocus={() => setSetupMode('database')}
+                        // onBlur={() => setSetupMode(undefined)}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
@@ -346,8 +391,8 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
                         placeholder="postgres"
                         size="normal"
                         kind="website"
-                        onFocus={() => setSetupMode('database')}
-                        onBlur={() => setSetupMode(undefined)}
+                        // onFocus={() => setSetupMode('database')}
+                        // onBlur={() => setSetupMode(undefined)}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
@@ -362,8 +407,8 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
                         placeholder="postgres"
                         size="normal"
                         kind="website"
-                        onFocus={() => setSetupMode('database')}
-                        onBlur={() => setSetupMode(undefined)}
+                        // onFocus={() => setSetupMode('database')}
+                        // onBlur={() => setSetupMode(undefined)}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
@@ -378,8 +423,8 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
                         placeholder="spacex"
                         size="normal"
                         kind="website"
-                        onFocus={() => setSetupMode('database')}
-                        onBlur={() => setSetupMode(undefined)}
+                        // onFocus={() => setSetupMode('database')}
+                        // onBlur={() => setSetupMode(undefined)}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </Label>
@@ -409,10 +454,11 @@ const ConfigurationForm = ({ setSetupMode, setStep }: any) => {
 
 const Onboard: React.FC = () => {
   const currentAccount = useCurrentAccountContext()
-  const [ setupMode, setSetupMode ] = useState<SetupMode>('workspace')
+  const [ setupMode, setSetupMode ] = useState<SetupMode>('configuration')
+  const [ config, setConfig ] = useState<'introspec' | 'custom'>('introspec')
   const [ step, setStep ] = useState<'workspace-environment' | 'environment-configuration' | 'configuration-environment' | 'environment-workspace'>(
     // currentAccount?.workspace ? 'environment' : 'workspace'
-    'workspace-environment'
+    'configuration-environment'
   )
   const [ setSession ] = useMutation(SET_SESSION_MUTATION)
   const [ createWorkspace ] = useCreateWorkspaceMutation({
@@ -432,6 +478,8 @@ const Onboard: React.FC = () => {
     const { logo, ...valuesWithoutFile } = values
     createWorkspace({ variables: { input: { ...valuesWithoutFile, logo: (logo as any).base64 } } })
   }
+
+  console.log(setupMode === 'configuration')
 
   return (
     <Form
@@ -458,21 +506,34 @@ const Onboard: React.FC = () => {
               <Flex css={{ width: '50%' }} direction="column" alignItems="start" justifyContent="center" gap="lg" as="form" onSubmit={handleSubmit}>
                 {step === 'workspace-environment' && <WorkspaceForm setSetupMode={setSetupMode} setStep={setStep} />}
                 {(step === 'environment-configuration' || step === 'environment-workspace') && <EnvironmentForm setSetupMode={setSetupMode} setStep={setStep} />}
-                {step === 'configuration-environment' && <ConfigurationForm setSetupMode={setSetupMode} setStep={setStep} />}
+                {step === 'configuration-environment' && <ConfigurationForm setSetupMode={setSetupMode} setStep={setStep} config={config} setConfig={setConfig} />}
               </Flex>
             </Container>
           </FormContainer>
           <PreviewContainer alignItems="center" justifyContent="center">
-            <ConfigContainer direction="column">
-              <DiscoButton>
-                <Text data-title fontWeight={700} type="title4">Client app</Text>
-              </DiscoButton>
-              <DiscoButton>
-                <Text data-title fontWeight={700} type="title4">Introspec</Text>
-                <Text data-description type="body" color="$labelBase">&#8226; Auto Scaling</Text>
-                <Text data-description type="body" color="$labelBase">&#8226; Managed Authentication, Database and Storage</Text>
-                <Text data-description type="body" color="$labelBase">&#8226; GraphQL API Key Management</Text>
-              </DiscoButton>
+            <ConfigContainer setupMode={setupMode === 'configuration'} direction="column" alignItems="center">
+              <Radio value="introspec" css={{ width: '50%' }}>
+                <OptionCard value="client" checked>
+                  <Text data-title fontWeight={700} type="title4">Client app</Text>
+                </OptionCard>
+              </Radio>
+              <Flex gap="lg">
+                <DiscoCard busy={config === 'introspec'}>
+                  <Text data-title fontWeight={700} type="title4">Introspec</Text>
+                  <Text data-description type="body" color="$labelBase">&#8226; Auto Scaling</Text>
+                  <Text data-description type="body" color="$labelBase">&#8226; Managed Authentication, Database and Storage</Text>
+                  <Text data-description type="body" color="$labelBase">&#8226; GraphQL API Key Management</Text>
+                </DiscoCard>
+                <DiscoCard busy={config === 'custom'}>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Text data-title fontWeight={700} type="title4">Custom</Text>
+                    <Badge size="small" variant="indigo">Coming Soon</Badge>
+                  </Flex>
+                  <Text data-description type="body" color="$labelBase">&#8226; Bring your own Database and/or Storage</Text>
+                  <Text data-description type="body" color="$labelBase">&#8226; Integrate with existing authentication</Text>
+                  <Text data-description type="body" color="$labelBase">&#8226; More flexibility</Text>
+                </DiscoCard>
+              </Flex>
             </ConfigContainer>
             <AppContainer step={step}>
               <AppWindow>

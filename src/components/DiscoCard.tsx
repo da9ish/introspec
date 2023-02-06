@@ -9,7 +9,52 @@ const disco = keyframes({
   }
 })
 
-const Button = styled('button', {
+const CardDisco = styled('span', {
+  position: 'absolute',
+  width: '100%',
+  inset: '0% 0 0',
+  height: '100%',
+  willChange: 'transform',
+
+  '&::before': {
+    content: "''",
+    position: 'absolute',
+    width: '100%',
+    left: '0',
+    minHeight: '100%',
+    top: '50%',
+    aspectRatio: '1/1',
+    transformOrigin: 'center',
+    backgroundImage: 'conic-gradient(transparent 135deg, var(--colors-primary) 310deg, transparent 225deg)',
+    filter: 'blur(8px)',
+
+    '@media (prefers-reduced-motion: reduce)': {
+      transform: 'translateY(-50%) rotate(0deg)'
+    },
+
+    '@media (prefers-reduced-motion: no-preference)': {
+      animation: `${disco} 1.5s linear infinite`,
+      transition: '200ms cubic-bezier(0.4, 0, 0.2, 1)',
+      transitionProperty: 'opacity'
+    }
+  }
+})
+
+const CardContent = styled('span', {
+  transition: '--colors-landingBg 0.3s ease, --colors-landingSubtleBg 0.3s ease, --colors-primary 0.3s ease, --colors-primary 0.3s ease, --colors-landingInputBorder 0.3s ease',
+
+  boxSizing: 'border-box',
+  display: 'inline-flex',
+  position: 'relative',
+  borderRadius: 5,
+  width: '100%',
+  justifyContent: 'center',
+  padding: '0.625rem 1rem',
+  textAlign: 'center',
+  zIndex: '10'
+})
+
+const Card = styled('button', {
   unset: 'all',
 
   appearance: 'none',
@@ -32,62 +77,37 @@ const Button = styled('button', {
     filter: 'brightness(0.95)'
   },
 
-  '&:active': {
-    transform: 'scale(0.95)'
-  },
-
   '@media (prefers-reduced-motion: no-preference)': {
     transition: '200ms cubic-bezier(0.4, 0, 0.2, 1)',
     transitionProperty: 'color, filter, transform'
-  }
+  },
 
-})
-
-const ButtonContent = styled('span', {
-  transition: '--colors-landingBg 0.3s ease, --colors-landingSubtleBg 0.3s ease, --colors-primary 0.3s ease, --colors-primary 0.3s ease, --colors-landingInputBorder 0.3s ease',
-
-  boxSizing: 'border-box',
-  display: 'inline-flex',
-  position: 'relative',
-  borderRadius: 5,
-  background: 'linear-gradient(270deg, var(--colors-landingBg) 30%, var(--colors-primary) 400%) padding-box, linear-gradient(to right, var(--colors-indigo6), var(--colors-landingSubtleBg)) border-box',
-  border: '1px solid transparent',
-  width: '100%',
-  justifyContent: 'center',
-  padding: '0.625rem 1rem',
-  textAlign: 'center',
-  zIndex: '10'
-})
-
-const ButtonDisco = styled('span', {
-  position: 'absolute',
-  width: '100%',
-  inset: '0% 0 0',
-  height: '100%',
-  willChange: 'transform',
-
-  '&::before': {
-    content: "''",
-    position: 'absolute',
-    width: '100%',
-    left: '0',
-    minHeight: '100%',
-    top: '50%',
-    aspectRatio: '1/1',
-    transformOrigin: 'center',
-    backgroundImage: 'conic-gradient(transparent 135deg, var(--colors-primary) 310deg, transparent 225deg)',
-    opacity: '1',
-    filter: 'blur(8px)',
-
-    '@media (prefers-reduced-motion: reduce)': {
-      transform: 'translateY(-50%) rotate(0deg)'
-    },
-
-    '@media (prefers-reduced-motion: no-preference)': {
-      animation: `${disco} 1.5s linear infinite`,
-      animationPlayState: 'running',
-      transition: '200ms cubic-bezier(0.4, 0, 0.2, 1)',
-      transitionProperty: 'opacity'
+  variants: {
+    busy: {
+      true: {
+        [`& > ${CardContent}`]: {
+          background: 'linear-gradient(270deg, var(--colors-landingBg) 30%, var(--colors-primary) 400%) padding-box, linear-gradient(to right, var(--colors-primary), var(--colors-landingSubtleBg)) border-box',
+          border: '1px solid transparent'
+        },
+        [`& > ${CardDisco}::before`]: {
+          opacity: 1,
+          '@media (prefers-reduced-motion: no-preference)': {
+            animationPlayState: 'running'
+          }
+        }
+      },
+      false: {
+        [`& > ${CardContent}`]: {
+          background: 'linear-gradient(270deg, var(--colors-landingBg), var(--colors-landingSubtleBg)) padding-box, linear-gradient(to right, var(--colors-landingInputBorder), var(--colors-landingSubtleBg)) border-box',
+          border: '1px solid transparent'
+        },
+        [`& > ${CardDisco}::before`]: {
+          opacity: 0,
+          '@media (prefers-reduced-motion: no-preference)': {
+            animationPlayState: 'paused'
+          }
+        }
+      }
     }
   }
 })
@@ -104,18 +124,19 @@ const Container = styled('span', {
   textAlign: 'left'
 })
 
-const DiscoButton: React.FC<React.PropsWithChildren> = ({ children }) => (
-  <Button
-    css={{
-    }}
-  >
-    <ButtonContent>
+interface Props extends React.PropsWithChildren {
+  busy?: boolean
+}
+
+const DiscoCard: React.FC<Props> = ({ children, busy = false }) => (
+  <Card busy={busy}>
+    <CardContent>
       <Container role="progressbar" aria-hidden={false}>
         {children}
       </Container>
-    </ButtonContent>
-    <ButtonDisco aria-hidden />
-  </Button>
+    </CardContent>
+    <CardDisco aria-hidden />
+  </Card>
 )
 
-export default DiscoButton
+export default DiscoCard
